@@ -26,6 +26,7 @@ Listed below: [links-elsewhere](#links-elsewhere) | [firefox-style](#firefox-sty
 
 | Link | Note |
 | :--- | :--- |
+| [firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) | guide: list/toggle Firefox add-ons on/off using JavaScript in Web Console (based on below) |
 | [firefox-toggle-add-ons-from-console.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-toggle-add-ons-from-console.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-toggle-add-ons-from-console.js)\] | 'prompt' popup for enable/disable add-ons from console with filter option (single/bulk eg disable all active, enable several in one go) |
 
 #### firefox-info
