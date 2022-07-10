@@ -1,11 +1,11 @@
 /*******************************************************************************
 ** [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css--icpantsparti.css
 ********************************************************************************
-** File/Update  : https://raw.githubusercontent.com/icpantsparti/browser-bits/main/firefox-style/chrome/userContent.css--icpantsparti.css
-** Version      : 2021.09.02
-** License (MIT): https://raw.githubusercontent.com/icpantsparti/browser-bits/main/LICENSE
-** Project      : https://github.com/icpantsparti/browser-bits
-** Disclaimer   : Use with care at your own risk, and verify any results
+** File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css--icpantsparti.css
+** Version      : 2021.12.18
+** License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
+** Project      : https://github.com/icpantsparti2/browser-bits
+** Disclaimer   : Use with care at your own risk
 ********************************************************************************
 ** Summary      : styling for various about:* pages (mostly to compact layout)
 ********************************************************************************
@@ -13,14 +13,14 @@
 ** 2) make a folder there called "chrome"
 ** 3) create/edit a file there called "userContent.css" and add the following:
 **    @import "./userContent.css--icpantsparti.css";
-** 4) save this file in the same folder as "userContent.css--icpantsparti.css"
+** 4) save this file ("userContent.css--icpantsparti.css") in the same folder and
 **    enable/disable sections by editing the preceeding line as either: /**/ /*
 ** 5) load the "about:config" page and set the following, or create/edit
 **    a file in the profile folder called "user.js" to add this entry:
 **    user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 ** 6) close and reopen firefox
 ********************************************************************************
-** Acknowledgments: thanks to the links shown in the code below for useful info
+** Acknowledgments: thanks to the links shown for useful info
 *******************************************************************************/
 
 
@@ -104,43 +104,65 @@
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_fx68.css
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_more_compact_fx72.css
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_show_addon_version_number_fx68.css
+** https://old.reddit.com/r/FirefoxCSS/comments/g9imrc/enlarge_width_of_addons_manager_aboutaddons/
 ** box-shadow: none|h-offset v-offset blur spread color |inset|initial|inherit;
 ** url-prefix(chrome://mozapps/content/extensions/aboutaddons.html)
 ** old: url-prefix(chrome://mozapps/content/extensions/aboutaddons.xhtml)
 ** old: url-prefix(chrome://mozapps/content/extensions/extensions.xul)
+**   :root{ --section-width: initial !important }
+**   opacity: 1 !important;
 *******************************************************************************/
 /**/
 @-moz-document url-prefix(about:addons) {
+
   :root addon-card:not([expanded="true"]) {
     --addon-icon-size: 18px !important;
   }
-  addon-card:not([expanded="true"]) .addon.card {
+
+  addon-list:not([type="theme"])
+    addon-card:not([expanded="true"]) .addon.card
+  {
     margin-top: 0 !important;      margin-bottom: 0 !important;
     padding-top: 0 !important;     padding-bottom: 0 !important;
     border: 0 !important;          box-shadow: unset !important;
-    transition: unset !important;  opacity: 1 !important;
+    transition: unset !important;
   }
+
   addon-card:not([expanded="true"]) .addon.card:hover {
     box-shadow: 0 -3px 0 0 color-mix(in srgb, White 40%, -moz-accent-color) !important;
     background: color-mix(in srgb, White 40%, -moz-accent-color) !important;
     color: color-mix(in srgb, Black 40%, -moz-accent-color) !important;
     font-weight: bold !important;
   }
-  addon-card:not([expanded="true"]) .card-heading-image,
-  addon-card:not([expanded="true"]) .addon.card .addon-description {
+
+  addon-list:not([type="theme"])
+    addon-card:not([expanded="true"]) .card-heading-image,
+  addon-card:not([expanded="true"]) .addon.card .addon-description
+  {
     display: none !important;
   }
+
+  addon-list[type="theme"]
+    addon-card:not([expanded="true"]) .card-heading-image
+  {
+    width: 20vw !important;
+    height: auto !important;
+  }
+
   addon-card:not([expanded="true"]) .addon-badge {
     height: 16px !important;
     width: 16px !important;
   }
+
   addon-card:not([expanded="true"]) .more-options-button {
     height: 22px !important;
   }
+
   div:not([current-view="updates"])
     .addon-name-link[title]:not([data-l10n-args])::after,
   div:not([current-view="updates"])
-    .addon-name[title]:not([data-l10n-args])::after {
+    .addon-name[title]:not([data-l10n-args])::after
+  {
     display: block !important;
     content: attr(title) !important;
     margin-top: -22px !important;
