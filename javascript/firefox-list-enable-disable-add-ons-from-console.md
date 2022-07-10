@@ -32,14 +32,14 @@
 
 ### Content
 
-- (1) list add-ons, **ids** and state (enabled/disabled)
-- (2) about:addons compact style (temporary)
-- (3) toggle (enable/disable) add-ons by **id**
-- (4) disable add-ons by **id**
-- (5) enable add-ons by **id**
-- (6) disable all add-ons
-- (7) enable all add-ons
-- (8) interactive toggle (enable/disable) add-ons
+- [(1) list add-ons, **ids** and state (enabled/disabled)](#1-list-add-ons-ids-and-state-enableddisabled)
+- [(2) about:addons compact style (temporary)](#2-aboutaddons-compact-style-temporary)
+- [(3) toggle (enable/disable) add-ons by **id**](#3-toggle-enabledisable-add-ons-by-id)
+- [(4) disable add-ons by **id**](#4-disable-add-ons-by-id)
+- [(5) enable add-ons by **id**](#5-enable-add-ons-by-id)
+- [(6) disable all add-ons](#6-disable-all-add-ons)
+- [(7) enable all add-ons](#7-enable-all-add-ons)
+- [(8) interactive toggle (enable/disable) add-ons](#8-interactive-toggle-enabledisable-add-ons)
 
 <hr>
 
