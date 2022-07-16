@@ -1,25 +1,27 @@
 /*******************************************************************************
-** [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css--icpantsparti.css
-********************************************************************************
-** File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css--icpantsparti.css
-** Version      : 2022.07.15
+** [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
+** -----------------------------------------------------------------------------
+** File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
+** Version      : 2022.07.16
 ** License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 ** Project      : https://github.com/icpantsparti2/browser-bits
 ** Disclaimer   : Use with care at your own risk
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** Summary      : styling for various about:* pages (mostly to compact layout)
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** 1) find your Firefox "Profile Directory" (load web page "about:support")
 ** 2) make a folder there called "chrome"
-** 3) create/edit a file there called "userContent.css" and add the following:
-**    @import "./userContent.css--icpantsparti.css";
-** 4) save this file ("userContent.css--icpantsparti.css") in the same folder and
-**    enable/disable sections by editing the preceeding line as either: /**/ /*
-** 5) load the "about:config" page and set the following, or create/edit
-**    a file in the profile folder called "user.js" to add this entry:
+** 3) choose:
+**    a) move/save this file as "userContent.css" inside the "chrome" folder
+**    b) save this file as "userContent-icpantsparti.css" in "chrome" folder
+**       and create/edit your "userContent.css" adding the following line:
+**       @import "./userContent-icpantsparti.css";
+** 4) enable/disable sections by editing the preceeding line as either: /**/ /*
+** 5) load web page "about:config", or create/edit a file in the profile folder
+**    called "user.js" and set the following:
 **    user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 ** 6) close and reopen firefox
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** Acknowledgments: thanks to the links shown for useful info
 *******************************************************************************/
 
@@ -28,7 +30,7 @@
 
 /*******************************************************************************
 ** ### highlighting on about:about
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** highlight some of the links to other 'about:...' pages
 *******************************************************************************/
 /**/
@@ -48,7 +50,7 @@
 
 /*******************************************************************************
 ** ### compact about:profiles
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** tip: bookmark about:profiles for easy access profile switching
 **      (eg: place it on the bookmarks toolbar or home button)
 ** https://old.reddit.com/r/FirefoxCSS/comments/bmy2hm/backgroundimages_in_aboutpreferences_and/
@@ -81,7 +83,7 @@
 
 /*******************************************************************************
 ** ### compact about:config
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutconfig/aboutconfig_compact_appearance.css
 *******************************************************************************/
 /**/
@@ -100,15 +102,16 @@
 
 /*******************************************************************************
 ** ### compact about:addons
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_fx68.css
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_more_compact_fx72.css
 ** https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_show_addon_version_number_fx68.css
 ** https://old.reddit.com/r/FirefoxCSS/comments/g9imrc/enlarge_width_of_addons_manager_aboutaddons/
-** box-shadow: none|h-offset v-offset blur spread color |inset|initial|inherit;
-** url-prefix(chrome://mozapps/content/extensions/aboutaddons.html)
-** old: url-prefix(chrome://mozapps/content/extensions/aboutaddons.xhtml)
-** old: url-prefix(chrome://mozapps/content/extensions/extensions.xul)
+** notes:
+**   or:  url-prefix(chrome://mozapps/content/extensions/aboutaddons.html)
+**   old: url-prefix(chrome://mozapps/content/extensions/aboutaddons.xhtml)
+**   old: url-prefix(chrome://mozapps/content/extensions/extensions.xul)
+**   box-shadow: none|h-offset v-offset blur spread color |inset|initial|inherit;
 **   :root{ --section-width: initial !important }
 **   opacity: 1 !important;
 *******************************************************************************/
@@ -199,7 +202,7 @@
 
 /*******************************************************************************
 ** ### highlight certain file names under [Browser Toolbox] [Style Editor]
-********************************************************************************
+** -----------------------------------------------------------------------------
 ** highlight file names "userChrome.css" and "userContent.css" when using:
 **   [Browser Toolbox] (Ctrl+Shift+Alt+I) [Developer Tools] [Style Editor]
 ** NOTE: this CSS rule must be set in the folder/file below:
@@ -226,5 +229,5 @@
 
 
 /*******************************************************************************
-** [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css--icpantsparti.css
+** [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 *******************************************************************************/
