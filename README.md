@@ -1,6 +1,6 @@
 ### Browser Bits (https://github.com/icpantsparti2/browser-bits)
 
-* ###### | 2021.09.09 (first 2021.08.09) | https://github.com/icpantsparti2/browser-bits/blob/main/README.md | License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE | Disclaimer: Use with care at your own risk, and verify any results |
+* ###### | 2022.07.16 (first 2021.08.09) | https://github.com/icpantsparti2/browser-bits/blob/main/README.md | License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE | Disclaimer: Use with care at your own risk, and verify any results |
 
 #### Bits of code/config/info/links for web browsers (mainly Firefox)
 
@@ -19,7 +19,7 @@ Listed below: [links-elsewhere](#links-elsewhere) | [firefox-style](#firefox-sty
 
 | Link | Note |
 | :--- | :--- |
-| [chrome/**userContent.css**--icpantsparti2.css](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome/userContent.css--icpantsparti2.css)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css--icpantsparti2.css)\] | eg to compact the layout (see more at once) on: about:profiles, about:addons, about:config, about:preferences |
+| [chrome/**userContent.css**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome/userContent.css)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css)\] | eg to compact the layout (see more at once) on: about:profiles, about:addons, about:config, about:preferences |
 | [1]&nbsp;[chrome_debugger_profile/chrome/**userContent.css**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome_debugger_profile/chrome/userContent.css)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome_debugger_profile/chrome/userContent.css)\]<br>[2]&nbsp;[chrome_debugger_profile/**user.js**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome_debugger_profile/user.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome_debugger_profile/user.js)\] | highlight file names "userChrome.css" and "userContent.css" when using [Browser Toolbox] [Developer Tools] [Style Editor] |
 
 #### javascript
