@@ -2,7 +2,7 @@
 ** [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css--icpantsparti.css
 ********************************************************************************
 ** File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css--icpantsparti.css
-** Version      : 2021.12.18
+** Version      : 2022.07.15
 ** License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 ** Project      : https://github.com/icpantsparti2/browser-bits
 ** Disclaimer   : Use with care at your own risk
@@ -119,8 +119,8 @@
     --addon-icon-size: 18px !important;
   }
 
-  addon-list:not([type="theme"])
-    addon-card:not([expanded="true"]) .addon.card
+  addon-list:not([type="theme"]) addon-card:not([expanded="true"]) .addon.card,
+  addon-list[type="theme"] addon-card:not([expanded="true"]) .addon.card
   {
     margin-top: 0 !important;      margin-bottom: 0 !important;
     padding-top: 0 !important;     padding-bottom: 0 !important;
@@ -135,18 +135,9 @@
     font-weight: bold !important;
   }
 
-  addon-list:not([type="theme"])
-    addon-card:not([expanded="true"]) .card-heading-image,
   addon-card:not([expanded="true"]) .addon.card .addon-description
   {
     display: none !important;
-  }
-
-  addon-list[type="theme"]
-    addon-card:not([expanded="true"]) .card-heading-image
-  {
-    width: 20vw !important;
-    height: auto !important;
   }
 
   addon-card:not([expanded="true"]) .addon-badge {
@@ -167,6 +158,14 @@
     content: attr(title) !important;
     margin-top: -22px !important;
   }
+
+  addon-list[type="theme"] addon-card:not([expanded="true"]) .card-heading-image
+  {
+    width: 200px !important;       height: auto !important;
+    margin-top: 0 !important;      margin-bottom: 0 !important;
+    padding-top: 0 !important;     padding-bottom: 0 !important;
+  }
+
 }
 /**/
 
