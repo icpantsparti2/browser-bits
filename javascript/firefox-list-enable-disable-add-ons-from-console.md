@@ -1,11 +1,11 @@
 ## Firefox List/Enable/Disable Add-ons from Console
 
-| File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                          |
-|:--------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                                              |
+|:--------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | URL                                    | [https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) |
-| Version                                | 2022.06.27                                                                                                                                                                                                                   |
-| License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                 |
-| <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                        |
+| Version                                | 2022.08.08                                                                                                                                                                                                                                       |
+| License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                                     |
+| <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                                            |
 
 ### Introduction
 
@@ -15,35 +15,30 @@
 
 ### Instructions
 
-* Run the required JavaScript code (copy/paste) in a Firefox console:
-  
-     - Web Console *(best way)*
-       
-          - open Firefox [about:addons](about:addons) page (Ctrl+Shift+A),<br>the page titled "Manage Your Extensions"
-       
-          - open the Web Console (Ctrl+Shift+K or F12/Console)
-     * Browser Console *(alternative way)*
-       
-          * requires Firefox [about:config](about:config) `devtools.chrome.enabled` set to `true`
-       
-          * open the Firefox Browser Console (Ctrl+Shift+J)
-
-* Use Option (1) first, to get the current add-on state and the **add-on ids**
+- Run the required JavaScript code (copy/paste) in a Firefox console:
+    - Web Console *(best way)*
+        - open Firefox [about:addons](about:addons) page (Ctrl+Shift+A),<br>the page titled "Manage Your Extensions"
+        - open the Web Console (Ctrl+Shift+K or F12/Console)
+    - Browser Console *(alternative way)*
+        - requires Firefox [about:config](about:config) `devtools.chrome.enabled` set to `true`
+        - open the Firefox Browser Console (Ctrl+Shift+J)
+- Start by using the first option to get the current add-on state and the **add-on ids** (some other options need the ids)
 
 ### Content
 
-- [(1) list add-ons, **ids** and state (enabled/disabled)](#1-list-add-ons-ids-and-state-enableddisabled)
-- [(2) about:addons compact style (temporary)](#2-aboutaddons-compact-style-temporary)
-- [(3) toggle (enable/disable) add-ons by **id**](#3-toggle-enabledisable-add-ons-by-id)
-- [(4) disable add-ons by **id**](#4-disable-add-ons-by-id)
-- [(5) enable add-ons by **id**](#5-enable-add-ons-by-id)
-- [(6) disable all add-ons](#6-disable-all-add-ons)
-- [(7) enable all add-ons](#7-enable-all-add-ons)
-- [(8) interactive toggle (enable/disable) add-ons](#8-interactive-toggle-enabledisable-add-ons)
+- [list your add-ons, **ids** and state](#list-your-add-ons-ids-and-state)
+- [list your add-ons as links to their Mozilla Add-ons website page](#list-your-add-ons-as-links-to-their-mozilla-add-ons-website-page)
+- [about:addons compact style (temporary)](#aboutaddons-compact-style-temporary)
+- [toggle (enable/disable) add-ons by **id**](#toggle-enabledisable-add-ons-by-id)
+- [disable add-ons by **id**](#disable-add-ons-by-id)
+- [enable add-ons by **id**](#enable-add-ons-by-id)
+- [disable all add-ons](#disable-all-add-ons)
+- [enable all add-ons](#enable-all-add-ons)
+- [interactive toggle (enable/disable) add-ons](#interactive-toggle-enabledisable-add-ons)
 
 <hr>
 
-### (1) list add-ons, **ids** and state (enabled/disabled)
+### list your add-ons, **ids** and state
 
 - First, run this code to make an add-ons list in the console
 
@@ -51,10 +46,10 @@
 
 - Suggest you copy/paste/save the list with a text editor for later reference *(right click on the results and "Copy Object")*
 
-- You will need some of these **ids** when using other options
+- You will need some of these **ids** when using some of the other options
 
 ```javascript
-/* list firefox add-ons and ids */
+/* list your firefox add-ons, ids and state */
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
   var list="";
   addons.sort( (a,b) => {
@@ -76,9 +71,52 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
 <hr>
 
-### (2) about:addons compact style (temporary)
+### list your add-ons as links to their Mozilla Add-ons website page
+
+- Sometimes https://addons.mozilla.org/firefox/addon/ID will redirect to the add-on page
+- examples:
+    - https://addons.mozilla.org/firefox/addon/uBlock0@raymondhill.net
+        - https://addons.mozilla.org/firefox/addon/ublock-origin/
+    - https://addons.mozilla.org/firefox/addon/%7Baecec67f-0d10-4fa7-b7c7-609a2db280cf%7D
+        - https://addons.mozilla.org/firefox/addon/violentmonkey/
+- you can see the add-on IDs on the `about:support#addons` page
+- if you have many add-ons the code below generates a html page of these links
+- optionally save the page created with right click "Save Page As..."
+- tip: make an account and favorite extensions collection on the Mozilla Add-ons website
+
+```javascript
+/* list your add-ons as links to their Mozilla Add-ons website page */
+AddonManager.getAddonsByTypes(["extension"]).then(addons => {
+  var list="";
+  addons.sort( (a,b) => {
+    if (a.isActive > b.isActive) return -1;
+    if (a.isActive < b.isActive) return 1;
+    return a.name.localeCompare(b.name);
+  } ).forEach( addon => {
+    if(!(addon.isBuiltin||addon.isSystem)) {
+      list+=`<a href="https://addons.mozilla.org/firefox/addon/${
+        encodeURI(addon.id)}">${addon.name} (${addon.version})${
+        (addon.isActive?"":" (disabled)")}`
+        // + `${(addon.creator?` (${addon.creator.name})`:"")}`
+        + `</a><br>\n`;
+    }
+  } );
+  console.log(list);
+  window.open(`data:text/html;base64,${
+    btoa(`<!DOCTYPE html><head><title>add-ons-${
+      new Date().toJSON().replace(/[:.]/g,"-")
+    }</title></head><body><br>\n${list}<br><br><br></body></html>`)
+  }`,'_blank').focus();
+} );
+```
+
+<hr>
+
+### about:addons compact style (temporary)
 
 - re-style the "Manage Your Extensions" page as a narrow line list
+- tip: if you always want a compact style you can use style sheets eg:
+    - https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
 
 ```javascript
 /* firefox about:addons compact style (temporary) */
@@ -92,7 +130,7 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
 <hr>
 
-### (3) toggle (enable/disable) add-ons by **id**
+### toggle (enable/disable) add-ons by **id**
 
 ```javascript
 /* toggle firefox add-ons by id */
@@ -104,7 +142,7 @@ AddonManager.getAddonsByIDs( [
 } ); } );
 ```
 
-### (4) disable add-ons by **id**
+### disable add-ons by **id**
 
 ```javascript
 /* disable firefox add-ons by id */
@@ -116,7 +154,7 @@ AddonManager.getAddonsByIDs( [
 } ); } );
 ```
 
-### (5) enable add-ons by **id**
+### enable add-ons by **id**
 
 ```javascript
 /* enable firefox add-ons by id */
@@ -130,7 +168,7 @@ AddonManager.getAddonsByIDs( [
 
 <hr>
 
-### (6) disable all add-ons
+### disable all add-ons
 
 ```javascript
 /* disable all firefox add-ons */
@@ -140,7 +178,7 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 } ); } );
 ```
 
-### (7) enable all add-ons
+### enable all add-ons
 
 ```javascript
 /* enable all firefox add-ons */
@@ -152,13 +190,13 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
 <hr>
 
-### (8) interactive toggle (enable/disable) add-ons
+### interactive toggle (enable/disable) add-ons
 
 - shows a simple popup prompt user interface
 
 - choose the add-ons to toggle or search by names/all/enabled/disabled
 
-- **note:** "line numbers" are used to reference the add-ons, and these will change order (eg if you install/un-install add-ons, etc).  If you need persistent ids use the List/Toggle/Disable/Enable code above instead.
+- **note:** "line numbers" are used to reference the add-ons, and these will change order (eg if you install/un-install add-ons, etc).  If you need exact ids use the List/Toggle/Disable/Enable code options instead.
 
 - no add-on is toggled until you input the "line number(s)" to toggle
 
@@ -181,7 +219,8 @@ var toggleAddons=async function(
   addons=await AddonManager.getAddonsByTypes(["extension"]);
   for(var addon of addons){
     if(!(addon.isBuiltin||addon.isSystem)){
-      list.push({'name':addon.name,'version':addon.version,'id':addon.id,'isActive':addon.isActive});
+      list.push({'name':addon.name,'version':addon.version,
+        'id':addon.id,'isActive':addon.isActive});
     }
   }
   /*sort*/
@@ -193,7 +232,10 @@ var toggleAddons=async function(
   if(typeof(DevToolsSocketStatus)=="undefined"){spacer="..";divider="\n"};
   for(var i=0,l=list.length;i<l;i++){
     if((!filter)||(match.test(list[i].name))){
-      if((enabled==null)||((enabled)&&(list[i].isActive))||((!enabled)&&(!list[i].isActive))){
+      if( (enabled==null)
+        || ((enabled) && (list[i].isActive))
+        || ((!enabled) && (!list[i].isActive)) )
+      {
         info+='['+(i+1)+']'+spacer+(list[i].isActive?"+":"-")
           +spacer+list[i].name
           +(divider=="\n"?spacer+list[i].version:"")+divider;
@@ -203,7 +245,8 @@ var toggleAddons=async function(
   };
   /*choose*/
   choices=prompt(info,choices);
-  if(choices && /[^0-9, ]/.test(choices)){
+  console.log(choices);
+  if(choices && /[^0-9, ]/.test(choices)) {
     /* a search was entered (ie not a number list) */
     if(/^\+/.test(choices)){
       /* eg entered "+ublock" = show enabled matching add-ons */
@@ -218,14 +261,15 @@ var toggleAddons=async function(
       toggleAddons(new RegExp(choices,"i"),true);
     }
   }
-  else {
+  else if(choices) {
     /* a number list was entered = toggle add-ons between enabled/disabled */
     for(var choice of choices.replace(/[^0-9]/g,",").split(",")){
       if(choice>0 && choice<=list.length){
         AddonManager.getAddonByID(list[(choice-1)].id).then(addon=>{
           addon.isActive?addon.disable():addon.enable();
-          console.log((addon.isActive?"Enabled":"Disabled")
-            +": "+addon.name+" '"+addon.id+"'");
+          console.log(("'"+addon.id+"',").padEnd(45)+" "
+            +("/* "+(addon.isActive?"Enabled":"Disabled")
+            +": "+addon.name+" */").padEnd(60)+" // ");
         })
       }
     }
@@ -234,11 +278,11 @@ var toggleAddons=async function(
 toggleAddons();
 ```
 
-* Advanced Options
+- Advanced Options
   
-     * specify parameters if you want certain matches from the start
+     - specify parameters if you want certain matches from the start
   
-     * toggleAddons(match, filter, enabled);
+     - toggleAddons(match, filter, enabled);
 
 | Parameter | Value      | Description                                |
 | --------- | ---------- | ------------------------------------------ |
@@ -258,3 +302,5 @@ toggleAddons(/ublock|v.*monkey/i, true); /* show matches */
 toggleAddons(/ublock|v.*monkey/i, true, false); /* show disabled matches */
 toggleAddons(/ublock|v.*monkey/i, true, true); /* show enabled matches */
 ```
+
+<hr>
