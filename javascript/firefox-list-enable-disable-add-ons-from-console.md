@@ -3,7 +3,7 @@
 | File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                                              |
 |:--------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | URL                                    | [https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) |
-| Version                                | 2022.08.08                                                                                                                                                                                                                                       |
+| Version                                | 2022.08.09                                                                                                                                                                                                                                       |
 | License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                                     |
 | <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                                            |
 
@@ -28,6 +28,7 @@
 
 - [list your add-ons, **ids** and state](#list-your-add-ons-ids-and-state)
 - [list your add-ons as links to their Mozilla Add-ons website page](#list-your-add-ons-as-links-to-their-mozilla-add-ons-website-page)
+- [about:addons links for Mozilla add-ons website pages (temporary)](#aboutaddons-links-for-mozilla-add-ons-website-pages-temporary)
 - [about:addons compact style (temporary)](#aboutaddons-compact-style-temporary)
 - [toggle (enable/disable) add-ons by **id**](#toggle-enabledisable-add-ons-by-id)
 - [disable add-ons by **id**](#disable-add-ons-by-id)
@@ -71,18 +72,15 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
 <hr>
 
-### list your add-ons as links to their Mozilla Add-ons website page
+### list your add-ons as links to their Mozilla add-ons website page
 
-- Sometimes https://addons.mozilla.org/firefox/addon/ID will redirect to the add-on page
-- examples:
-    - https://addons.mozilla.org/firefox/addon/uBlock0@raymondhill.net
-        - https://addons.mozilla.org/firefox/addon/ublock-origin/
-    - https://addons.mozilla.org/firefox/addon/%7Baecec67f-0d10-4fa7-b7c7-609a2db280cf%7D
-        - https://addons.mozilla.org/firefox/addon/violentmonkey/
+- Sometimes `https://addons.mozilla.org/firefox/addon/ID` will redirect to the add-on page
+- examples: [uBlock0@raymondhill.net](https://addons.mozilla.org/firefox/addon/uBlock0@raymondhill.net) for [ublock-origin](https://addons.mozilla.org/firefox/addon/ublock-origin/) and [{aecec67f-0d10-4fa7-b7c7-609a2db280cf}](https://addons.mozilla.org/firefox/addon/%7Baecec67f-0d10-4fa7-b7c7-609a2db280cf%7D) for [violentmonkey](https://addons.mozilla.org/firefox/addon/violentmonkey/)
 - you can see the add-on IDs on the `about:support#addons` page
 - if you have many add-ons the code below generates a html page of these links
 - optionally save the page created with right click "Save Page As..."
-- tip: make an account and favorite extensions collection on the Mozilla Add-ons website
+- tip: make an account and extensions collection on the Mozilla Add-ons website
+- alternatively: see the section below for "about:addons links..."
 
 ```javascript
 /* list your add-ons as links to their Mozilla Add-ons website page */
@@ -110,11 +108,25 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 } );
 ```
 
+### about:addons links for Mozilla add-ons website pages (temporary)
+
+- show links for the add-on pages at `https://addons.mozilla.org/firefox/addon/...`
+- run this in the Web Console (Ctrl+Shift+K) while on the about:addons page
+- alternatively: see the section above for "list your add-ons as links..."
+
+```javascript
+/* firefox about:addons links for Mozilla add-ons website pages (temporary) */
+[...document.querySelectorAll('a[href^="addons:"]')].forEach(a=>{
+  a.parentElement.insertAdjacentHTML("beforebegin",`<a href="https://addons.mozilla.org/firefox/addon/${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" target="_blank">&#128279;&nbsp;</a>`);
+} );
+```
+
 <hr>
 
 ### about:addons compact style (temporary)
 
 - re-style the "Manage Your Extensions" page as a narrow line list
+- run this in the Web Console (Ctrl+Shift+K) while on the about:addons page
 - tip: if you always want a compact style you can use style sheets eg:
     - https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
 
