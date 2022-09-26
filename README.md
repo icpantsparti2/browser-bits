@@ -19,6 +19,7 @@ Listed below: [links-elsewhere](#links-elsewhere) | [firefox-style](#firefox-sty
 
 | Link | Note |
 | :--- | :--- |
+| [chrome/**userChrome.css**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome/userChrome.css)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css)\] | eg: tab style, tab min-size, numbered tabs, profile indicator, and more |
 | [chrome/**userContent.css**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome/userContent.css)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css)\] | eg to compact the layout (see more at once) on: about:profiles, about:addons, about:config, about:preferences |
 | [1]&nbsp;[chrome_debugger_profile/chrome/**userContent.css**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome_debugger_profile/chrome/userContent.css)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome_debugger_profile/chrome/userContent.css)\]<br>[2]&nbsp;[chrome_debugger_profile/**user.js**](https://github.com/icpantsparti2/browser-bits/blob/main/firefox-style/chrome_debugger_profile/user.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome_debugger_profile/user.js)\] | highlight file names "userChrome.css" and "userContent.css" when using [Browser Toolbox] [Developer Tools] [Style Editor] |
 
