@@ -1,1 +1,501 @@
+/*******************************************************************************
+/* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
+/*------------------------------------------------------------------------------
+/* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
+/* Version      : 2022.09.25
+/* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
+/* Project      : https://github.com/icpantsparti2/browser-bits
+/* Disclaimer   : Use with care at your own risk
+/*------------------------------------------------------------------------------
+/* Summary      : for re-styling some elements of the firefox user interface
+/*                (eg: tab style, tab min-size, numbered tabs)
+/* (also see: https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css)
+/*------------------------------------------------------------------------------
+/* 1) find your Firefox "Profile Directory" (load web page "about:support")
+/*    eg: C:\Users\USERNAME\AppData\Roaming\Mozilla\Firefox\Profiles\XXXXXXXX.default
+/*    eg: /home/USERNAME/.mozilla/firefox/XXXXXXXX.default
+/* 2) make a folder there called "chrome"
+/* 3) choose:
+/*       a) move/save this file as "userChrome.css" inside the "chrome" folder
+/*    or b) save this file as "userChrome-icpantsparti.css" in "chrome" folder
+/*          and create/edit your "userChrome.css" adding this line near the top:
+/*          @import "./userChrome-icpantsparti.css";
+/* 4) enable/disable sections by editing the preceeding line as either: /**/ /*
+/* 5) load web page 'about:config', or create/edit a file in the profile folder
+/*    called "user.js" and set the following:
+/*    user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+/* 6) close and reopen firefox
+/* *) to "uninstall" remove or rename the "userChrome.css" file
+/*------------------------------------------------------------------------------
+/* Notes:
+/*   This is a collection of userChrome.css code snippets
+/*   #id and .class names are by Mozilla from Firefox CSS structure
+/*   CSS selectors can change between Firefox versions without notice/support
+/*------------------------------------------------------------------------------
+/* Useful links (in no particular order):
+/*   https://www.reddit.com/r/FirefoxCSS/wiki/index/tutorials
+/*   https://firefox-source-docs.mozilla.org/devtools-user/browser_toolbox/index.html
+/*     (as above: https://developer.mozilla.org/docs/Tools/Browser_Toolbox)
+/*   https://www.reddit.com/r/FirefoxCSS
+/*   https://www.reddit.com/r/firefox
+/*   https://www.mozilla.org
+/*   https://www.userchrome.org/
+/*   https://github.com/MrOtherGuy/firefox-csshacks
+/*   https://github.com/Aris-t2/CustomCSSforFx  (Classic Theme Restorer)
+/*   https://github.com/Timvde/UserChrome-Tweaks  (dormant/archived)
+/*   https://github.com/GrosBourrin/UserChrome-Tweaks
+/*------------------------------------------------------------------------------
+/* Some Example Firefox CSS "Themes" links (in no particular order):
+/*   https://firefoxcss-store.github.io/  (<- lots more CSS "Themes" here)
+/*     (repo of above: https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io)
+/*     https://github.com/black7375/Firefox-UI-Fix  (Lepton/Proton Fix)
+/*     https://github.com/black7375/Firefox-UI-Fix/tree/photon-style
+/*     https://github.com/muckSponge/MaterialFox
+/*     https://github.com/QNetITQ/WaveFox
+/*   https://github.com/wilfredwee/photon-australis
+/*   https://github.com/intrnl/firefox-revert-proton  (dormant/archived)
+/*   https://github.com/overdodactyl/ShadowFox  (dormant?)
+/*------------------------------------------------------------------------------
+/* Other Notes:
+/*   FF103: -moz-accent-color -moz-accent-color-foreground now: AccentColor AccentColorText
+/*   https://www.reddit.com/r/FirefoxCSS/comments/w9t89v/tab_bar_windows_accent_color_in_firefox_103/
+/*------------------------------------------------------------------------------
+/* Acknowledgments: thanks to the links shown for useful info
+/******************************************************************************/
 
+
+
+
+/*******************************************************************************
+/* ### optionally import other "userChrome-____.css" files
+/*------------------------------------------------------------------------------
+/* (any imports must be here at the top)
+/* re "userChrome-profile-id.css" see "show a profile indicator" option further down
+/******************************************************************************/
+/* @import "./userChrome-profile-id.css"; /**/
+/* @import "./userChrome-my-extras.css"; /**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : hide the space before the window control buttons
+/*------------------------------------------------------------------------------
+/* the spacer before Minimize/Maximize/Restore/Close buttons
+/* seen when 'about:config' user_pref("browser.tabs.inTitlebar", 1);
+/* https://www.reddit.com/r/FirefoxCSS/comments/x70pcs/removing_unused_space_between_new_tablist_all/
+/******************************************************************************/
+/**/
+.titlebar-spacer[type="post-tabs"] { display: none; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : minimum tab size
+/*------------------------------------------------------------------------------
+/* prevent tab overflow for longer (as more tabs opened their size reduces)
+/* tip: also enable: "hide tab close buttons" "List all tabs" and "numbered tabs"
+/* https://github.com/Timvde/UserChrome-Tweaks/blob/master/tabs/prevent-tab-overflow.css
+/* https://www.reddit.com/r/FirefoxCSS/comments/p3mfg8/fixing_tabs_in_the_newest_version_of_ff_first/
+/******************************************************************************/
+/**/
+.tabbrowser-tab[fadein]:not([pinned]) {
+  min-width: 2em !important;
+  clip-width: 2em !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tab bar : always show "List all tabs" button
+/*------------------------------------------------------------------------------
+/* usually only shows on tab overflow
+/* also see 'about:config' preference: "browser.tabs.tabmanager.enabled"
+/* https://www.reddit.com/r/FirefoxCSS/comments/8uz9d1/show_list_all_tabs_button_always/
+/* https://www.reddit.com/r/FirefoxCSS/comments/f2bru9/list_all_tabs_button_not_showing_in_73/
+/******************************************************************************/
+/**/
+#alltabs-button {
+  visibility: visible !important;
+  display: initial !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : hide tab close buttons
+/*------------------------------------------------------------------------------
+/* tip: quick close tab by holding down right click and release on "Close Tab"
+/*   or use middle mouse click, or 'about:config' "browser.tabs.closeTabByDblclick"
+/* https://support.mozilla.org/en-US/questions/1177825
+/* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/tabs/tab_close_hidden.css
+/* notes/unused:
+/*   #tabbrowser-tabs .tabbrowser-tab .tab-close-button { display:none!important; }
+/******************************************************************************/
+/**/
+.tabbrowser-tab .tab-close-button { visibility: collapse !important; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : move "Close Tab" options to the top of context menu
+/*------------------------------------------------------------------------------
+/* why: for easier tab closing from tab right click content menu
+/*      eg: hold down right click and release on "Close Tab"
+/* https://www.reddit.com/r/FirefoxCSS/comments/9la2ps/how_i_can_change_order_of_the_items_in_right/
+/******************************************************************************/
+/**/
+#tabContextMenu #context_closeTab { -moz-box-ordinal-group:0; }
+#tabContextMenu #context_closeTabsToTheEnd { -moz-box-ordinal-group:0; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : reduce favicon padding
+/*------------------------------------------------------------------------------
+/* https://www.reddit.com/r/FirefoxCSS/comments/7dfnhv/how_to_remove_empty_space_around_favicon_so_more/
+/* https://www.reddit.com/r/FirefoxCSS/comments/7orkrw/tabs_change_favicon_into_close_button_on_hover/
+/* notes/unused:
+/*   transform: scale(0.8, 0.8) !important;
+/******************************************************************************/
+/**/
+.tabbrowser-tab .tab-icon-image,
+  .tabbrowser-tab .tab-throbber,
+  .tabbrowser-tab .tab-sharing-icon-overlay,
+  .tabbrowser-tab .tab-icon-overlay
+{
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-inline-end: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : always show a favicon
+/*------------------------------------------------------------------------------
+/* eg default icon when none/loading
+/******************************************************************************/
+/**/
+.tab-icon-image { display: block !important; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : numbered tabs (and the panel of "List all tabs" button)
+/*------------------------------------------------------------------------------
+/* White on Black, OrangeRed (active tab), Gray (pending/unloaded)
+/* https://www.reddit.com/r/FirefoxCSS/comments/8ruy2d/numbered_tabs_revisited/
+/* NOTE: uncomment OPTION 1 or OPTION 2 in the code because:
+/*       when 'about:config' "browser.tabs.tabmanager.enabled" is true then
+/*       newer FF versions show pinned tabs under "List all tabs" button
+/*       and you should enable numbering on pinned tabs to match "List all tabs"
+/******************************************************************************/
+/**/
+#tabbrowser-tabs, #allTabsMenu-allTabsViewTabs
+{ counter-reset: n_tabs 0; }
+
+.tabbrowser-tab .tab-content::before,
+  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+{
+  display: inline-block;
+  font-weight: bold !important;
+  margin-right: 0px !important;
+  background-color: Black !important;
+  color: White !important;
+}
+
+#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+{ margin-right: 4px !important; }
+
+.tabbrowser-tab[pending] .tab-content::before,
+  #allTabsMenu-allTabsViewTabs .all-tabs-item[pending] .all-tabs-button.subviewbutton::before
+{ background-color: Gray !important; }
+
+.tabbrowser-tab[selected=true] .tab-content::before,
+  #allTabsMenu-allTabsViewTabs .all-tabs-item[selected=true] .all-tabs-button.subviewbutton::before
+{ background-color: OrangeRed !important; }
+
+.tabbrowser-tab .tab-content::before
+{
+  font-size: 75% !important;
+  margin-right: 0px !important;
+}
+/**/
+
+/*------------------------------------------------------------------------------
+/* OPTION 1 - do not number pinned tabs (when "browser.tabs.tabmanager.enabled" false)
+/*----------------------------------------------------------------------------*/
+/**/ #tabbrowser-tabs .tabbrowser-tab:not([pinned]) .tab-content::before, /**/
+
+/*------------------------------------------------------------------------------
+/* OPTION 2 - number pinned tabs (when "browser.tabs.tabmanager.enabled" true)
+/*----------------------------------------------------------------------------*/
+/* #tabbrowser-tabs .tabbrowser-tab .tab-content::before, /**/
+
+/**/
+#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+{
+  counter-increment: n_tabs;
+  content: counter(n_tabs);
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : remove tab padding, curved border, and shadow
+/*------------------------------------------------------------------------------
+/* https://www.reddit.com/r/firefox/comments/mxgba3/dont_like_proton_designs_tab_style_add_this_to/
+/* https://gist.github.com/Speedy37/63d37931601123178ac2221533292cdd
+/* https://www.reddit.com/r/FirefoxCSS/comments/mviznn/so_i_just_got_inflincted_the_new_ui_can_anyone/
+/* https://github.com/intrnl/firefox-revert-proton
+/* https://github.com/ShatteredIcicle/firefox-ui-regression-mending/blob/master/chrome/photon-tabs.css
+/******************************************************************************/
+/**/
+#TabsToolbar {
+  --lwt-tab-line-color: reset !important;
+}
+.tabbrowser-tab .tab-content {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+#TabsToolbar .tabbrowser-tab {
+  padding-inline: unset !important;
+}
+#TabsToolbar .tabbrowser-tab .tab-background {
+  border-radius: unset !important;
+  box-shadow: none !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : indicate: pending (unloaded), multi-selected, selected (current)
+/*------------------------------------------------------------------------------
+/* notes/unused:
+/*   @-moz-document url(chrome://browser/content/browser.xhtml) { }
+/*   AccentColor eg #0078D7 AccentColorText --toolbar-bgcolor --tabpanel-background-color --tab-selected-bgcolor
+/*   background-image: radial-gradient(transparent,#D3D3D3) !important;
+/*   box-shadow: 0px 0px 5px var(--identity-icon-color) inset !important;
+/*   background-image: radial-gradient(transparent,transparent,var(--identity-icon-color,#fff)) !important;
+/*   font-weight: bold !important;
+/******************************************************************************/
+/**/
+#TabsToolbar .tabbrowser-tab[pending] .tab-text {
+  text-decoration: line-through !important;
+}
+#TabsToolbar .tabbrowser-tab[multiselected="true"] .tab-background {
+  border-bottom: 3px dotted var(--focus-outline-color) !important;
+}
+#TabsToolbar .tab-background[multiselected="true"] {
+  outline: unset !important;
+}
+#TabsToolbar .tabbrowser-tab[selected=true] .tab-background {
+  box-shadow: none !important;
+  border-bottom: 3px solid var(--focus-outline-color) !important;
+}
+/**/
+
+/* underline name (title) on active tab */
+/*
+#TabsToolbar .tabbrowser-tab[selected=true] .tab-text {
+  text-decoration: underline !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### sidebar : unrestricted sidebar width
+/*------------------------------------------------------------------------------
+/* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/generalui/sidebar_width_unrestricted.css
+/******************************************************************************/
+/**/
+#sidebar, #sidebar-header, #sidebar-box {
+  overflow: hidden !important;
+  min-width: 0px !important;
+  max-width: 100vw !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### toolbar buttons : compact
+/******************************************************************************/
+/**/
+#PanelUI-menu-button,
+#nav-bar-overflow-button,
+#unified-extensions-button,
+#navigator-toolbox .chromeclass-toolbar-additional
+{
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  margin-left: -2px !important;
+  margin-right: -2px !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### toolbar : compact unified extensions button
+/*------------------------------------------------------------------------------
+/* the "jigsaw puzzle piece" button seen when 'about:config' has
+/* user_pref("extensions.unifiedExtensions.enabled", true);
+/******************************************************************************/
+/**/
+unified-extensions-item,
+unified-extensions-item .unified-extensions-item-contents,
+unified-extensions-item toolbarbutton,
+unified-extensions-item vbox
+{
+  min-height: 0 !important;
+	height: 25px !important;
+}
+.unified-extensions-item-icon {
+  height: 18px !important;
+	width: 18px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.unified-extensions-item-open-menu
+{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### other - uncomment if required - ie change any /* to /**/
+/******************************************************************************/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : show audio icon next to favicon
+/*------------------------------------------------------------------------------
+/* (speaker icon/mute for tabs with audio)
+/* https://www.reddit.com/r/FirefoxCSS/comments/msg30g/how_to_show_speaker_icon_next_to_the_favicon/
+/* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/inline_tab_audio_icons.css
+/* .tab-secondary-label { display: none }
+/******************************************************************************/
+/*
+.tab-icon-stack:is([muted],[soundplaying],[activemedia-blocked]) {
+  grid-template-areas: "a s";
+}
+.tab-icon-overlay:is([muted],[soundplaying],[activemedia-blocked]) {
+  grid-area: s; }
+.tab-icon-overlay,.tab-icon-image { opacity: 1 !important; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tabs : no text fade out (on the right edge)
+/*------------------------------------------------------------------------------
+/* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/tabs/tab_titles_remove_blur.css
+/******************************************************************************/
+/*
+.tab-label-container[textoverflow]:not([pinned]) {
+  mask-image: unset !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### url box : hide container symbol
+/******************************************************************************/
+/*
+#userContext-indicator { display: none; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### url box : hide bookmark button
+/*------------------------------------------------------------------------------
+/* you can still Ctrl-D to bookmark or use menu>Bookmarks>Bookmark Current Tab
+/******************************************************************************/
+/*
+#star-button-box { display: none; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tab bar : show a profile indicator (color/text label)
+/*------------------------------------------------------------------------------
+/* shown on the right edge of the tab bar (useful for multiple profiles)
+/* set a different text and color indicator in each profile, choose:
+/*      a) set the three variables in each userChrome.css file (see examples)
+/*   or b) create a css file: "userChrome-profile-id.css" in each chrome folder
+/*         and in that file set the three variables (see examples)
+/*         also uncomment "@import "./userChrome-profile-id.css";" near the top
+/* note: in id text use "\00A0" (non-breaking space) for padding
+/*       eg "\00A0\00A0mytext\00A0\00A0" for '  mytext  '
+/******************************************************************************/
+
+/* examples */
+/* #TabsToolbar { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; }    /* default-release */
+/* #TabsToolbar { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } /* 1-release */
+/* #TabsToolbar { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; }     /* 2-release */
+/* #TabsToolbar { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; }        /* 3-release */
+/* #TabsToolbar { --id-txt:"4"; --id-fg:Black; --id-bg:Pink; }          /* 4-release */
+/* #TabsToolbar { --id-txt:"5"; --id-fg:White; --id-bg:Red; }           /* 5-release */
+/* #TabsToolbar { --id-txt:"6"; --id-fg:White; --id-bg:Black; }         /* 6-release */
+/* #TabsToolbar { --id-txt:"B"; --id-fg:Black; --id-bg:SkyBlue; }       /* default-beta */
+/* #TabsToolbar { --id-txt:"N"; --id-fg:White; --id-bg:MediumPurple; }  /* default-nightly */
+/* #TabsToolbar { --id-txt:"D"; --id-fg:White; --id-bg:DodgerBlue; }    /* dev-edition-default */
+
+/*
+#TabsToolbar::after {
+  content:var(--id-txt,"\00A0") !important;
+  color:var(--id-fg,Black) !important;
+  background-color:var(--id-bg,LightGray) !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  font-size:1em !important;
+  font-weight:bold !important;
+}
+/**/
+
+
+
+
+/******************************************************************************/
