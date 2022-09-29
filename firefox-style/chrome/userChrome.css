@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.09.25
+/* Version      : 2022.09.29
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -20,7 +20,7 @@
 /*    or b) save this file as "userChrome-icpantsparti.css" in "chrome" folder
 /*          and create/edit your "userChrome.css" adding this line near the top:
 /*          @import "./userChrome-icpantsparti.css";
-/* 4) enable/disable sections by editing the preceeding line as either: /**/ /*
+/* 4) enable/disable sections by editing the preceeding line(s) as either: /**/ /*
 /* 5) load web page 'about:config', or create/edit a file in the profile folder
 /*    called "user.js" and set the following:
 /*    user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
@@ -28,9 +28,9 @@
 /* *) to "uninstall" remove or rename the "userChrome.css" file
 /*------------------------------------------------------------------------------
 /* Notes:
-/*   This is a collection of userChrome.css code snippets
-/*   #id and .class names are by Mozilla from Firefox CSS structure
-/*   CSS selectors can change between Firefox versions without notice/support
+/*   * This is a collection of userChrome.css code snippets
+/*   * #id and .class names are by Mozilla from Firefox CSS structure
+/*   * CSS selectors can change between Firefox versions without notice/support
 /*------------------------------------------------------------------------------
 /* Useful links (in no particular order):
 /*   https://www.reddit.com/r/FirefoxCSS/wiki/index/tutorials
@@ -67,6 +67,36 @@
 
 
 /*******************************************************************************
+/* The sections in the code below are:
+/*   optionally import other "userChrome-____.css" files
+/*   main (the following are enabled - comment out any not required)
+/*     tabs : hide the space before the window control buttons
+/*     tabs : minimum tab size
+/*     tab bar : always show "List all tabs" button
+/*     tabs : hide tab close buttons
+/*     tabs : move "Close Tab" options to the top of context menu
+/*     tabs : reduce favicon padding
+/*     tabs : always show a favicon
+/*     tabs : numbered tabs (and "List all tabs" panel)
+/*     tabs : remove tab padding, curved border, and shadow
+/*     tabs : indicate: pending (unloaded), multi-selected, selected (current)
+/*     sidebar : unrestricted sidebar width
+/*     toolbar buttons : compact
+/*   other (the following are disabled - uncomment any required)
+/*     toolbar : add background color to tab favicons and add-on icons
+/*     toolbar : compact unified extensions button
+/*     tabs : show audio icon next to favicon
+/*     tabs : no text fade out (on the right edge)
+/*     url box : enforce minimum width
+/*     url box : hide container symbol
+/*     url box : hide bookmark button
+/*     tab bar : show a profile indicator (color/text label)
+/******************************************************************************/
+
+
+
+
+/*******************************************************************************
 /* ### optionally import other "userChrome-____.css" files
 /*------------------------------------------------------------------------------
 /* (any imports must be here at the top)
@@ -74,6 +104,15 @@
 /******************************************************************************/
 /* @import "./userChrome-profile-id.css"; /**/
 /* @import "./userChrome-my-extras.css"; /**/
+
+
+
+
+/*******************************************************************************
+/* ### main (the following are enabled - comment out any not required)
+/*------------------------------------------------------------------------------
+/* enable/disable by editing preceeding line(s) as either:   /**/   /*
+/******************************************************************************/
 
 
 
@@ -99,11 +138,15 @@
 /* tip: also enable: "hide tab close buttons" "List all tabs" and "numbered tabs"
 /* https://github.com/Timvde/UserChrome-Tweaks/blob/master/tabs/prevent-tab-overflow.css
 /* https://www.reddit.com/r/FirefoxCSS/comments/p3mfg8/fixing_tabs_in_the_newest_version_of_ff_first/
+/* notes:
+/*   clip-width: 1.5em !important;
+/*   if you want minimum tab size for selected tab:
+/*     https://www.reddit.com/r/FirefoxCSS/comments/xoopet/like_many_others_im_wanting_to_make_the_move_from/
+/*     .tabbrowser-tab[fadein][selected]:not([pinned]){min-width: 4em !important;}
 /******************************************************************************/
 /**/
 .tabbrowser-tab[fadein]:not([pinned]) {
-  min-width: 2em !important;
-  clip-width: 2em !important;
+  min-width: 1.5em !important;
 }
 /**/
 
@@ -135,8 +178,11 @@
 /*   or use middle mouse click, or 'about:config' "browser.tabs.closeTabByDblclick"
 /* https://support.mozilla.org/en-US/questions/1177825
 /* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/tabs/tab_close_hidden.css
-/* notes/unused:
-/*   #tabbrowser-tabs .tabbrowser-tab .tab-close-button { display:none!important; }
+/* notes:
+/*   #tabbrowser-tabs .tabbrowser-tab .tab-close-button { display: none !important; }
+/*   if you want hide close buttons but excluding selected tab:
+/*     https://www.reddit.com/r/FirefoxCSS/comments/xoopet/like_many_others_im_wanting_to_make_the_move_from/
+/*     #tabbrowser-tabs[closebuttons="activetab"] .tab-close-button:not([selected])
 /******************************************************************************/
 /**/
 .tabbrowser-tab .tab-close-button { visibility: collapse !important; }
@@ -165,7 +211,7 @@
 /*------------------------------------------------------------------------------
 /* https://www.reddit.com/r/FirefoxCSS/comments/7dfnhv/how_to_remove_empty_space_around_favicon_so_more/
 /* https://www.reddit.com/r/FirefoxCSS/comments/7orkrw/tabs_change_favicon_into_close_button_on_hover/
-/* notes/unused:
+/* notes:
 /*   transform: scale(0.8, 0.8) !important;
 /******************************************************************************/
 /**/
@@ -198,7 +244,7 @@
 
 
 /*******************************************************************************
-/* ### tabs : numbered tabs (and the panel of "List all tabs" button)
+/* ### tabs : numbered tabs (and "List all tabs" panel)
 /*------------------------------------------------------------------------------
 /* White on Black, OrangeRed (active tab), Gray (pending/unloaded)
 /* https://www.reddit.com/r/FirefoxCSS/comments/8ruy2d/numbered_tabs_revisited/
@@ -206,6 +252,10 @@
 /*       when 'about:config' "browser.tabs.tabmanager.enabled" is true then
 /*       newer FF versions show pinned tabs under "List all tabs" button
 /*       and you should enable numbering on pinned tabs to match "List all tabs"
+/*------------------------------------------------------------------------------
+/* notes:
+/*   if you wanted tab count on "List all tabs" button see:
+/*   https://www.reddit.com/r/FirefoxCSS/comments/s4wsww/show_the_number_of_open_tabs_on_the_list_all_tabs/
 /******************************************************************************/
 /**/
 #tabbrowser-tabs, #allTabsMenu-allTabsViewTabs
@@ -222,35 +272,57 @@
 }
 
 #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
-{ margin-right: 4px !important; }
+{
+  margin-right: 4px !important;
+}
 
 .tabbrowser-tab[pending] .tab-content::before,
   #allTabsMenu-allTabsViewTabs .all-tabs-item[pending] .all-tabs-button.subviewbutton::before
-{ background-color: Gray !important; }
+{
+  background-color: DarkGray !important;
+  color: Black !important;
+}
 
 .tabbrowser-tab[selected=true] .tab-content::before,
   #allTabsMenu-allTabsViewTabs .all-tabs-item[selected=true] .all-tabs-button.subviewbutton::before
-{ background-color: OrangeRed !important; }
+{
+  background-color: OrangeRed !important;
+}
 
 .tabbrowser-tab .tab-content::before
 {
+  margin-left: 1px !important;
   font-size: 75% !important;
-  margin-right: 0px !important;
+  line-height: 85%;
+  max-width: 0 !important;
+  word-break: break-all;
+}
+
+#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+{
+  counter-increment: n_tabs;
+  content: counter(n_tabs);
 }
 /**/
 
-/*------------------------------------------------------------------------------
-/* OPTION 1 - do not number pinned tabs (when "browser.tabs.tabmanager.enabled" false)
-/*----------------------------------------------------------------------------*/
-/**/ #tabbrowser-tabs .tabbrowser-tab:not([pinned]) .tab-content::before, /**/
-
-/*------------------------------------------------------------------------------
-/* OPTION 2 - number pinned tabs (when "browser.tabs.tabmanager.enabled" true)
-/*----------------------------------------------------------------------------*/
-/* #tabbrowser-tabs .tabbrowser-tab .tab-content::before, /**/
-
+/*--------------------------------------
+/* OPTION 1 - do not number pinned tabs
+/* (when "browser.tabs.tabmanager.enabled" false)
+/*------------------------------------*/
 /**/
-#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+#tabbrowser-tabs .tabbrowser-tab:not([pinned]) .tab-content::before
+{
+  counter-increment: n_tabs;
+  content: counter(n_tabs);
+}
+/**/
+
+/*--------------------------------------
+/* OPTION 2 - number pinned tabs
+/* (when "browser.tabs.tabmanager.enabled" true)
+/*------------------------------------*/
+/*
+#tabbrowser-tabs .tabbrowser-tab .tab-content::before
 {
   counter-increment: n_tabs;
   content: counter(n_tabs);
@@ -294,7 +366,7 @@
 /*******************************************************************************
 /* ### tabs : indicate: pending (unloaded), multi-selected, selected (current)
 /*------------------------------------------------------------------------------
-/* notes/unused:
+/* notes:
 /*   @-moz-document url(chrome://browser/content/browser.xhtml) { }
 /*   AccentColor eg #0078D7 AccentColorText --toolbar-bgcolor --tabpanel-background-color --tab-selected-bgcolor
 /*   background-image: radial-gradient(transparent,#D3D3D3) !important;
@@ -364,25 +436,57 @@
 
 
 /*******************************************************************************
+/* ### other (the following are disabled - uncomment any required)
+/*------------------------------------------------------------------------------
+/* enable/disable by editing preceeding line(s) as either:   /**/   /*
+/******************************************************************************/
+
+
+
+
+/*******************************************************************************
+/* ### toolbar : add background color to tab favicons and add-on icons
+/*------------------------------------------------------------------------------
+/* if you are using a dark theme helps some favicons to show (eg github.com)
+/* https://www.reddit.com/r/FirefoxCSS/comments/sda1sx/favicon_background_for_dark_themes/
+/******************************************************************************/
+/*
+.tab-icon-image,
+.webextension-browser-action .toolbarbutton-icon,
+.unified-extensions-item-icon
+{
+  background-color: DarkGray !important;
+  border-radius: 15%;
+}
+/**/
+
+
+
+
+/*******************************************************************************
 /* ### toolbar : compact unified extensions button
 /*------------------------------------------------------------------------------
 /* the "jigsaw puzzle piece" button seen when 'about:config' has
 /* user_pref("extensions.unifiedExtensions.enabled", true);
 /******************************************************************************/
-/**/
+/*
 unified-extensions-item,
 unified-extensions-item .unified-extensions-item-contents,
 unified-extensions-item toolbarbutton,
 unified-extensions-item vbox
 {
-  min-height: 0 !important;
-	height: 25px !important;
+  min-height: 20px !important;
+	height: 20px !important;
+}
+unified-extensions-item .unified-extensions-item-contents
+{
+  margin-top: -3px !important;
 }
 .unified-extensions-item-icon {
   height: 18px !important;
 	width: 18px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  margin-top: -5px !important;
+
 }
 .unified-extensions-item-open-menu
 {
@@ -395,19 +499,13 @@ unified-extensions-item vbox
 
 
 /*******************************************************************************
-/* ### other - uncomment if required - ie change any /* to /**/
-/******************************************************************************/
-
-
-
-
-/*******************************************************************************
 /* ### tabs : show audio icon next to favicon
 /*------------------------------------------------------------------------------
 /* (speaker icon/mute for tabs with audio)
 /* https://www.reddit.com/r/FirefoxCSS/comments/msg30g/how_to_show_speaker_icon_next_to_the_favicon/
 /* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/inline_tab_audio_icons.css
-/* .tab-secondary-label { display: none }
+/* notes:
+/*   .tab-secondary-label { display: none }
 /******************************************************************************/
 /*
 .tab-icon-stack:is([muted],[soundplaying],[activemedia-blocked]) {
@@ -429,6 +527,20 @@ unified-extensions-item vbox
 /*
 .tab-label-container[textoverflow]:not([pinned]) {
   mask-image: unset !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### url box : enforce minimum width
+/*------------------------------------------------------------------------------
+/* vw = % of viewport width
+/******************************************************************************/
+/*
+#urlbar-container {
+  min-width: 65vw !important;
 }
 /**/
 
