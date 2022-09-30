@@ -3,7 +3,7 @@
 | File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                                              |
 |:--------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | URL                                    | [https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) |
-| Version                                | 2022.09.30                                                                                                                                                                                                                                       |
+| Version                                | 2022.09.30.1                                                                                                                                                                                                                                       |
 | License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                                     |
 | <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                                            |
 
@@ -93,7 +93,7 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
   var list=`<!DOCTYPE html>\n<head>\n<title>add-ons-${
       new Date().toJSON().replace(/[:.]/g,"-")
-    }</title>\n</head>\n<body>\n<br>\n`;
+    }</title>\n</head>\n<body>\n<br>\n\n`;
   addons.sort( (a,b) => {
     if (a.isActive > b.isActive) return -1;
     if (a.isActive < b.isActive) return 1;
@@ -101,26 +101,29 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
   }).forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) {
       list+=
-        `&nbsp;<a href="https://addons.mozilla.org/firefox/downloads/latest/${
+        `<!-- ${addon.id.padEnd(45)} ${addon.name} -->\n`
+        + `&nbsp;<a href="https://addons.mozilla.org/firefox/downloads/latest/${
           encodeURI(addon.id)}" target="_blank">&nbsp;&#11015;&#65039;&nbsp;</a>\n`
         + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
           encodeURI(addon.id)}/versions/" target="_blank">&nbsp;&#127483;&nbsp;</a>\n`
         + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
           encodeURI(addon.id)}/reviews/" target="_blank">&nbsp;&#127479;&nbsp;</a>\n`
         + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
-          encodeURI(addon.id)}" target="_blank">${addon.name}</a>&nbsp;&nbsp;${
-          addon.version}${(addon.isActive?"":"&nbsp;&nbsp;(disabled)")}\n`
-        /* + `${(addon.creator?`&nbsp;&nbsp;(${addon.creator.name})`:"")}` */
-        + `<br>\n`;
+          encodeURI(addon.id)}" target="_blank">${addon.name}</a>\n`
+        + `&nbsp;${addon.version}`
+        + (addon.isActive?"":"&nbsp;&nbsp;(disabled)")
+        /* + (addon.creator?`&nbsp;&nbsp;(${addon.creator.name})`:"") */
+        + `<br>\n\n`;
     }
   });
   list+="<br><br><br>\n</body>\n</html>";
   console.log(list);
-  /* console.log(`data:text/html;base64,${btoa(list)}`); */
+  console.log(`data:text/html;base64,${btoa(list)}`);
+  console.log("/* if an add-ons list page does not open, copy data code "
+    + "above into URL box, or save html code shown above that */");
   window.open(`data:text/html;base64,${btoa(list)}`,'_blank').focus();
 });
 ```
-
 
 ### about:addons links for Mozilla add-ons website pages (temporary)
 
@@ -131,8 +134,22 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 ```javascript
 /* firefox about:addons links for Mozilla add-ons website pages (temporary) */
 [...document.querySelectorAll('a[href^="addons:"]')].forEach(a=>{
-  a.parentElement.insertAdjacentHTML("beforebegin",`<a href="https://addons.mozilla.org/firefox/addon/${
-    encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" target="_blank">&#128279;&nbsp;</a>`);
+  a.parentElement.insertAdjacentHTML("beforebegin"
+    ,`<a href="https://addons.mozilla.org/firefox/addon/${
+      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
+    }" target="_blank">&#128279;</a>&nbsp;`);
+  a.parentElement.insertAdjacentHTML("beforebegin"
+    ,`<a href="https://addons.mozilla.org/firefox/downloads/latest/${
+      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
+    }" target="_blank">&#11015;&#65039;</a>&nbsp;`);
+  a.parentElement.insertAdjacentHTML("beforebegin"
+    ,`<a href="https://addons.mozilla.org/firefox/addon/${
+      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
+    }/versions/" target="_blank">&#127483;</a>&nbsp;`);
+  a.parentElement.insertAdjacentHTML("beforebegin"
+    ,`<a href="https://addons.mozilla.org/firefox/addon/${
+      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
+    }/reviews/" target="_blank">&#127479;</a>&nbsp;`);
 });
 ```
 
