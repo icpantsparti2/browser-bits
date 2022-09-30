@@ -3,7 +3,7 @@
 | File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                                              |
 |:--------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | URL                                    | [https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) |
-| Version                                | 2022.08.09                                                                                                                                                                                                                                       |
+| Version                                | 2022.09.30                                                                                                                                                                                                                                       |
 | License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                                     |
 | <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                                            |
 
@@ -23,6 +23,11 @@
         - requires Firefox [about:config](about:config) `devtools.chrome.enabled` set to `true`
         - open the Firefox Browser Console (Ctrl+Shift+J)
 - Start by using the first option to get the current add-on state and the **add-on ids** (some other options need the ids)
+- Optionally, you could save individual code snippets as a bookmarklet (ie create a bookmark and put the URL as `javascript:` followed by the code), although in this case you cannot click them to run, however you can drag the bookmarklet into the console input box
+
+### Useful Links
+
+- https://firefox-source-docs.mozilla.org/toolkit/mozapps/extensions/addon-manager/AddonManager.html
 
 ### Content
 
@@ -35,6 +40,7 @@
 - [enable add-ons by **id**](#enable-add-ons-by-id)
 - [disable all add-ons](#disable-all-add-ons)
 - [enable all add-ons](#enable-all-add-ons)
+- [reload active add-ons](#reload-active-add-ons)
 - [interactive toggle (enable/disable) add-ons](#interactive-toggle-enabledisable-add-ons)
 
 <hr>
@@ -57,7 +63,7 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
     if (a.isActive > b.isActive) return -1;
     if (a.isActive < b.isActive) return 1;
     return a.name.localeCompare(b.name);
-  } ).forEach( addon => {
+  }).forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) {
       list+=("'"+addon.id+"',").padEnd(45)
         +" /* "+(addon.isActive?"+":"-")
@@ -65,9 +71,9 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
         //+(addon.creator?" "+addon.creator.name:"")
         +" */\n";
     }
-  } );
+  });
   console.log(list);
-} );
+});
 ```
 
 <hr>
@@ -85,28 +91,36 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 ```javascript
 /* list your add-ons as links to their Mozilla Add-ons website page */
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
-  var list="";
+  var list=`<!DOCTYPE html>\n<head>\n<title>add-ons-${
+      new Date().toJSON().replace(/[:.]/g,"-")
+    }</title>\n</head>\n<body>\n<br>\n`;
   addons.sort( (a,b) => {
     if (a.isActive > b.isActive) return -1;
     if (a.isActive < b.isActive) return 1;
     return a.name.localeCompare(b.name);
-  } ).forEach( addon => {
+  }).forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) {
-      list+=`<a href="https://addons.mozilla.org/firefox/addon/${
-        encodeURI(addon.id)}">${addon.name} (${addon.version})${
-        (addon.isActive?"":" (disabled)")}`
-        // + `${(addon.creator?` (${addon.creator.name})`:"")}`
-        + `</a><br>\n`;
+      list+=
+        `&nbsp;<a href="https://addons.mozilla.org/firefox/downloads/latest/${
+          encodeURI(addon.id)}" target="_blank">&nbsp;&#11015;&#65039;&nbsp;</a>\n`
+        + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
+          encodeURI(addon.id)}/versions/" target="_blank">&nbsp;&#127483;&nbsp;</a>\n`
+        + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
+          encodeURI(addon.id)}/reviews/" target="_blank">&nbsp;&#127479;&nbsp;</a>\n`
+        + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
+          encodeURI(addon.id)}" target="_blank">${addon.name}</a>&nbsp;&nbsp;${
+          addon.version}${(addon.isActive?"":"&nbsp;&nbsp;(disabled)")}\n`
+        /* + `${(addon.creator?`&nbsp;&nbsp;(${addon.creator.name})`:"")}` */
+        + `<br>\n`;
     }
-  } );
+  });
+  list+="<br><br><br>\n</body>\n</html>";
   console.log(list);
-  window.open(`data:text/html;base64,${
-    btoa(`<!DOCTYPE html><head><title>add-ons-${
-      new Date().toJSON().replace(/[:.]/g,"-")
-    }</title></head><body><br>\n${list}<br><br><br></body></html>`)
-  }`,'_blank').focus();
-} );
+  /* console.log(`data:text/html;base64,${btoa(list)}`); */
+  window.open(`data:text/html;base64,${btoa(list)}`,'_blank').focus();
+});
 ```
+
 
 ### about:addons links for Mozilla add-ons website pages (temporary)
 
@@ -117,8 +131,9 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 ```javascript
 /* firefox about:addons links for Mozilla add-ons website pages (temporary) */
 [...document.querySelectorAll('a[href^="addons:"]')].forEach(a=>{
-  a.parentElement.insertAdjacentHTML("beforebegin",`<a href="https://addons.mozilla.org/firefox/addon/${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" target="_blank">&#128279;&nbsp;</a>`);
-} );
+  a.parentElement.insertAdjacentHTML("beforebegin",`<a href="https://addons.mozilla.org/firefox/addon/${
+    encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" target="_blank">&#128279;&nbsp;</a>`);
+});
 ```
 
 <hr>
@@ -149,9 +164,9 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 AddonManager.getAddonsByIDs( [
   'uBlock0@raymondhill.net',                 /* uBlock Origin */
   '{aecec67f-0d10-4fa7-b7c7-609a2db280cf}',  /* Violentmonkey */
-] ).then(addons => { addons.forEach( addon => { 
+] ).then(addons => { addons.forEach(addon => {
   addon.isActive?addon.disable():addon.enable();
-} ); } );
+}); });
 ```
 
 ### disable add-ons by **id**
@@ -161,9 +176,9 @@ AddonManager.getAddonsByIDs( [
 AddonManager.getAddonsByIDs( [
   'uBlock0@raymondhill.net',                 /* uBlock Origin */
   '{aecec67f-0d10-4fa7-b7c7-609a2db280cf}',  /* Violentmonkey */
-] ).then(addons => { addons.forEach( addon => {
+] ).then(addons => { addons.forEach(addon => {
   addon.disable();
-} ); } );
+}); });
 ```
 
 ### enable add-ons by **id**
@@ -173,9 +188,9 @@ AddonManager.getAddonsByIDs( [
 AddonManager.getAddonsByIDs( [
   'uBlock0@raymondhill.net',                 /* uBlock Origin */
   '{aecec67f-0d10-4fa7-b7c7-609a2db280cf}',  /* Violentmonkey */
-] ).then(addons => { addons.forEach( addon => {
+] ).then(addons => { addons.forEach(addon => {
   addon.enable();
-} ); } );
+}); });
 ```
 
 <hr>
@@ -185,9 +200,10 @@ AddonManager.getAddonsByIDs( [
 ```javascript
 /* disable all firefox add-ons */
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
-  addons.forEach( addon => {
+  addons.forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) { addon.disable(); }
-} ); } );
+  });
+});
 ```
 
 ### enable all add-ons
@@ -195,9 +211,21 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 ```javascript
 /* enable all firefox add-ons */
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
-  addons.forEach( addon => {
+  addons.forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) { addon.enable(); }
-} ); } );
+  });
+});
+```
+
+### reload active add-ons
+
+```javascript
+/* reload active firefox add-ons */
+AddonManager.getActiveAddons(["extension"]).then(({addons}) => {
+  addons.forEach(addon => {
+    if(!(addon.isBuiltin||addon.isSystem||addon.hidden)) addon.reload();
+  });
+});
 ```
 
 <hr>
@@ -282,7 +310,7 @@ var toggleAddons=async function(
           console.log(("'"+addon.id+"',").padEnd(45)+" "
             +("/* "+(addon.isActive?"Enabled":"Disabled")
             +": "+addon.name+" */").padEnd(60)+" // ");
-        })
+        });
       }
     }
   }
