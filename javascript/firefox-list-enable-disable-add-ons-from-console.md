@@ -3,7 +3,7 @@
 | File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                                              |
 |:--------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | URL                                    | [https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) |
-| Version                                | 2022.09.30.1                                                                                                                                                                                                                                       |
+| Version                                | 2022.10.01                                                                                                                                                                                                                                       |
 | License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                                     |
 | <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                                            |
 
@@ -91,37 +91,60 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 ```javascript
 /* list your add-ons as links to their Mozilla Add-ons website page */
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
-  var list=`<!DOCTYPE html>\n<head>\n<title>add-ons-${
-      new Date().toJSON().replace(/[:.]/g,"-")
-    }</title>\n</head>\n<body>\n<br>\n\n`;
+  var titleStr=`Firefox Add-ons ${new Date().toJSON().replace(/[:.]/g,"-")}`;
+  console.log(`/* ${titleStr} */`);
+  function escapeHTML(unsafe) {
+    return unsafe.replace(
+      /[\u0000-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u00FF]/g,
+      c => '&\u{0023}' + ('000' + c.charCodeAt(0)).slice(-4) + ';'
+    );
+  }
+  var list=`<!DOCTYPE html>\n<head>\n${''
+}  <title>${titleStr.toLowerCase().replace(/ /g,"-")}.html</title>\n${''
+}  <base href="https://addons.mozilla.org/firefox/" target="_blank">\n${''
+}  <style>\n    body { font-family: "sans serif"; font-size: 0.9em; }\n${''
+}    a { text-decoration: none; }\n${''
+}    table { font:inherit; max-width:98vw; border-collapse:collapse;\n${''
+}      margin-left: auto; margin-right: auto; }\n${''
+}    table, th, td { padding: 2px 4px; }\n    th { text-align: left; }\n${''
+}    tr:hover { background-color: Gainsboro; }\n${''
+}    a div:hover { box-shadow: 1px 1px 0px Red, -1px -1px 0px Red; }\n${''
+}    caption { font-size: 1.2em; font-weight: bold; padding: 10px; }\n${''
+}  </style>\n</head>\n<body>\n<table>\n  <caption>${titleStr}</caption>\n${''
+}  <thead>\n  <tr>\n    <th>Name</th>\n    <th colspan=3></th>\n${''
+}    <th>Version</th>\n    <th>Enabled</th>\n    <th>ID</th>\n${''
+}  </tr>\n  </thead>\n  <tbody>\n\n`;
   addons.sort( (a,b) => {
     if (a.isActive > b.isActive) return -1;
     if (a.isActive < b.isActive) return 1;
     return a.name.localeCompare(b.name);
   }).forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) {
-      list+=
-        `<!-- ${addon.id.padEnd(45)} ${addon.name} -->\n`
-        + `&nbsp;<a href="https://addons.mozilla.org/firefox/downloads/latest/${
-          encodeURI(addon.id)}" target="_blank">&nbsp;&#11015;&#65039;&nbsp;</a>\n`
-        + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
-          encodeURI(addon.id)}/versions/" target="_blank">&nbsp;&#127483;&nbsp;</a>\n`
-        + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
-          encodeURI(addon.id)}/reviews/" target="_blank">&nbsp;&#127479;&nbsp;</a>\n`
-        + `&nbsp;<a href="https://addons.mozilla.org/firefox/addon/${
-          encodeURI(addon.id)}" target="_blank">${addon.name}</a>\n`
-        + `&nbsp;${addon.version}`
-        + (addon.isActive?"":"&nbsp;&nbsp;(disabled)")
-        /* + (addon.creator?`&nbsp;&nbsp;(${addon.creator.name})`:"") */
-        + `<br>\n\n`;
+      list+=`  <tr>\n${''
+}    <td><a href="addon/${encodeURI(addon.id)}">${''
+       }<div>${escapeHTML(addon.name)}</div></a></td>\n${''
+}    <td><a href="downloads/latest/${encodeURI(addon.id)}">${''
+       }<div>\u{2B07}\u{FE0F}</div></a></td>\n${''
+}    <td><a href="addon/${encodeURI(addon.id)}/versions/">${''
+       }<div>\u{1F1FB}</div></a></td>\n${''
+}    <td><a href="addon/${encodeURI(addon.id)}/reviews/">${''
+       }<div>\u{1F1F7}</div></a></td>\n${''
+}    <td>${escapeHTML(addon.version)}</td>\n${''
+}    <td>${addon.isActive}</td>\n${''
+}    <td>${escapeHTML(addon.id)}</td>\n${''
+}  </tr>\n\n`;
     }
   });
-  list+="<br><br><br>\n</body>\n</html>";
+  list+="  </tbody>\n</table>\n<br><br><br>\n</body>\n</html>";
   console.log(list);
-  console.log(`data:text/html;base64,${btoa(list)}`);
-  console.log("/* if an add-ons list page does not open, copy data code "
-    + "above into URL box, or save html code shown above that */");
-  window.open(`data:text/html;base64,${btoa(list)}`,'_blank').focus();
+  console.log(`data:text/html;charset=UTF-8;base64,${
+    btoa(unescape(encodeURIComponent(list)))}`);
+  console.log(`/* if a "${titleStr.toLowerCase().replace(/ /g,"-")}" ${''
+    }page does not open, then copy the data/base64 code above into a ${''
+    }new tabs URL box (use right click "Copy Object"), or save and ${''
+    }open the html code shown above that */`);
+  window.open(`data:text/html;charset=UTF-8;base64,${
+    btoa(unescape(encodeURIComponent(list)))}`,'_blank').focus();
 });
 ```
 
@@ -135,21 +158,21 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 /* firefox about:addons links for Mozilla add-ons website pages (temporary) */
 [...document.querySelectorAll('a[href^="addons:"]')].forEach(a=>{
   a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/addon/${
-      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
-    }" target="_blank">&#128279;</a>&nbsp;`);
+    ,`<a href="https://addons.mozilla.org/firefox/addon/${''
+      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" ${''
+      }target="_blank">\u{D83D}\u{DD17}</a>&nbsp;`);
   a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/downloads/latest/${
-      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
-    }" target="_blank">&#11015;&#65039;</a>&nbsp;`);
+    ,`<a href="https://addons.mozilla.org/firefox/downloads/latest/${''
+      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" ${''
+      }target="_blank">\u{2B07}\u{FE0F}</a>&nbsp;`);
   a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/addon/${
-      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
-    }/versions/" target="_blank">&#127483;</a>&nbsp;`);
+    ,`<a href="https://addons.mozilla.org/firefox/addon/${''
+      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}/versions/" ${''
+      }target="_blank">\u{1F1FB}</a>&nbsp;`);
   a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/addon/${
-      encodeURI(a.href.replace(/^addons:\/\/detail\//,''))
-    }/reviews/" target="_blank">&#127479;</a>&nbsp;`);
+    ,`<a href="https://addons.mozilla.org/firefox/addon/${''
+      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}/reviews/" ${''
+      }target="_blank">\u{1F1F7}</a>&nbsp;`);
 });
 ```
 
