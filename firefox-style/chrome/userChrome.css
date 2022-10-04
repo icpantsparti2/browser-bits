@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.09.29
+/* Version      : 2022.10.04
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -248,10 +248,13 @@
 /*------------------------------------------------------------------------------
 /* White on Black, OrangeRed (active tab), Gray (pending/unloaded)
 /* https://www.reddit.com/r/FirefoxCSS/comments/8ruy2d/numbered_tabs_revisited/
-/* NOTE: uncomment OPTION 1 or OPTION 2 in the code because:
-/*       when 'about:config' "browser.tabs.tabmanager.enabled" is true then
-/*       newer FF versions show pinned tabs under "List all tabs" button
-/*       and you should enable numbering on pinned tabs to match "List all tabs"
+/* NOTE: pinned tabs are numbered (matches tab switching with Alt+1 ... Alt+8)
+/*       however the panel for "List all tabs" button does not list pinned tabs
+/*       unless 'about:config' "browser.tabs.tabmanager.enabled" is set to true
+/*       so if that pref is false we show wavy line-through on those numberings
+/* notes:
+/*   not using as we want pinned tabs numbered too:
+/*     #tabbrowser-tabs .tabbrowser-tab:not([pinned]) .tab-content::before
 /*------------------------------------------------------------------------------
 /* notes:
 /*   if you wanted tab count on "List all tabs" button see:
@@ -292,40 +295,28 @@
 .tabbrowser-tab .tab-content::before
 {
   margin-left: 1px !important;
-  font-size: 75% !important;
+  font-size: 80% !important;
   line-height: 85%;
   max-width: 0 !important;
   word-break: break-all;
 }
 
-#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
-{
-  counter-increment: n_tabs;
-  content: counter(n_tabs);
-}
-/**/
-
-/*--------------------------------------
-/* OPTION 1 - do not number pinned tabs
-/* (when "browser.tabs.tabmanager.enabled" false)
-/*------------------------------------*/
-/**/
-#tabbrowser-tabs .tabbrowser-tab:not([pinned]) .tab-content::before
-{
-  counter-increment: n_tabs;
-  content: counter(n_tabs);
-}
-/**/
-
-/*--------------------------------------
-/* OPTION 2 - number pinned tabs
-/* (when "browser.tabs.tabmanager.enabled" true)
-/*------------------------------------*/
-/*
 #tabbrowser-tabs .tabbrowser-tab .tab-content::before
 {
   counter-increment: n_tabs;
-  content: counter(n_tabs);
+  content:counter(n_tabs);
+}
+
+#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+{
+  counter-increment: n_tabs;
+  content:"\00A0" counter(n_tabs) "\00A0";
+}
+
+@supports not -moz-bool-pref("browser.tabs.tabmanager.enabled") {
+  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before {
+    text-decoration: line-through wavy !important;
+  }
 }
 /**/
 
