@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.10.04
+/* Version      : 2022.10.05
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -253,6 +253,7 @@
 /*       unless 'about:config' "browser.tabs.tabmanager.enabled" is set to true
 /*       so if that pref is false we show wavy line-through on those numberings
 /* notes:
+/*   FF107 #allTabsMenu-allTabsViewTabs becomes #allTabsMenu-allTabsView-tabs
 /*   not using as we want pinned tabs numbered too:
 /*     #tabbrowser-tabs .tabbrowser-tab:not([pinned]) .tab-content::before
 /*------------------------------------------------------------------------------
@@ -261,11 +262,12 @@
 /*   https://www.reddit.com/r/FirefoxCSS/comments/s4wsww/show_the_number_of_open_tabs_on_the_list_all_tabs/
 /******************************************************************************/
 /**/
-#tabbrowser-tabs, #allTabsMenu-allTabsViewTabs
+#tabbrowser-tabs, #allTabsMenu-allTabsViewTabs, #allTabsMenu-allTabsView-tabs
 { counter-reset: n_tabs 0; }
 
 .tabbrowser-tab .tab-content::before,
-  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before,
+  #allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::before
 {
   display: inline-block;
   font-weight: bold !important;
@@ -274,20 +276,23 @@
   color: White !important;
 }
 
-#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before,
+#allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::before
 {
   margin-right: 4px !important;
 }
 
 .tabbrowser-tab[pending] .tab-content::before,
-  #allTabsMenu-allTabsViewTabs .all-tabs-item[pending] .all-tabs-button.subviewbutton::before
+  #allTabsMenu-allTabsViewTabs .all-tabs-item[pending] .all-tabs-button.subviewbutton::before,
+  #allTabsMenu-allTabsView-tabs .all-tabs-item[pending] .all-tabs-button.subviewbutton::before
 {
   background-color: DarkGray !important;
   color: Black !important;
 }
 
 .tabbrowser-tab[selected=true] .tab-content::before,
-  #allTabsMenu-allTabsViewTabs .all-tabs-item[selected=true] .all-tabs-button.subviewbutton::before
+  #allTabsMenu-allTabsViewTabs .all-tabs-item[selected=true] .all-tabs-button.subviewbutton::before,
+  #allTabsMenu-allTabsView-tabs .all-tabs-item[selected=true] .all-tabs-button.subviewbutton::before
 {
   background-color: OrangeRed !important;
 }
@@ -307,14 +312,17 @@
   content:counter(n_tabs);
 }
 
-#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before
+#allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before,
+#allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::before
 {
   counter-increment: n_tabs;
   content:"\00A0" counter(n_tabs) "\00A0";
 }
 
 @supports not -moz-bool-pref("browser.tabs.tabmanager.enabled") {
-  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before {
+  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before,
+  #allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::before
+  {
     text-decoration: line-through wavy !important;
   }
 }
