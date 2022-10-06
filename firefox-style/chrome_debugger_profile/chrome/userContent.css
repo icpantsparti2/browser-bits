@@ -1,38 +1,40 @@
 /*******************************************************************************
-** [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/chrome/userContent.css
-********************************************************************************
-** File/Update  : https://raw.githubusercontent.com/icpantsparti/browser-bits/main/firefox-style/chrome_debugger_profile/chrome/userContent.css
-** Version      : 2021.09.02
-** License (MIT): https://raw.githubusercontent.com/icpantsparti/browser-bits/main/LICENSE
-** Project      : https://github.com/icpantsparti/browser-bits
-** Disclaimer   : Use with care at your own risk, and verify any results
-********************************************************************************
-** Acknowledgments: thanks to the links shown in the code below for useful info
-*******************************************************************************/
+/* [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/chrome/userContent.css
+/*------------------------------------------------------------------------------
+/* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome_debugger_profile/chrome/userContent.css
+/* Version      : 2022.10.05
+/* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
+/* Project      : https://github.com/icpantsparti2/browser-bits
+/* Disclaimer   : Use with care at your own risk
+/*------------------------------------------------------------------------------
+/* Summary      : userContent.css file for debugger profile
+/*------------------------------------------------------------------------------
+/* Acknowledgments: thanks to the links shown for useful info
+/******************************************************************************/
 
 
 
 
 /*******************************************************************************
-** ### highlight certain file names under [Browser Toolbox] [Style Editor]
-********************************************************************************
-** highlight file names "userChrome.css" and "userContent.css" when using:
-**   [Browser Toolbox] (Ctrl+Shift+Alt+I) [Developer Tools] [Style Editor]
-** NOTE: this CSS rule must be set in the folder/file below:
-**   [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/chrome/userContent.css
-** NOTE: you must also create the file below (containing the user_pref):
-**   [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/user.js
-**   user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-** https://twitter.com/myfonj/status/1387584962354982912
-** https://www.reddit.com/r/FirefoxCSS/comments/73dvty/tutorial_how_to_create_and_livedebug_userchromecss/
-** https://www.reddit.com/r/FirefoxCSS/comments/n91i3w/quick_way_to_find_userchromecss_in_developer_tools/
-*******************************************************************************/
+/* ### highlight certain file names under [Browser Toolbox] [Style Editor]
+/*------------------------------------------------------------------------------
+/* highlight file names "userChrome.css" and "userContent.css" when using:
+/*   [Browser Toolbox] (Ctrl+Shift+Alt+I) [Developer Tools] [Style Editor]
+/* NOTE: this CSS rule must be set in the folder/file below:
+/*   [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/chrome/userContent.css
+/* NOTE: you must also create the file below (containing the user_pref):
+/*   [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/user.js
+/*   user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+/* https://twitter.com/myfonj/status/1387584962354982912
+/* https://www.reddit.com/r/FirefoxCSS/comments/73dvty/tutorial_how_to_create_and_livedebug_userchromecss/
+/* https://www.reddit.com/r/FirefoxCSS/comments/n91i3w/quick_way_to_find_userchromecss_in_developer_tools/
+/******************************************************************************/
 /**/
 @-moz-document url-prefix("chrome://devtools/content/styleeditor/index.xhtml") {
   .splitview-nav label[value*="userChrome"]
     ,.splitview-nav label[value*="userContent"] {
-    background-color: color-mix(in srgb, White 40%, -moz-accent-color) !important;
-    color: color-mix(in srgb, Black 40%, -moz-accent-color) !important;
+    background-color: color-mix(in srgb, White 40%, AccentColor) !important;
+    color: color-mix(in srgb, Black 40%, AccentColor) !important;
     font-weight: bold !important;
   }
 }
@@ -41,6 +43,5 @@
 
 
 
-/*******************************************************************************
-** [FIREFOX-PROFILE-FOLDER]/chrome_debugger_profile/chrome/userContent.css
-*******************************************************************************/
+/******************************************************************************/
+
