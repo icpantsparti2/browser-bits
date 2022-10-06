@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2022.09.29
+/* Version      : 2022.10.05
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -16,10 +16,10 @@
 /*    eg: /home/USERNAME/.mozilla/firefox/XXXXXXXX.default
 /* 2) make a folder there called "chrome"
 /* 3) choose:
-/*    a) move/save this file as "userContent.css" inside the "chrome" folder
-/*    b) save this file as "userContent-icpantsparti.css" in "chrome" folder
-/*       and create/edit your "userContent.css" adding this line near the top:
-/*       @import "./userContent-icpantsparti.css";
+/*       a) move/save this file as "userContent.css" inside the "chrome" folder
+/*    or b) save this file as "userContent-icpantsparti.css" in "chrome" folder
+/*          and create/edit your "userContent.css" adding this line near the top:
+/*          @import "./userContent-icpantsparti.css";
 /* 4) enable/disable sections by editing the preceeding line(s) as either: /**/ /*
 /* 5) load web page 'about:config', or create/edit a file in the profile folder
 /*    called "user.js" and set the following:
@@ -28,9 +28,9 @@
 /* *) to "uninstall" remove or rename the "userContent.css" file
 /*------------------------------------------------------------------------------
 /* Notes:
-/*   This is a collection of userContent.css code snippets
-/*   #id and .class names are by Mozilla from Firefox CSS structure
-/*   CSS selectors can change between Firefox versions without notice/support
+/*   * This is a collection of userContent.css code snippets
+/*   * #id and .class names are by Mozilla from Firefox CSS structure
+/*   * CSS selectors can change between Firefox versions without notice/support
 /*------------------------------------------------------------------------------
 /* for 'Useful links' + 'Some Example Firefox CSS "Themes" links':
 /*   see: https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
@@ -40,6 +40,20 @@
 /*   https://www.reddit.com/r/FirefoxCSS/comments/w9t89v/tab_bar_windows_accent_color_in_firefox_103/
 /*------------------------------------------------------------------------------
 /* Acknowledgments: thanks to the links shown for useful info
+/******************************************************************************/
+
+
+
+
+/*******************************************************************************
+/* The sections in the code below are:
+/*     optionally import other "userContent-____.css" files
+/*     highlight favorites on about:about
+/*     compact about:profiles
+/*     compact about:config
+/*     compact about:addons
+/*     compact about:preferences
+/*     highlight certain file names under [Browser Toolbox] [Style Editor]
 /******************************************************************************/
 
 
@@ -56,7 +70,7 @@
 
 
 /*******************************************************************************
-/* ### highlighting on about:about
+/* ### highlight favorites on about:about
 /*------------------------------------------------------------------------------
 /* highlight some of the links to other 'about:...' pages
 /******************************************************************************/
@@ -65,9 +79,9 @@
   a[href="about:addons"], a[href="about:config"], a[href="about:debugging"],
   a[href="about:downloads"], a[href="about:preferences"],
   a[href="about:profiles"], a[href="about:support"] {
-    background: color-mix(in srgb, White 40%, AccentColor) !important;
-    color: color-mix(in srgb, Black 40%, AccentColor) !important;
     font-weight: bold !important;
+    border: 2px solid AccentColor !important;
+    padding: 0px 2px !important;
   }
 }
 /**/
@@ -92,12 +106,14 @@
   table, tr, th, td {
     height: unset !important;      width: unset !important;
     padding-top: 0 !important;     padding-bottom: 0 !important;
-    border-collapse: collapse !important;
+    border-collapse: collapse !important;  border: 0 !important;
+    background-color: unset !important;    color: unset !important;
   }
   button {
     min-height: unset !important;  height: unset !important;
     margin-top: 0 !important;      margin-bottom: 0 !important;
     padding-top: 0 !important;     padding-bottom: 0 !important;
+    border: 1px solid AccentColor !important;
   }
   #profiles div:hover {
     box-shadow: 0px 0px 50px 3px color-mix(in srgb, White 40%, AccentColor) inset !important;
