@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.10.05
+/* Version      : 2022.10.13
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -84,12 +84,14 @@
 /*     toolbar buttons : compact
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : add background color to tab favicons and add-on icons
-/*     toolbar : compact unified extensions button
+/*     toolbar : compact panel of overflow button (grid/icon view)
+/*     toolbar : compact panel of unified extensions button
 /*     tabs : show audio icon next to favicon
 /*     tabs : no text fade out (on the right edge)
 /*     url box : enforce minimum width
 /*     url box : hide container symbol
 /*     url box : hide bookmark button
+/*     tab bar : hide until nav area hovered
 /*     tab bar : show a profile indicator (color/text label)
 /******************************************************************************/
 
@@ -463,7 +465,35 @@
 
 
 /*******************************************************************************
-/* ### toolbar : compact unified extensions button
+/* ### toolbar : compact panel of overflow button (grid/icon view)
+/*------------------------------------------------------------------------------
+/* https://old.reddit.com/r/FirefoxCSS/comments/y1p88c/how_can_i_only_show_extension_icons_in_a_grid/
+/* notes:
+/*   #widget-overflow-fixed-list > .toolbarbutton-1,
+/*   #widget-overflow-list > .toolbarbutton-1
+/*     { width: 50px !important; height: 50px; }
+/*   #widget-overflow-list .toolbarbutton-text,
+/*   #widget-overflow-fixed-list .toolbarbutton-text
+/*     { display: none; }
+/*   #widget-overflow-list .toolbarbutton-1 image,
+/*   #widget-overflow-fixed-list .toolbarbutton-1 image
+/*     { height: 26px !important; width: 26px !important; }
+/******************************************************************************/
+/*
+#widget-overflow-list,
+#widget-overflow-fixed-list
+{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### toolbar : compact panel of unified extensions button
 /*------------------------------------------------------------------------------
 /* the "jigsaw puzzle piece" button seen when 'about:config' has
 /* user_pref("extensions.unifiedExtensions.enabled", true);
@@ -563,6 +593,22 @@ unified-extensions-item .unified-extensions-item-contents
 /******************************************************************************/
 /*
 #star-button-box { display: none; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tab bar : hide until nav area hovered
+/*------------------------------------------------------------------------------
+/* https://old.reddit.com/r/FirefoxCSS/comments/xy6m5z/how_to_hide_tabs_toolbar_unless_hovering_over_top/
+/******************************************************************************/
+/*
+#TabsToolbar{
+  -moz-window-dragging: no-drag;
+  visibility: collapse;
+}
+#navigator-toolbox:hover #TabsToolbar{ visibility: visible }
 /**/
 
 
