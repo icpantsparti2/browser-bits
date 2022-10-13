@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2022.10.05
+/* Version      : 2022.10.13
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -51,7 +51,7 @@
 /*     highlight favorites on about:about
 /*     compact about:profiles
 /*     compact about:config
-/*     compact about:addons
+/*     compact about:addons (and column layout)
 /*     compact about:preferences
 /*     highlight certain file names under [Browser Toolbox] [Style Editor]
 /******************************************************************************/
@@ -152,11 +152,10 @@
 
 
 /*******************************************************************************
-/* ### compact about:addons
+/* ### compact about:addons (and column layout)
 /*------------------------------------------------------------------------------
 /* https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_fx68.css
 /* https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_more_compact_fx72.css
-/* https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_show_addon_version_number_fx68.css
 /* https://www.reddit.com/r/FirefoxCSS/comments/g9imrc/enlarge_width_of_addons_manager_aboutaddons/
 /* notes:
 /*   or:  url-prefix(chrome://mozapps/content/extensions/aboutaddons.html)
@@ -174,10 +173,40 @@
     --addon-icon-size: 18px !important;
   }
 
+  #main {
+    max-width: 95% !important;
+  }
+
+  addon-list[type="extension"] .list-section-heading {
+    margin: 0 !important;
+    column-span: all;
+  }
+
+  addon-list[type="extension"] .extension-enabled-section,
+  addon-list[type="extension"] .extension-disabled-section {
+    margin-bottom: 4px !important;
+    column-gap: 0;
+    column-count: 3;
+  }
+
+  addon-list[type="extension"] addon-card:not([expanded="true"]) .addon-name-container
+  {
+    margin-top: -1px !important;
+  }
+
+  addon-list[type="extension"] .addon-name {
+    font-size: unset !important;
+    font-weight: unset !important;
+    line-height: unset !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
   .addon-icon
   {
     background-color: DarkGray !important;
     border-radius: 15%;
+    margin-right: 4px !important;
   }
 
   addon-list:not([type="theme"]) addon-card:not([expanded="true"]) .addon.card,
@@ -189,10 +218,13 @@
     transition: unset !important;
   }
 
+  addon-list[type="extension"] addon-card:not([expanded="true"]) .addon.card {
+    height: 20px !important;
+  }
+
   addon-card:not([expanded="true"]) .addon.card:hover {
-    box-shadow: 0 -3px 0 0 color-mix(in srgb, White 40%, AccentColor) !important;
-    background: color-mix(in srgb, White 40%, AccentColor) !important;
-    font-weight: bold !important;
+    box-shadow: 0 -3px 0 0 color-mix(in srgb, White 30%, AccentColor) !important;
+    background: color-mix(in srgb, White 30%, AccentColor) !important;
   }
 
   addon-card:not([expanded="true"]) .addon.card .addon-description
@@ -201,25 +233,23 @@
   }
 
   addon-card:not([expanded="true"]) .addon-badge {
-    height: 16px !important;
-    width: 16px !important;
+    height: 14px !important;
+    width: 14px !important;
+    margin: 0 !important;
+  }
+
+  .toggle-button {
+    border: 1px dotted !important;
   }
 
   addon-card:not([expanded="true"]) .more-options-button {
-    height: 22px !important;
+    height: 20px !important;
+    margin-left: 0 !important;
+    border: 1px dotted !important;
   }
 
-  div:not([current-view="updates"])
-    .addon-name-link[title]:not([data-l10n-args])::after,
-  div:not([current-view="updates"])
-    .addon-name[title]:not([data-l10n-args])::after
-  {
-    display: block !important;
-    content: attr(title) !important;
-    margin-top: -22px !important;
-  }
-
-  addon-list[type="theme"] addon-card:not([expanded="true"]) .card-heading-image
+  addon-list[type="theme"] addon-card:not([expanded="true"]) .card-heading-image,
+  addon-list[type="all"] addon-card:not([expanded="true"]) .card-heading-image
   {
     width: 150px !important;
     height: auto !important;
@@ -228,7 +258,8 @@
     border: 1px dotted !important;
   }
 
-  addon-list[type="theme"] addon-card:not([expanded="true"]) .addon.card
+  addon-list[type="theme"] addon-card:not([expanded="true"]) .addon.card,
+  addon-list[type="all"] addon-card:not([expanded="true"]) .addon.card
   {
     border: 1px dotted !important;
   }
