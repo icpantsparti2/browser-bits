@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.10.13
+/* Version      : 2022.10.13.1
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -84,7 +84,7 @@
 /*     toolbar buttons : compact
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : add background color to tab favicons and add-on icons
-/*     toolbar : compact panel of overflow button (grid/icon view)
+/*     toolbar : compact panel of overflow button
 /*     toolbar : compact panel of unified extensions button
 /*     tabs : show audio icon next to favicon
 /*     tabs : no text fade out (on the right edge)
@@ -465,19 +465,9 @@
 
 
 /*******************************************************************************
-/* ### toolbar : compact panel of overflow button (grid/icon view)
+/* ### toolbar : compact panel of overflow button
 /*------------------------------------------------------------------------------
 /* https://old.reddit.com/r/FirefoxCSS/comments/y1p88c/how_can_i_only_show_extension_icons_in_a_grid/
-/* notes:
-/*   #widget-overflow-fixed-list > .toolbarbutton-1,
-/*   #widget-overflow-list > .toolbarbutton-1
-/*     { width: 50px !important; height: 50px; }
-/*   #widget-overflow-list .toolbarbutton-text,
-/*   #widget-overflow-fixed-list .toolbarbutton-text
-/*     { display: none; }
-/*   #widget-overflow-list .toolbarbutton-1 image,
-/*   #widget-overflow-fixed-list .toolbarbutton-1 image
-/*     { height: 26px !important; width: 26px !important; }
 /******************************************************************************/
 /*
 #widget-overflow-list,
