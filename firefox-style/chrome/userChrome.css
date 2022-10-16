@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.10.13.1
+/* Version      : 2022.10.16
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -70,9 +70,9 @@
 /* The sections in the code below are:
 /*   optionally import other "userChrome-____.css" files
 /*   main (the following are enabled - comment out any not required)
-/*     tabs : hide the space before the window control buttons
-/*     tabs : minimum tab size
+/*     tab bar : hide the space before the window control buttons
 /*     tab bar : always show "List all tabs" button
+/*     tabs : minimum tab size
 /*     tabs : hide tab close buttons
 /*     tabs : move "Close Tab" options to the top of context menu
 /*     tabs : reduce favicon padding
@@ -81,11 +81,11 @@
 /*     tabs : remove tab padding, curved border, and shadow
 /*     tabs : indicate: pending (unloaded), multi-selected, selected (current)
 /*     sidebar : unrestricted sidebar width
-/*     toolbar buttons : compact
+/*     toolbar : compact buttons
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : add background color to tab favicons and add-on icons
-/*     toolbar : compact panel of overflow button
-/*     toolbar : compact panel of unified extensions button
+/*     toolbar : overflow button panel columns
+/*     toolbar : unified extensions button panel compact/columns
 /*     tabs : show audio icon next to favicon
 /*     tabs : no text fade out (on the right edge)
 /*     url box : enforce minimum width
@@ -120,7 +120,7 @@
 
 
 /*******************************************************************************
-/* ### tabs : hide the space before the window control buttons
+/* ### tab bar : hide the space before the window control buttons
 /*------------------------------------------------------------------------------
 /* the spacer before Minimize/Maximize/Restore/Close buttons
 /* seen when 'about:config' user_pref("browser.tabs.inTitlebar", 1);
@@ -128,6 +128,24 @@
 /******************************************************************************/
 /**/
 .titlebar-spacer[type="post-tabs"] { display: none; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tab bar : always show "List all tabs" button
+/*------------------------------------------------------------------------------
+/* usually only shows on tab overflow
+/* also see 'about:config' preference: "browser.tabs.tabmanager.enabled"
+/* https://www.reddit.com/r/FirefoxCSS/comments/8uz9d1/show_list_all_tabs_button_always/
+/* https://www.reddit.com/r/FirefoxCSS/comments/f2bru9/list_all_tabs_button_not_showing_in_73/
+/******************************************************************************/
+/**/
+#alltabs-button {
+  visibility: visible !important;
+  display: initial !important;
+}
 /**/
 
 
@@ -149,24 +167,6 @@
 /**/
 .tabbrowser-tab[fadein]:not([pinned]) {
   min-width: 1.5em !important;
-}
-/**/
-
-
-
-
-/*******************************************************************************
-/* ### tab bar : always show "List all tabs" button
-/*------------------------------------------------------------------------------
-/* usually only shows on tab overflow
-/* also see 'about:config' preference: "browser.tabs.tabmanager.enabled"
-/* https://www.reddit.com/r/FirefoxCSS/comments/8uz9d1/show_list_all_tabs_button_always/
-/* https://www.reddit.com/r/FirefoxCSS/comments/f2bru9/list_all_tabs_button_not_showing_in_73/
-/******************************************************************************/
-/**/
-#alltabs-button {
-  visibility: visible !important;
-  display: initial !important;
 }
 /**/
 
@@ -418,7 +418,7 @@
 
 
 /*******************************************************************************
-/* ### toolbar buttons : compact
+/* ### toolbar : compact buttons
 /******************************************************************************/
 /**/
 #PanelUI-menu-button,
@@ -465,17 +465,19 @@
 
 
 /*******************************************************************************
-/* ### toolbar : compact panel of overflow button
+/* ### toolbar : overflow button panel columns
 /*------------------------------------------------------------------------------
-/* https://old.reddit.com/r/FirefoxCSS/comments/y1p88c/how_can_i_only_show_extension_icons_in_a_grid/
+/* https://www.reddit.com/r/FirefoxCSS/comments/y1p88c/how_can_i_only_show_extension_icons_in_a_grid/
+/* notes:
+/*   display: grid; grid-template-columns: repeat(3, 1fr);
 /******************************************************************************/
 /*
 #widget-overflow-list,
 #widget-overflow-fixed-list
 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
+  display: block;
+  column-gap: 0;
+  column-count: 3;
 }
 /**/
 
@@ -483,12 +485,15 @@
 
 
 /*******************************************************************************
-/* ### toolbar : compact panel of unified extensions button
+/* ### toolbar : unified extensions button panel compact/columns
 /*------------------------------------------------------------------------------
 /* the "jigsaw puzzle piece" button seen when 'about:config' has
 /* user_pref("extensions.unifiedExtensions.enabled", true);
 /******************************************************************************/
 /*
+unified-extensions-item {
+  min-width: unset !important;
+}
 unified-extensions-item,
 unified-extensions-item .unified-extensions-item-contents,
 unified-extensions-item toolbarbutton,
@@ -511,6 +516,17 @@ unified-extensions-item .unified-extensions-item-contents
 {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+}
+.unified-extensions-list {
+  min-width: unset !important;
+  width: 55vw !important;
+  max-width: 55vw !important;
+  padding-bottom: 4px !important;
+  display: block !important;
+  column-gap: 0 !important;
+  column-count: 3 !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
 }
 /**/
 
@@ -579,7 +595,8 @@ unified-extensions-item .unified-extensions-item-contents
 /*******************************************************************************
 /* ### url box : hide bookmark button
 /*------------------------------------------------------------------------------
-/* you can still Ctrl-D to bookmark or use menu>Bookmarks>Bookmark Current Tab
+/* if you do not use bookmarks (eg you use a note taking app instead)
+/* you can still bookmark from: Ctrl-D / right click tab / menu>Bookmarks
 /******************************************************************************/
 /*
 #star-button-box { display: none; }
@@ -591,7 +608,7 @@ unified-extensions-item .unified-extensions-item-contents
 /*******************************************************************************
 /* ### tab bar : hide until nav area hovered
 /*------------------------------------------------------------------------------
-/* https://old.reddit.com/r/FirefoxCSS/comments/xy6m5z/how_to_hide_tabs_toolbar_unless_hovering_over_top/
+/* https://www.reddit.com/r/FirefoxCSS/comments/xy6m5z/how_to_hide_tabs_toolbar_unless_hovering_over_top/
 /******************************************************************************/
 /*
 #TabsToolbar{
