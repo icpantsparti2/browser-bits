@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.10.16
+/* Version      : 2022.10.18
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -71,7 +71,6 @@
 /*   optionally import other "userChrome-____.css" files
 /*   main (the following are enabled - comment out any not required)
 /*     tab bar : hide the space before the window control buttons
-/*     tab bar : always show "List all tabs" button
 /*     tabs : minimum tab size
 /*     tabs : hide tab close buttons
 /*     tabs : move "Close Tab" options to the top of context menu
@@ -92,6 +91,7 @@
 /*     url box : hide container symbol
 /*     url box : hide bookmark button
 /*     tab bar : hide until nav area hovered
+/*     tab bar : hide "List all tabs" button
 /*     tab bar : show a profile indicator (color/text label)
 /******************************************************************************/
 
@@ -128,24 +128,6 @@
 /******************************************************************************/
 /**/
 .titlebar-spacer[type="post-tabs"] { display: none; }
-/**/
-
-
-
-
-/*******************************************************************************
-/* ### tab bar : always show "List all tabs" button
-/*------------------------------------------------------------------------------
-/* usually only shows on tab overflow
-/* also see 'about:config' preference: "browser.tabs.tabmanager.enabled"
-/* https://www.reddit.com/r/FirefoxCSS/comments/8uz9d1/show_list_all_tabs_button_always/
-/* https://www.reddit.com/r/FirefoxCSS/comments/f2bru9/list_all_tabs_button_not_showing_in_73/
-/******************************************************************************/
-/**/
-#alltabs-button {
-  visibility: visible !important;
-  display: initial !important;
-}
 /**/
 
 
@@ -616,6 +598,22 @@ unified-extensions-item .unified-extensions-item-contents
   visibility: collapse;
 }
 #navigator-toolbox:hover #TabsToolbar{ visibility: visible }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tab bar : hide "List all tabs" button
+/*------------------------------------------------------------------------------
+/* show on tab overflow: 'about:config' "browser.tabs.tabmanager.enabled" false
+/* always hide: use css
+/* https://www.reddit.com/r/FirefoxCSS/comments/8uz9d1/show_list_all_tabs_button_always/
+/* https://www.reddit.com/r/FirefoxCSS/comments/f2bru9/list_all_tabs_button_not_showing_in_73/
+/*   visibility: visible !important;  display: initial !important;
+/******************************************************************************/
+/*
+#alltabs-button { display: none !important; }
 /**/
 
 
