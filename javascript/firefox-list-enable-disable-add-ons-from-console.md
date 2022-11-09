@@ -3,7 +3,7 @@
 | File                                   | firefox-list-enable-disable-add-ons-from-console.md                                                                                                                                                                                              |
 |:--------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | URL                                    | [https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) |
-| Version                                | 2022.10.01                                                                                                                                                                                                                                       |
+| Version                                | 2022.11.09                                                                                                                                                                                                                                       |
 | License                                | (MIT) [https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE)                                                                                     |
 | <span style="font-size:2em;">⚠️</span> | * **experimental** for **advanced users**<br>* **backup** your profile ([about:support](about:support) Profile Directory)<br>* **test** in a copy/new profile<br>* use with care **at your own risk**                                            |
 
@@ -90,7 +90,8 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
 ```javascript
 /* list your add-ons as links to their Mozilla Add-ons website page */
-AddonManager.getAddonsByTypes(["extension"]).then(addons => {
+AddonManager.getAddonsByTypes().then(addons => {
+  /* ["extension","dictionary","theme"] */
   var titleStr=`Firefox Add-ons ${new Date().toJSON().replace(/[:.]/g,"-")}`;
   console.log(`/* ${titleStr} */`);
   function escapeHTML(unsafe) {
@@ -99,43 +100,85 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
       c => '&\u{0023}' + ('000' + c.charCodeAt(0)).slice(-4) + ';'
     );
   }
+  var iLink1="",iLink2="",dLink1="",dLink2="",dLink3="",
+    vLink1="",vLink2="",vLink3="",rLink1="",rLink2="",rLink3="",hovLink="";
   var list=`<!DOCTYPE html>\n<head>\n${''
 }  <title>${titleStr.toLowerCase().replace(/ /g,"-")}.html</title>\n${''
 }  <base href="https://addons.mozilla.org/firefox/" target="_blank">\n${''
 }  <style>\n    body { font-family: "sans serif"; font-size: 0.9em; }\n${''
 }    a { text-decoration: none; }\n${''
-}    table { font:inherit; max-width:98vw; border-collapse:collapse;\n${''
+}    table { font:inherit; table-layout: fixed; max-width:95vw; border-collapse:collapse;\n${''
 }      margin-left: auto; margin-right: auto; }\n${''
-}    table, th, td { padding: 2px 4px; }\n    th { text-align: left; }\n${''
-}    tr:hover { background-color: Gainsboro; }\n${''
-}    a div:hover { box-shadow: 1px 1px 0px Red, -1px -1px 0px Red; }\n${''
+}    .col-big { width:35%; }\n${''
+}    .col-small { width:10%; }\n${''
+}    table, th, td { padding: 2px 4px; border: 1px dotted black;}\n${''
+}    th { text-align: left; }\n${''
+}    td { vertical-align: top; }\n${''
+}    tr, td, td div { height: 100%; min-height: 1.5em; }\n${''
+}    td div { padding: 2px 4px; }\n${''
+}    tbody .tr-dull { background-color: Gainsboro; }\n${''
+}    tbody tr:hover { background-color: Lavender; }\n${''
+}    tbody .tr-dull:hover { background-color: Thistle; }\n${''
+}    .td-link { padding:0; }\n${''
+}    .td-hov:hover { border: 1px solid red; }\n${''
+}    .td-ctr { text-align: center; }\n${''
+}    .td-ver { overflow:hidden; word-break:break-all; }\n${''
 }    caption { font-size: 1.2em; font-weight: bold; padding: 10px; }\n${''
 }  </style>\n</head>\n<body>\n<table>\n  <caption>${titleStr}</caption>\n${''
+      }    <colgroup>\n${''
+      }      <col class="col-big"/>\n${''
+      }      <col span="3"/>\n${''
+      }      <col class="col-small" span="3"/>\n${''
+      }      <col class="col-big"/>\n${''
+      }    </colgroup>\n${''
 }  <thead>\n  <tr>\n    <th>Name</th>\n    <th colspan=3></th>\n${''
-}    <th>Version</th>\n    <th>Enabled</th>\n    <th>ID</th>\n${''
+}    <th>Type</th>\n    <th>Version</th>\n    <th>Enabled</th>\n    <th>ID</th>\n${''
 }  </tr>\n  </thead>\n  <tbody>\n\n`;
   addons.sort( (a,b) => {
-    if (a.isActive > b.isActive) return -1;
-    if (a.isActive < b.isActive) return 1;
+    /*if (a.isActive > b.isActive) return -1;
+    if (a.isActive < b.isActive) return 1;*/
+    if (a.type < b.type) return -1;
+    if (a.type > b.type) return 1;
+    if (a.isBuiltin < b.isBuiltin) return -1;
+    if (a.isBuiltin > b.isBuiltin) return 1;
+    /*if (a.isSystem < b.isSystem) return -1;
+    if (a.isSystem > b.isSystem) return 1; */
     return a.name.localeCompare(b.name);
   }).forEach(addon => {
-    if(!(addon.isBuiltin||addon.isSystem)) {
-      list+=`  <tr>\n${''
-}    <td><a href="addon/${encodeURI(addon.id)}">${''
-       }<div>${escapeHTML(addon.name)}</div></a></td>\n${''
-}    <td><a href="downloads/latest/${encodeURI(addon.id)}">${''
-       }<div>\u{2B07}\u{FE0F}</div></a></td>\n${''
-}    <td><a href="addon/${encodeURI(addon.id)}/versions/">${''
-       }<div>\u{1F1FB}</div></a></td>\n${''
-}    <td><a href="addon/${encodeURI(addon.id)}/reviews/">${''
-       }<div>\u{1F1F7}</div></a></td>\n${''
-}    <td>${escapeHTML(addon.version)}</td>\n${''
+    if(addon.isBuiltin||addon.isSystem||addon.type=="plugin") {
+      iLink1="";iLink2="";
+      dLink1="";dLink2="";dLink3="";
+      vLink1="";vLink2="";vLink3="";
+      rLink1="";rLink2="";rLink3="";
+      hovLink="";
+    }
+    else {
+      iLink1=`<a href="addon/${encodeURI(addon.id)}">`;
+      iLink2=`</a>`;
+      dLink1=`<a href="downloads/latest/${encodeURI(addon.id)}">`;
+      dLink2=`\u{2B07}\u{FE0F}`;
+      dLink3=`</a>`;
+      vLink1=`<a href="addon/${encodeURI(addon.id)}/versions/">`;
+      vLink2=`\u{1F1FB}`;
+      vLink3=`</a>`;
+      rLink1=`<a href="addon/${encodeURI(addon.id)}/reviews/">`;
+      rLink2=`\u{1F1F7}`;
+      rLink3=`</a>`;
+      hovLink=" td-hov";
+    }
+    list+=`  <tr class="${addon.isActive?"":"tr-dull"}">\n${''
+}    <td class="td-link${hovLink}">${iLink1}<div>${escapeHTML(addon.name)}</div>${iLink2}</td>\n${''
+}    <td class="td-link td-ctr${hovLink}">${dLink1}<div>${dLink2}</div>${dLink3}</td>\n${''
+}    <td class="td-link td-ctr${hovLink}">${vLink1}<div>${vLink2}</div>${vLink3}</td>\n${''
+}    <td class="td-link td-ctr${hovLink}">${rLink1}<div>${rLink2}</div>${rLink3}</td>\n${''
+}    <td>${addon.type}${addon.isBuiltin?` (builtin)`:""}${''
+       }${addon.isSystem?` (system)`:""}</td>\n${''
+}    <td class="td-ver">${escapeHTML(addon.version)}</td>\n${''
 }    <td>${addon.isActive}</td>\n${''
 }    <td>${escapeHTML(addon.id)}</td>\n${''
 }  </tr>\n\n`;
-    }
   });
-  list+="  </tbody>\n</table>\n<br><br><br>\n</body>\n</html>";
+  list+="  </tbody>\n</table>\n<br><br><br><br>\n</body>\n</html>";
   console.log(list);
   console.log(`data:text/html;charset=UTF-8;base64,${
     btoa(unescape(encodeURIComponent(list)))}`);
@@ -156,23 +199,11 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
 ```javascript
 /* firefox about:addons links for Mozilla add-ons website pages (temporary) */
-[...document.querySelectorAll('a[href^="addons:"]')].forEach(a=>{
-  a.parentElement.insertAdjacentHTML("beforebegin"
+[...document.querySelectorAll('a[href^="addons:"]')].forEach(e=>{
+  e.parentElement.insertAdjacentHTML("beforebegin"
     ,`<a href="https://addons.mozilla.org/firefox/addon/${''
-      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" ${''
+      }${encodeURI(e.href.replace(/^addons:\/\/detail\//,''))}" ${''
       }target="_blank">\u{D83D}\u{DD17}</a>&nbsp;`);
-  a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/downloads/latest/${''
-      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}" ${''
-      }target="_blank">\u{2B07}\u{FE0F}</a>&nbsp;`);
-  a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/addon/${''
-      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}/versions/" ${''
-      }target="_blank">\u{1F1FB}</a>&nbsp;`);
-  a.parentElement.insertAdjacentHTML("beforebegin"
-    ,`<a href="https://addons.mozilla.org/firefox/addon/${''
-      }${encodeURI(a.href.replace(/^addons:\/\/detail\//,''))}/reviews/" ${''
-      }target="_blank">\u{1F1F7}</a>&nbsp;`);
 });
 ```
 
