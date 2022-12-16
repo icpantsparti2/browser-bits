@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.10.18
+/* Version      : 2022.12.15
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -81,11 +81,12 @@
 /*     tabs : indicate: pending (unloaded), multi-selected, selected (current)
 /*     sidebar : unrestricted sidebar width
 /*     toolbar : compact buttons
+/*     toolbar : force display of the full toolbar even in popup windows
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : add background color to tab favicons and add-on icons
 /*     toolbar : overflow button panel columns
 /*     toolbar : unified extensions button panel compact/columns
-/*     tabs : show audio icon next to favicon
+/*     tabs : show audio icon above favicon
 /*     tabs : no text fade out (on the right edge)
 /*     url box : enforce minimum width
 /*     url box : hide container symbol
@@ -286,7 +287,7 @@
   margin-left: 1px !important;
   font-size: 80% !important;
   line-height: 85%;
-  max-width: 0 !important;
+  max-width: 0.6em !important;
   word-break: break-all;
 }
 
@@ -419,6 +420,24 @@
 
 
 /*******************************************************************************
+/* ### toolbar : force display of the full toolbar even in popup windows
+/*------------------------------------------------------------------------------
+/* Override Hiding of Toolbar Buttons in Limited Feature Windows
+/* https://www.reddit.com/r/firefox/comments/z9f804/is_there_a_way_to_show_addons_in_popup_windows/
+/* https://www.userchrome.org/how-create-userchrome-css.html
+/* https://www.jeffersonscher.com/res/popit.html
+/* default is display: none
+/******************************************************************************/
+/**/
+*|*:root[chromehidden~="toolbar"] .chromeclass-toolbar-additional {
+  display: -moz-box !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
 /* ### other (the following are disabled - uncomment any required)
 /*------------------------------------------------------------------------------
 /* enable/disable by editing preceeding line(s) as either:   /**/   /*
@@ -432,14 +451,22 @@
 /*------------------------------------------------------------------------------
 /* if you are using a dark theme helps some favicons to show (eg github.com)
 /* https://www.reddit.com/r/FirefoxCSS/comments/sda1sx/favicon_background_for_dark_themes/
+/* https://www.reddit.com/r/FirefoxCSS/comments/f7jr79/background_tabs_greyscale_icon_foreground_hovered/
+/* https://www.reddit.com/r/FirefoxCSS/comments/yx9fly/any_way_to_change_the_extension_icon_colour_would/
 /******************************************************************************/
 /*
 .tab-icon-image,
 .webextension-browser-action .toolbarbutton-icon,
 .unified-extensions-item-icon
 {
-  background-color: DarkGray !important;
   border-radius: 15%;
+  opacity: 1.0 !important;
+  filter:
+    drop-shadow(1px 0 0 DarkGray)
+    drop-shadow(-1px 0 0 DarkGray)
+    drop-shadow(0 1px 0 DarkGray)
+    drop-shadow(0 -1px 0 DarkGray)
+    !important;
 }
 /**/
 
@@ -473,32 +500,60 @@
 /* user_pref("extensions.unifiedExtensions.enabled", true);
 /******************************************************************************/
 /*
+
 unified-extensions-item {
   min-width: unset !important;
 }
+
+.unified-extensions-item-message {
+  display: none !important;
+}
+
+#overflowed-extensions-list toolbaritem,
+#overflowed-extensions-list .unified-extensions-item-contents,
+#overflowed-extensions-list toolbarbutton,
+#overflowed-extensions-list vbox,
+#unified-extensions-area toolbaritem,
+#unified-extensions-area .unified-extensions-item-contents,
+#unified-extensions-area toolbarbutton,
+#unified-extensions-area vbox,
 unified-extensions-item,
 unified-extensions-item .unified-extensions-item-contents,
 unified-extensions-item toolbarbutton,
 unified-extensions-item vbox
 {
-  min-height: 20px !important;
-	height: 20px !important;
+  min-height: 24px !important;
+	height: 24px !important;
 }
+
+#overflowed-extensions-list .unified-extensions-item-contents,
+#unified-extensions-area .unified-extensions-item-contents,
 unified-extensions-item .unified-extensions-item-contents
 {
-  margin-top: -3px !important;
+  margin-top: 3px !important;
 }
+
+#overflowed-extensions-list .toolbarbutton-icon,
+#unified-extensions-panel .toolbarbutton-icon,
 .unified-extensions-item-icon {
   height: 18px !important;
 	width: 18px !important;
-  margin-top: -5px !important;
-
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
+
+.unified-extensions-item-icon {
+  margin-top: -5px !important;
+}
+
 .unified-extensions-item-open-menu
 {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+
+#overflowed-extensions-list,
+#unified-extensions-area,
 .unified-extensions-list {
   min-width: unset !important;
   width: 55vw !important;
@@ -516,21 +571,47 @@ unified-extensions-item .unified-extensions-item-contents
 
 
 /*******************************************************************************
-/* ### tabs : show audio icon next to favicon
+/* ### tabs : show audio icon above favicon
 /*------------------------------------------------------------------------------
 /* (speaker icon/mute for tabs with audio)
 /* https://www.reddit.com/r/FirefoxCSS/comments/msg30g/how_to_show_speaker_icon_next_to_the_favicon/
 /* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/inline_tab_audio_icons.css
+/* https://www.reddit.com/r/FirefoxCSS/comments/nsx39v/audio_icon/
+/* notes:
+/*   previously (tabs : show audio icon next to favicon):
+/*   .tab-icon-stack:is([muted],[soundplaying],[activemedia-blocked]) { grid-template-areas: "a s";}
+/*   .tab-icon-overlay:is([muted],[soundplaying],[activemedia-blocked]) { grid-area: s; }
+/*   .tab-icon-overlay, .tab-icon-image { opacity: 1 !important; }
 /* notes:
 /*   .tab-secondary-label { display: none }
+/*   .tab-secondary-label:is([soundplaying], [muted],
+/*     [activemedia-blocked], [pictureinpicture], [sharing])
+/*   { display: none !important; }
 /******************************************************************************/
 /*
-.tab-icon-stack:is([muted],[soundplaying],[activemedia-blocked]) {
-  grid-template-areas: "a s";
+
+.tab-icon-overlay:is([soundplaying], [muted],
+[activemedia-blocked], [pictureinpicture], [sharing], :not([pinned])) {
+  opacity: 1 !important;
+  bottom: 12px !important;
+  padding: 0px !important;
+  fill-opacity: 1 !important;
 }
-.tab-icon-overlay:is([muted],[soundplaying],[activemedia-blocked]) {
-  grid-area: s; }
-.tab-icon-overlay,.tab-icon-image { opacity: 1 !important; }
+
+.tab-icon-overlay[soundplaying] { fill: lime !important; }
+
+.tab-icon-overlay[muted] { fill: pink !important; }
+
+.tab-icon-overlay:is([pinned], [sharing]):not([crashed]) {
+  opacity: 1 !important;
+  margin-top: -7px !important;
+  padding: 0px !important;
+  stroke: none !important;
+  fill-opacity: 1 !important;
+}
+
+#TabsToolbar .tab-icon-image { opacity: 1 !important; }
+
 /**/
 
 
@@ -554,11 +635,12 @@ unified-extensions-item .unified-extensions-item-contents
 /* ### url box : enforce minimum width
 /*------------------------------------------------------------------------------
 /* vw = % of viewport width
+/* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/navbar_tabs_oneliner.css
+/* #urlbar[open]:focus-within { min-width: 60vw !important; }
+/* #urlbar-container:focus-within { min-width: 60vw !important; }
 /******************************************************************************/
 /*
-#urlbar-container {
-  min-width: 65vw !important;
-}
+#urlbar-container { min-width: 60vw !important; }
 /**/
 
 
@@ -611,6 +693,8 @@ unified-extensions-item .unified-extensions-item-contents
 /* https://www.reddit.com/r/FirefoxCSS/comments/8uz9d1/show_list_all_tabs_button_always/
 /* https://www.reddit.com/r/FirefoxCSS/comments/f2bru9/list_all_tabs_button_not_showing_in_73/
 /*   visibility: visible !important;  display: initial !important;
+/* https://www.reddit.com/r/FirefoxCSS/comments/ybntlw/how_to_hide_or_remove_the_new_tab_menu/
+/*   #tabbrowser-tabs:not([overflow="true"]) ~ #alltabs-button{ display: none }
 /******************************************************************************/
 /*
 #alltabs-button { display: none !important; }
