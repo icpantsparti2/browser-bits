@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2022.10.16
+/* Version      : 2022.12.15
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -155,6 +155,7 @@
 /* ### compact about:addons
 /*------------------------------------------------------------------------------
 /* also show add-ons in a column layout (set your "column-count:" in code below)
+/* in about:config set user_pref("browser.theme.colorway-closet", false);
 /* https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_fx68.css
 /* https://github.com/Aris-t2/CustomCSSforFx/css/aboutaddons/addonlists_compact_more_compact_fx72.css
 /* https://www.reddit.com/r/FirefoxCSS/comments/g9imrc/enlarge_width_of_addons_manager_aboutaddons/
@@ -193,8 +194,11 @@
 
   addon-card:not([expanded="true"]) .addon.card .addon-description,
   addon-list[type="extension"] addon-card:not([expanded="true"]) .update-postponed-bar,
+  addon-list[type="extension"] addon-card:not([expanded="true"]) .addon-card-message,
   addon-list[type="extension"] .pending-uninstall
-  { display: none !important; }
+  {
+    display: none !important;
+  }
 
   addon-list:not([type="theme"]) addon-card:not([expanded="true"]) .addon.card,
   addon-list[type="theme"] addon-card:not([expanded="true"]) .addon.card
@@ -221,13 +225,20 @@
 
 
   .addon-icon {
-    background-color: DarkGray !important;
+    filter:
+      drop-shadow(1px 0 0 DarkGray)
+      drop-shadow(-1px 0 0 DarkGray)
+      drop-shadow(0 1px 0 DarkGray)
+      drop-shadow(0 -1px 0 DarkGray)
+      !important;
     border-radius: 15%;
     margin-right: 2px !important;
   }
 
   addon-list[type="extension"] addon-card:not([expanded="true"]) .addon-name-container
-  { margin-top: -1px !important; }
+  {
+    margin-top: -1px !important;
+  }
 
   addon-list[type="extension"] .addon-name {
     font-size: unset !important;
@@ -254,15 +265,23 @@
     border: 1px dotted !important;
   }
 
+  addon-card:not([expanded="true"]) .theme-enable-button {
+    border: 1px dotted !important;
+  }
 
 
-  addon-list[type="extension"] { counter-reset: ec 0 dc 0 tc 0; }
 
-  addon-list[type="extension"] .extension-enabled-section .addon.card
-  { counter-increment: ec tc; }
+  addon-list[type="extension"] {
+    counter-reset: ec 0 dc 0 tc 0;
+  }
 
-  addon-list[type="extension"] .extension-disabled-section .addon.card
-  { counter-increment: dc tc; }
+  addon-list[type="extension"] .extension-enabled-section .addon.card {
+    counter-increment: ec tc;
+  }
+
+  addon-list[type="extension"] .extension-disabled-section .addon.card {
+    counter-increment: dc tc;
+  }
 
   addon-list[type="extension"]::after {
     content: "Total: " counter(ec) " + " counter(dc) " = " counter(tc);
@@ -284,7 +303,30 @@
 
   addon-list[type="theme"] addon-card:not([expanded="true"]) .addon.card,
   addon-list[type="all"] addon-card:not([expanded="true"]) .addon.card
-  { border: 1px dotted !important; }
+  {
+    border: 1px dotted !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+
+  addon-list[type="theme"] addon-card:not([expanded="true"]) .theme-enable-button
+  {
+    height: 20px !important;
+    border: 1px dotted !important;
+  }
+
+  .monochromatic-addon-list[type="theme"] section {
+    margin-top: 1em;
+  }
+
+  .monochromatic-addon-list[type="theme"] section .card.addon {
+    height: auto !important;
+  }
+
+  .monochromatic-addon-list[type="theme"] section .addon-card-collapsed .addon-name-container
+  {
+    row-gap: unset !important;
+  }
 
 }
 /**/
@@ -298,17 +340,20 @@
 /**/
 @-moz-document url-prefix(about:preferences) {
   groupbox, checkbox, hbox, radio, label, h1, h2, button, menulist, input {
-    padding-top: 0 !important; padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
   h1 { font-weight: bold !important; }
   groupbox, checkbox, hbox, radio, label, h1, h2,
     #updateBox, #doNotTrackLearnMoreBox
   {
-    margin-top: 0 !important; margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
   button, menulist {
     margin-top: 0 !important;
-    min-height: 1.5em !important;  height: unset !important;
+    min-height: 1.5em !important;
+    height: unset !important;
   }
   groupbox, .subcategory { border-top: 2px dotted !important; }
 }
