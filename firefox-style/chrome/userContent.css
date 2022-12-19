@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2022.12.15
+/* Version      : 2022.12.18
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -52,6 +52,7 @@
 /*     compact about:profiles
 /*     compact about:config
 /*     compact about:addons
+/*     about:addons - color add-on names
 /*     compact about:preferences
 /*     highlight certain file names under [Browser Toolbox] [Style Editor]
 /******************************************************************************/
@@ -326,6 +327,68 @@
   .monochromatic-addon-list[type="theme"] section .addon-card-collapsed .addon-name-container
   {
     row-gap: unset !important;
+  }
+
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### about:addons - color add-on names
+/*------------------------------------------------------------------------------
+/* if you want to highlight any add-on names in the list...
+/*   - use '[addon-id="..."]' with ID from 'about:support#addons' page
+/*   - note: prefix with '[label^="..."]' only so we know add-on name for that id
+/*   - perhaps uncomment '@import "./userContent-my-extras.css";' near the top
+/*     and put your selectors and colors in a file with that name
+/* example selectors:
+/*   [label^="..."], [addon-id="..."],
+/*   [label^="uBlock Origin"], [addon-id="uBlock0@raymondhill.net"],
+/*   [label^="Name"], [addon-id="{aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa}"],
+/******************************************************************************/
+/**/
+@-moz-document url-prefix(about:addons) {
+
+  addon-list[type="extension"] addon-card:not([expanded="true"]):where(
+    [label^="..."], [addon-id="..."]
+  ) .addon-name-link
+  {
+    font-weight: bold !important;
+    box-shadow: 1px 1px 8px Yellow inset, -1px -1px 8px Yellow inset !important;
+  }
+
+  addon-list[type="extension"] addon-card:not([expanded="true"]):where(
+    [label^="..."], [addon-id="..."]
+  ) .addon-name-link
+  {
+    font-weight: bold !important;
+    box-shadow: 1px 1px 8px Lime inset, -1px -1px 8px Lime inset !important;
+  }
+
+  addon-list[type="extension"] addon-card:not([expanded="true"]):where(
+    [label^="..."], [addon-id="..."]
+  ) .addon-name-link
+  {
+    font-weight: bold !important;
+    box-shadow: 1px 1px 8px Fuchsia inset, -1px -1px 8px Fuchsia inset !important;
+  }
+
+  addon-list[type="extension"] addon-card:not([expanded="true"]):where(
+    [label^="..."], [addon-id="..."]
+  ) .addon-name-link
+  {
+    font-weight: bold !important;
+    box-shadow: 1px 1px 8px Aqua inset, -1px -1px 8px Aqua inset !important;
+  }
+
+  addon-list[type="extension"] addon-card:not([expanded="true"]):where(
+    [label^="..."], [addon-id="..."]
+  ) .addon-name-link
+  {
+    font-weight: bold !important;
+    box-shadow: 1px 1px 8px Gray inset, -1px -1px 8px Gray inset !important;
   }
 
 }
