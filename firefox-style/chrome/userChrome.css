@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.12.15
+/* Version      : 2022.12.18
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -85,7 +85,8 @@
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : add background color to tab favicons and add-on icons
 /*     toolbar : overflow button panel columns
-/*     toolbar : unified extensions button panel compact/columns
+/*     toolbar : unified extensions button panel - compact/columns - SEE NOTE
+/*     toolbar : unified extensions button panel - color add-on names
 /*     tabs : show audio icon above favicon
 /*     tabs : no text fade out (on the right edge)
 /*     url box : enforce minimum width
@@ -494,20 +495,42 @@
 
 
 /*******************************************************************************
-/* ### toolbar : unified extensions button panel compact/columns
+/* ### toolbar : unified extensions button panel - compact/columns - SEE NOTE
 /*------------------------------------------------------------------------------
-/* the "jigsaw puzzle piece" button seen when 'about:config' has
-/* user_pref("extensions.unifiedExtensions.enabled", true);
+/* the "jigsaw puzzle piece" Extensions button (in development: FF109+/beta/nightly)
+/* also 'about:config' user_pref("extensions.unifiedExtensions.enabled", true);
+/* (also see section below for coloring add-on names)
+/* NOTE:
+/*   ** EXPERIMENTAL ** will need reviewing and adjustment **
+/*   the panel is for notifying/controlling manifest v3 extension permissions
+/*   as the panel develops: ** this code might inhibit the ui/function **
+/* https://blog.mozilla.org/addons/2022/11/17/unified-extensions-button-and-how-to-handle-permissions-in-manifest-v3/
 /******************************************************************************/
 /*
-
-unified-extensions-item {
-  min-width: unset !important;
+#unified-extensions-panel .panel-header,
+#unified-extensions-panel .unified-extensions-panel-header,
+#unified-extensions-manage-extensions
+{
+  padding: 0 !important;
+  min-height: unset !important;
 }
 
-.unified-extensions-item-message {
-  display: none !important;
+#unified-extensions-panel vbox#overflowed-extensions-list,
+#unified-extensions-panel vbox#unified-extensions-area,
+#unified-extensions-panel vbox.unified-extensions-list
+{
+  border-bottom: 2px dashed Gray !important;
 }
+
+#unified-extensions-panel toolbaritem,
+#unified-extensions-panel unified-extensions-item
+{
+  border-bottom: 1px dashed Gray !important;
+}
+
+.unified-extensions-item-name { font-size: 90% !important; }
+
+.unified-extensions-item-message { font-size: 80% !important; }
 
 #overflowed-extensions-list toolbaritem,
 #overflowed-extensions-list .unified-extensions-item-contents,
@@ -522,34 +545,21 @@ unified-extensions-item .unified-extensions-item-contents,
 unified-extensions-item toolbarbutton,
 unified-extensions-item vbox
 {
-  min-height: 24px !important;
-	height: 24px !important;
+  padding: 0 !important;
 }
 
 #overflowed-extensions-list .unified-extensions-item-contents,
 #unified-extensions-area .unified-extensions-item-contents,
 unified-extensions-item .unified-extensions-item-contents
 {
-  margin-top: 3px !important;
+  margin-top: 2px !important;
 }
 
 #overflowed-extensions-list .toolbarbutton-icon,
 #unified-extensions-panel .toolbarbutton-icon,
 .unified-extensions-item-icon {
-  height: 18px !important;
-	width: 18px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.unified-extensions-item-icon {
-  margin-top: -5px !important;
-}
-
-.unified-extensions-item-open-menu
-{
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  height: 20px !important;
+	width: 20px !important;
 }
 
 #overflowed-extensions-list,
@@ -564,6 +574,67 @@ unified-extensions-item .unified-extensions-item-contents
   column-count: 3 !important;
   overflow-y: auto !important;
   overflow-x: auto !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### toolbar : unified extensions button panel - color add-on names
+/*------------------------------------------------------------------------------
+/* the "jigsaw puzzle piece" Extensions button (in development: FF109+/beta/nightly)
+/* (also see section above for compact/columns)
+/* if you want to highlight any add-on names in the list...
+/*   - you might be able to select using start of name with '[label^="..."]'
+/*   - or use '[data-extensionid="..."]' with ID from 'about:support#addons' page
+/*   - or for add-ons with no toolbar icon select with '[extension-id="..."]'
+/*   - perhaps uncomment '@import "./userChrome-my-extras.css";' near the top
+/*     and put your selectors and colors in a file with that name
+/* example selectors:
+/*   [label^="..."], [data-extensionid="..."], [extension-id="..."],
+/*   [label^="uBlock Origin"], [data-extensionid="uBlock0@raymondhill.net"],
+/*   [label^="Name"], [data-extensionid="{aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa}"],
+/******************************************************************************/
+/*
+#unified-extensions-panel vbox > :where(
+  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  font-weight: bold !important;
+  box-shadow: 1px 1px 8px Yellow inset, -1px -1px 8px Yellow inset !important;
+}
+
+#unified-extensions-panel vbox > :where(
+  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  font-weight: bold !important;
+  box-shadow: 1px 1px 8px Lime inset, -1px -1px 8px Lime inset !important;
+}
+
+#unified-extensions-panel vbox > :where(
+  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  font-weight: bold !important;
+  box-shadow: 1px 1px 8px Fuchsia inset, -1px -1px 8px Fuchsia inset !important;
+}
+
+#unified-extensions-panel vbox > :where(
+  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  font-weight: bold !important;
+  box-shadow: 1px 1px 8px Aqua inset, -1px -1px 8px Aqua inset !important;
+}
+
+#unified-extensions-panel vbox > :where(
+  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  font-weight: bold !important;
+  box-shadow: 1px 1px 8px Gray inset, -1px -1px 8px Gray inset !important;
 }
 /**/
 
@@ -640,7 +711,10 @@ unified-extensions-item .unified-extensions-item-contents
 /* #urlbar-container:focus-within { min-width: 60vw !important; }
 /******************************************************************************/
 /*
-#urlbar-container { min-width: 60vw !important; }
+#urlbar-container {
+  min-width: 55vw !important;
+  max-width: 100% !important;
+}
 /**/
 
 
@@ -711,7 +785,7 @@ unified-extensions-item .unified-extensions-item-contents
 /*      a) set the three variables in each userChrome.css file (see examples)
 /*   or b) create a css file: "userChrome-profile-id.css" in each chrome folder
 /*         and in that file set the three variables (see examples)
-/*         also uncomment "@import "./userChrome-profile-id.css";" near the top
+/*         also uncomment '@import "./userChrome-profile-id.css";' near the top
 /* note: in id text use "\00A0" (non-breaking space) for padding
 /*       eg "\00A0\00A0mytext\00A0\00A0" for '  mytext  '
 /******************************************************************************/
