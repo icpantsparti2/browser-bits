@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.12.18
+/* Version      : 2022.12.19
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -598,43 +598,43 @@ unified-extensions-item .unified-extensions-item-contents
 /******************************************************************************/
 /*
 #unified-extensions-panel vbox > :where(
-  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 8px Yellow inset, -1px -1px 8px Yellow inset !important;
+  box-shadow: 1px 1px 4px 2px Lime inset, -1px -1px 4px 2px Lime inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
-  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 8px Lime inset, -1px -1px 8px Lime inset !important;
+  box-shadow: 1px 1px 4px 2px DeepSkyBlue inset, -1px -1px 4px 2px DeepSkyBlue inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
-  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 8px Fuchsia inset, -1px -1px 8px Fuchsia inset !important;
+  box-shadow: 1px 1px 4px 2px Gold inset, -1px -1px 4px 2px Gold inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
-  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 8px Aqua inset, -1px -1px 8px Aqua inset !important;
+  box-shadow: 1px 1px 4px 2px HotPink inset, -1px -1px 4px 2px HotPink inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
-  [label^="..."], [data-extensionid="..."], [extension-id="..."]
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 8px Gray inset, -1px -1px 8px Gray inset !important;
+  box-shadow: 1px 1px 4px 2px Red inset, -1px -1px 4px 2px Red inset !important;
 }
 /**/
 
@@ -669,9 +669,9 @@ unified-extensions-item .unified-extensions-item-contents
   fill-opacity: 1 !important;
 }
 
-.tab-icon-overlay[soundplaying] { fill: lime !important; }
+.tab-icon-overlay[soundplaying] { fill: Lime !important; }
 
-.tab-icon-overlay[muted] { fill: pink !important; }
+.tab-icon-overlay[muted] { fill: Pink !important; }
 
 .tab-icon-overlay:is([pinned], [sharing]):not([crashed]) {
   opacity: 1 !important;
