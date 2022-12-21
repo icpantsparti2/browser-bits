@@ -355,7 +355,6 @@
     [label^="..."], [addon-id="..."]
   ) .addon-name-link
   {
-    font-weight: bold !important;
     box-shadow: 0px 0px 0px 2px Lime inset !important;
   }
 
@@ -363,7 +362,6 @@
     [label^="..."], [addon-id="..."]
   ) .addon-name-link
   {
-    font-weight: bold !important;
     box-shadow: 0px 0px 0px 2px DeepSkyBlue inset !important;
   }
 
@@ -371,7 +369,6 @@
     [label^="..."], [addon-id="..."]
   ) .addon-name-link
   {
-    font-weight: bold !important;
     box-shadow: 0px 0px 0px 2px Gold inset !important;
   }
 
@@ -379,7 +376,6 @@
     [label^="..."], [addon-id="..."]
   ) .addon-name-link
   {
-    font-weight: bold !important;
     box-shadow: 0px 0px 0px 2px HotPink inset !important;
   }
 
@@ -387,7 +383,6 @@
     [label^="..."], [addon-id="..."]
   ) .addon-name-link
   {
-    font-weight: bold !important;
     box-shadow: 0px 0px 0px 2px Red inset !important;
   }
 
