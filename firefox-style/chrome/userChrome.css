@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.12.19
+/* Version      : 2022.12.20
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -602,7 +602,7 @@ unified-extensions-item .unified-extensions-item-contents
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 4px 2px Lime inset, -1px -1px 4px 2px Lime inset !important;
+  box-shadow: 0px 0px 0px 2px Lime inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
@@ -610,7 +610,7 @@ unified-extensions-item .unified-extensions-item-contents
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 4px 2px DeepSkyBlue inset, -1px -1px 4px 2px DeepSkyBlue inset !important;
+  box-shadow: 0px 0px 0px 2px DeepSkyBlue inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
@@ -618,7 +618,7 @@ unified-extensions-item .unified-extensions-item-contents
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 4px 2px Gold inset, -1px -1px 4px 2px Gold inset !important;
+  box-shadow: 0px 0px 0px 2px Gold inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
@@ -626,7 +626,7 @@ unified-extensions-item .unified-extensions-item-contents
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 4px 2px HotPink inset, -1px -1px 4px 2px HotPink inset !important;
+  box-shadow: 0px 0px 0px 2px HotPink inset !important;
 }
 
 #unified-extensions-panel vbox > :where(
@@ -634,7 +634,7 @@ unified-extensions-item .unified-extensions-item-contents
 ) .unified-extensions-item-name
 {
   font-weight: bold !important;
-  box-shadow: 1px 1px 4px 2px Red inset, -1px -1px 4px 2px Red inset !important;
+  box-shadow: 0px 0px 0px 2px Red inset !important;
 }
 /**/
 
