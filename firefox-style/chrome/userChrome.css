@@ -601,7 +601,6 @@ unified-extensions-item .unified-extensions-item-contents
     [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
-  font-weight: bold !important;
   box-shadow: 0px 0px 0px 2px Lime inset !important;
 }
 
@@ -609,7 +608,6 @@ unified-extensions-item .unified-extensions-item-contents
     [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
-  font-weight: bold !important;
   box-shadow: 0px 0px 0px 2px DeepSkyBlue inset !important;
 }
 
@@ -617,7 +615,6 @@ unified-extensions-item .unified-extensions-item-contents
     [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
-  font-weight: bold !important;
   box-shadow: 0px 0px 0px 2px Gold inset !important;
 }
 
@@ -625,7 +622,6 @@ unified-extensions-item .unified-extensions-item-contents
     [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
-  font-weight: bold !important;
   box-shadow: 0px 0px 0px 2px HotPink inset !important;
 }
 
@@ -633,7 +629,6 @@ unified-extensions-item .unified-extensions-item-contents
     [label^="..."], [data-extensionid="..."], [extension-id="..."]
 ) .unified-extensions-item-name
 {
-  font-weight: bold !important;
   box-shadow: 0px 0px 0px 2px Red inset !important;
 }
 /**/
