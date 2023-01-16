@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2022.12.20
+/* Version      : 2023.01.16
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -72,23 +72,24 @@
 /*   main (the following are enabled - comment out any not required)
 /*     tab bar : hide the space before the window control buttons
 /*     tabs : minimum tab size
-/*     tabs : hide tab close buttons
 /*     tabs : move "Close Tab" options to the top of context menu
 /*     tabs : reduce favicon padding
 /*     tabs : always show a favicon
 /*     tabs : numbered tabs (and "List all tabs" panel)
 /*     tabs : remove tab padding, curved border, and shadow
 /*     tabs : indicate: pending (unloaded), multi-selected, selected (current)
+/*     tabs : show audio icon above favicon
+/*     url box : bookmark panel : hide preview and show URL edit box
 /*     sidebar : unrestricted sidebar width
 /*     toolbar : compact buttons
 /*     toolbar : force display of the full toolbar even in popup windows
-/*   other (the following are disabled - uncomment any required)
 /*     toolbar : add background color to tab favicons and add-on icons
-/*     toolbar : overflow button panel columns
+/*     toolbar : overflow button panel - compact/columns
 /*     toolbar : unified extensions button panel - compact/columns - SEE NOTE
+/*   other (the following are disabled - uncomment any required)
 /*     toolbar : unified extensions button panel - color add-on names
-/*     tabs : show audio icon above favicon
 /*     tabs : no text fade out (on the right edge)
+/*     tabs : hide tab close buttons
 /*     url box : enforce minimum width
 /*     url box : hide container symbol
 /*     url box : hide bookmark button
@@ -106,8 +107,8 @@
 /* (any imports must be here at the top)
 /* re "userChrome-profile-id.css" see "show a profile indicator" option further down
 /******************************************************************************/
-/* @import "./userChrome-profile-id.css"; /**/
-/* @import "./userChrome-my-extras.css"; /**/
+/**/ @import "./userChrome-profile-id.css"; /**/
+/**/ @import "./userChrome-my-extras.css"; /**/
 
 
 
@@ -152,26 +153,6 @@
 .tabbrowser-tab[fadein]:not([pinned]) {
   min-width: 1.5em !important;
 }
-/**/
-
-
-
-
-/*******************************************************************************
-/* ### tabs : hide tab close buttons
-/*------------------------------------------------------------------------------
-/* tip: quick close tab by holding down right click and release on "Close Tab"
-/*   or use middle mouse click, or 'about:config' "browser.tabs.closeTabByDblclick"
-/* https://support.mozilla.org/en-US/questions/1177825
-/* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/tabs/tab_close_hidden.css
-/* notes:
-/*   #tabbrowser-tabs .tabbrowser-tab .tab-close-button { display: none !important; }
-/*   if you want hide close buttons but excluding selected tab:
-/*     https://www.reddit.com/r/FirefoxCSS/comments/xoopet/like_many_others_im_wanting_to_make_the_move_from/
-/*     #tabbrowser-tabs[closebuttons="activetab"] .tab-close-button:not([selected])
-/******************************************************************************/
-/**/
-.tabbrowser-tab .tab-close-button { visibility: collapse !important; }
 /**/
 
 
@@ -386,6 +367,75 @@
 
 
 /*******************************************************************************
+/* ### tabs : show audio icon above favicon
+/*------------------------------------------------------------------------------
+/* (speaker icon/mute for tabs with audio)
+/* https://www.reddit.com/r/FirefoxCSS/comments/msg30g/how_to_show_speaker_icon_next_to_the_favicon/
+/* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/inline_tab_audio_icons.css
+/* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/overlay_tab_audio_icons.css
+/* https://www.reddit.com/r/FirefoxCSS/comments/nsx39v/audio_icon/
+/* notes:
+/*   previously (tabs : show audio icon next to favicon):
+/*   .tab-icon-stack:is([muted],[soundplaying],[activemedia-blocked]) { grid-template-areas: "a s";}
+/*   .tab-icon-overlay:is([muted],[soundplaying],[activemedia-blocked]) { grid-area: s; }
+/*   .tab-icon-overlay, .tab-icon-image { opacity: 1 !important; }
+/* notes:
+/*   .tab-secondary-label { display: none }
+/*   .tab-secondary-label:is([soundplaying], [muted],
+/*     [activemedia-blocked], [pictureinpicture], [sharing])
+/*   { display: none !important; }
+/******************************************************************************/
+/**/
+
+.tab-icon-overlay:is([soundplaying], [muted],
+[activemedia-blocked], [pictureinpicture], [sharing], :not([pinned])) {
+  opacity: 1 !important;
+  bottom: 12px !important;
+  padding: 0px !important;
+  fill-opacity: 1 !important;
+}
+
+.tab-icon-overlay[soundplaying] { fill: Lime !important; }
+
+.tab-icon-overlay[muted] { fill: Pink !important; }
+
+.tab-icon-overlay:is([pinned], [sharing]):not([crashed]) {
+  opacity: 1 !important;
+  margin-top: -7px !important;
+  padding: 0px !important;
+  stroke: none !important;
+  fill-opacity: 1 !important;
+}
+
+#TabsToolbar .tab-icon-image { opacity: 1 !important; }
+
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### url box : bookmark panel : hide preview and show URL edit box
+/*------------------------------------------------------------------------------
+/* https://www.reddit.com/r/FirefoxCSS/comments/104xehv/no_longer_displaying_url_field_in_the_edit_this/
+/******************************************************************************/
+/**/
+#editBMPanel_locationRow, .editBMPanel_locationRow {
+  visibility: visible !important;
+  display: block !important;
+}
+#editBMPanel_locationField {
+  min-width: 80% !important;
+}
+#editBookmarkPanelImage, #editBookmarkSeparator {
+  display: none !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
 /* ### sidebar : unrestricted sidebar width
 /*------------------------------------------------------------------------------
 /* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/generalui/sidebar_width_unrestricted.css
@@ -439,15 +489,6 @@
 
 
 /*******************************************************************************
-/* ### other (the following are disabled - uncomment any required)
-/*------------------------------------------------------------------------------
-/* enable/disable by editing preceeding line(s) as either:   /**/   /*
-/******************************************************************************/
-
-
-
-
-/*******************************************************************************
 /* ### toolbar : add background color to tab favicons and add-on icons
 /*------------------------------------------------------------------------------
 /* if you are using a dark theme helps some favicons to show (eg github.com)
@@ -455,7 +496,7 @@
 /* https://www.reddit.com/r/FirefoxCSS/comments/f7jr79/background_tabs_greyscale_icon_foreground_hovered/
 /* https://www.reddit.com/r/FirefoxCSS/comments/yx9fly/any_way_to_change_the_extension_icon_colour_would/
 /******************************************************************************/
-/*
+/**/
 .tab-icon-image,
 .webextension-browser-action .toolbarbutton-icon,
 .unified-extensions-item-icon
@@ -475,19 +516,23 @@
 
 
 /*******************************************************************************
-/* ### toolbar : overflow button panel columns
+/* ### toolbar : overflow button panel - compact/columns
 /*------------------------------------------------------------------------------
+/* and icon only for cut/copy/paste buttons
 /* https://www.reddit.com/r/FirefoxCSS/comments/y1p88c/how_can_i_only_show_extension_icons_in_a_grid/
 /* notes:
 /*   display: grid; grid-template-columns: repeat(3, 1fr);
 /******************************************************************************/
-/*
+/**/
 #widget-overflow-list,
 #widget-overflow-fixed-list
 {
   display: block;
   column-gap: 0;
   column-count: 3;
+}
+#widget-overflow #edit-controls .toolbarbutton-text {
+  display: none !important;
 }
 /**/
 
@@ -497,16 +542,16 @@
 /*******************************************************************************
 /* ### toolbar : unified extensions button panel - compact/columns - SEE NOTE
 /*------------------------------------------------------------------------------
-/* the "jigsaw puzzle piece" Extensions button (in development: FF109+/beta/nightly)
-/* also 'about:config' user_pref("extensions.unifiedExtensions.enabled", true);
+/* the "jigsaw puzzle piece" Extensions button (FF109 onwards)
+/* the panel is for notifying/controlling manifest v3 extension permissions
+/* https://blog.mozilla.org/addons/2022/11/17/unified-extensions-button-and-how-to-handle-permissions-in-manifest-v3/
+/* default: 'about:config' user_pref("extensions.unifiedExtensions.enabled", true);
 /* (also see section below for coloring add-on names)
 /* NOTE:
-/*   ** EXPERIMENTAL ** will need reviewing and adjustment **
-/*   the panel is for notifying/controlling manifest v3 extension permissions
-/*   as the panel develops: ** this code might inhibit the ui/function **
-/* https://blog.mozilla.org/addons/2022/11/17/unified-extensions-button-and-how-to-handle-permissions-in-manifest-v3/
+/*   when Mozilla further develops the unified extensions panel, this code
+/*   will need reviewing to ensure it does not inhibit the ui/function
 /******************************************************************************/
-/*
+/**/
 #unified-extensions-panel .panel-header,
 #unified-extensions-panel .unified-extensions-panel-header,
 #unified-extensions-manage-extensions
@@ -581,6 +626,15 @@ unified-extensions-item .unified-extensions-item-contents
 
 
 /*******************************************************************************
+/* ### other (the following are disabled - uncomment any required)
+/*------------------------------------------------------------------------------
+/* enable/disable by editing preceeding line(s) as either:   /**/   /*
+/******************************************************************************/
+
+
+
+
+/*******************************************************************************
 /* ### toolbar : unified extensions button panel - color add-on names
 /*------------------------------------------------------------------------------
 /* the "jigsaw puzzle piece" Extensions button (in development: FF109+/beta/nightly)
@@ -591,93 +645,71 @@ unified-extensions-item .unified-extensions-item-contents
 /*   - or for add-ons with no toolbar icon select with '[extension-id="..."]'
 /*   - perhaps uncomment '@import "./userChrome-my-extras.css";' near the top
 /*     and put your selectors and colors in a file with that name
+/*------------------------------------------------------------------------------
 /* example selectors:
 /*   [label^="..."], [data-extensionid="..."], [extension-id="..."],
 /*   [label^="uBlock Origin"], [data-extensionid="uBlock0@raymondhill.net"],
 /*   [label^="Name"], [data-extensionid="{aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa}"],
-/******************************************************************************/
-/*
-#unified-extensions-panel vbox > :where(
-    [label^="..."], [data-extensionid="..."], [extension-id="..."]
-) .unified-extensions-item-name
-{
-  box-shadow: 0px 0px 0px 2px Lime inset !important;
-}
-
-#unified-extensions-panel vbox > :where(
-    [label^="..."], [data-extensionid="..."], [extension-id="..."]
-) .unified-extensions-item-name
-{
-  box-shadow: 0px 0px 0px 2px DeepSkyBlue inset !important;
-}
-
-#unified-extensions-panel vbox > :where(
-    [label^="..."], [data-extensionid="..."], [extension-id="..."]
-) .unified-extensions-item-name
-{
-  box-shadow: 0px 0px 0px 2px Gold inset !important;
-}
-
-#unified-extensions-panel vbox > :where(
-    [label^="..."], [data-extensionid="..."], [extension-id="..."]
-) .unified-extensions-item-name
-{
-  box-shadow: 0px 0px 0px 2px HotPink inset !important;
-}
-
-#unified-extensions-panel vbox > :where(
-    [label^="..."], [data-extensionid="..."], [extension-id="..."]
-) .unified-extensions-item-name
-{
-  box-shadow: 0px 0px 0px 2px Red inset !important;
-}
-/**/
-
-
-
-
-/*******************************************************************************
-/* ### tabs : show audio icon above favicon
 /*------------------------------------------------------------------------------
-/* (speaker icon/mute for tabs with audio)
-/* https://www.reddit.com/r/FirefoxCSS/comments/msg30g/how_to_show_speaker_icon_next_to_the_favicon/
-/* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/inline_tab_audio_icons.css
-/* https://www.reddit.com/r/FirefoxCSS/comments/nsx39v/audio_icon/
-/* notes:
-/*   previously (tabs : show audio icon next to favicon):
-/*   .tab-icon-stack:is([muted],[soundplaying],[activemedia-blocked]) { grid-template-areas: "a s";}
-/*   .tab-icon-overlay:is([muted],[soundplaying],[activemedia-blocked]) { grid-area: s; }
-/*   .tab-icon-overlay, .tab-icon-image { opacity: 1 !important; }
-/* notes:
-/*   .tab-secondary-label { display: none }
-/*   .tab-secondary-label:is([soundplaying], [muted],
-/*     [activemedia-blocked], [pictureinpicture], [sharing])
-/*   { display: none !important; }
+/* list the selectors/addons, open about:addons, run in console (Ctrl+Shift+K):
+/* AddonManager.getAddonsByTypes(["extension"]).then(addons => { var list=``; addons.sort((a,b)=>{return a.name.localeCompare(b.name);}).forEach(addon => { if(!(addon.isBuiltin||addon.isSystem)){ list+=`    [label^="${addon.name}"],[addon-id="${addon.id}"],[data-extensionid="${addon.id}"],[extension-id="${addon.id}"],\n`; } }); console.log(list); });
 /******************************************************************************/
 /*
-
-.tab-icon-overlay:is([soundplaying], [muted],
-[activemedia-blocked], [pictureinpicture], [sharing], :not([pinned])) {
-  opacity: 1 !important;
-  bottom: 12px !important;
-  padding: 0px !important;
-  fill-opacity: 1 !important;
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: LimeGreen !important;
+  color: Black !important;
 }
 
-.tab-icon-overlay[soundplaying] { fill: Lime !important; }
-
-.tab-icon-overlay[muted] { fill: Pink !important; }
-
-.tab-icon-overlay:is([pinned], [sharing]):not([crashed]) {
-  opacity: 1 !important;
-  margin-top: -7px !important;
-  padding: 0px !important;
-  stroke: none !important;
-  fill-opacity: 1 !important;
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: DeepSkyBlue !important;
+  color: Black !important;
 }
 
-#TabsToolbar .tab-icon-image { opacity: 1 !important; }
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: Gold !important;
+  color: Black !important;
+}
 
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: DarkOrange !important;
+  color: Black !important;
+}
+
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: PaleVioletRed !important;
+  color: Black !important;
+}
+
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: Crimson !important;
+  color: Black !important;
+}
+
+#unified-extensions-panel vbox > :where(
+    [label^="..."], [data-extensionid="..."], [extension-id="..."]
+) .unified-extensions-item-name
+{
+  background: DarkGray !important;
+  color: Black !important;
+}
 /**/
 
 
@@ -698,12 +730,33 @@ unified-extensions-item .unified-extensions-item-contents
 
 
 /*******************************************************************************
+/* ### tabs : hide tab close buttons
+/*------------------------------------------------------------------------------
+/* tip: quick close tab by holding down right click and release on "Close Tab"
+/*   or use middle mouse click, or 'about:config' "browser.tabs.closeTabByDblclick"
+/* https://support.mozilla.org/en-US/questions/1177825
+/* https://github.com/Aris-t2/CustomCSSforFx/blob/master/classic/css/tabs/tab_close_hidden.css
+/* notes:
+/*   #tabbrowser-tabs .tabbrowser-tab .tab-close-button { display: none !important; }
+/*   if you want hide close buttons but excluding selected tab:
+/*     https://www.reddit.com/r/FirefoxCSS/comments/xoopet/like_many_others_im_wanting_to_make_the_move_from/
+/*     #tabbrowser-tabs[closebuttons="activetab"] .tab-close-button:not([selected])
+/******************************************************************************/
+/*
+.tabbrowser-tab .tab-close-button { visibility: collapse !important; }
+/**/
+
+
+
+
+/*******************************************************************************
 /* ### url box : enforce minimum width
 /*------------------------------------------------------------------------------
 /* vw = % of viewport width
 /* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/navbar_tabs_oneliner.css
-/* #urlbar[open]:focus-within { min-width: 60vw !important; }
-/* #urlbar-container:focus-within { min-width: 60vw !important; }
+/* notes:
+/*   #urlbar[open]:focus-within { min-width: 60vw !important; }
+/*   #urlbar-container:focus-within { min-width: 60vw !important; }
 /******************************************************************************/
 /*
 #urlbar-container {
@@ -786,16 +839,17 @@ unified-extensions-item .unified-extensions-item-contents
 /******************************************************************************/
 
 /* examples */
-/* #TabsToolbar { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; }    /* default-release */
-/* #TabsToolbar { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } /* 1-release */
-/* #TabsToolbar { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; }     /* 2-release */
-/* #TabsToolbar { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; }        /* 3-release */
-/* #TabsToolbar { --id-txt:"4"; --id-fg:Black; --id-bg:Pink; }          /* 4-release */
-/* #TabsToolbar { --id-txt:"5"; --id-fg:White; --id-bg:Red; }           /* 5-release */
-/* #TabsToolbar { --id-txt:"6"; --id-fg:White; --id-bg:Black; }         /* 6-release */
-/* #TabsToolbar { --id-txt:"B"; --id-fg:Black; --id-bg:SkyBlue; }       /* default-beta */
-/* #TabsToolbar { --id-txt:"N"; --id-fg:White; --id-bg:MediumPurple; }  /* default-nightly */
-/* #TabsToolbar { --id-txt:"D"; --id-fg:White; --id-bg:DodgerBlue; }    /* dev-edition-default */
+/*   #TabsToolbar { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; }    /* default-release */
+/*   #TabsToolbar { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } /* 1-release */
+/*   #TabsToolbar { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; }     /* 2-release */
+/*   #TabsToolbar { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; }        /* 3-release */
+/*   #TabsToolbar { --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; }       /* 4-release */
+/*   #TabsToolbar { --id-txt:"5"; --id-fg:White; --id-bg:Red; }           /* 5-release */
+/*   #TabsToolbar { --id-txt:"6"; --id-fg:White; --id-bg:Black; }         /* 6-release */
+/*   #TabsToolbar { --id-txt:"E"; --id-fg:Black; --id-bg:DarkOrange; }    /* default-esr */
+/*   #TabsToolbar { --id-txt:"B"; --id-fg:Black; --id-bg:SkyBlue; }       /* default-beta */
+/*   #TabsToolbar { --id-txt:"N"; --id-fg:White; --id-bg:MediumPurple; }  /* default-nightly */
+/*   #TabsToolbar { --id-txt:"D"; --id-fg:White; --id-bg:DodgerBlue; }    /* dev-edition-default */
 
 /*
 #TabsToolbar::after {
