@@ -2,7 +2,7 @@
 //
 // Name         : firefox-v109-change-order-under-extensions-button.js
 // Project      : https://github.com/icpantsparti2/browser-bits
-// Version      : 2023.01.16
+// Version      : 2023.01.17
 // File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js
 // License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 // Disclaimer   : Use with care at your own risk
@@ -11,14 +11,28 @@
 // change the order shown under the "Extensions" (jigsaw piece) button.
 // For Firefox v109 onwards (until the UI has a better way to sort them).
 //
-// This generates a list with more code, which then generates further code for
-// setting: Services.prefs.setStringPref("browser.uiCustomization.state"...
-//
 // To run:
 //   (1) open the 'about:addons' page (Ctrl+Shift+A)
 //   (2) open the Web Console (Ctrl+Shift+K or F12)
 //   (3) copy/paste the code into the Firefox web console and run
-//
+
+
+// **** option 1 **** add-on alphabetical order (1 step)
+// What happens:
+//     - paste the code into the web console and run
+//     = this changes the about:config pref "browser.uiCustomization.state"
+//     - the old and new values are output to the console (if you need to
+//       keep them: right click, and copy object, paste/save in a text editor)
+//     note: pinned add-ons might not move (unless you right click unpin them)
+//     - close and re-open Firefox to see the changes
+// (if required, code can be saved in a bookmark URL, and dragged to console)
+
+javascript:AddonManager.getAddonsByTypes(["extension"]).then(addons=>{var order=[];addons.sort((a,b)=>{return a.name.localeCompare(b.name);}).forEach(addon=>{if(!(addon.isBuiltin||addon.isSystem)){order.push(`"${addon.id.toLowerCase().replace(/[{}@.]/g,"_")}-browser-action"`);}});var oVal=Services.prefs.getStringPref("browser.uiCustomization.state");var nVal=oVal.replace(/(^.*,"unified-extensions-area":\[)[^\]]*(\],.*$)/,"$1"+order.join(",")+"$2");Services.prefs.setStringPref("browser.uiCustomization.state",nVal);console.log(`// old\n// Services.prefs.setStringPref("browser.uiCustomization.state", "${oVal.replace(/(["\\])/g,'\\$1')}");\n\n// new\nServices.prefs.setStringPref("browser.uiCustomization.state", "${nVal.replace(/(["\\])/g,'\\$1')}");\n`);console.log(`// about:config pref "browser.uiCustomization.state" changed, old/new values are shown above, ** please restart Firefox to apply **`);});
+
+
+// **** option 2 **** with optional manual add-on sort (3 step)
+// This generates a list with more code, which then generates further code for
+// setting: Services.prefs.setStringPref("browser.uiCustomization.state"...
 // What happens:
 //   - We do this in three main steps, you have control and are given the
 //     old setting value.  The change is only applied when you run step 3.
