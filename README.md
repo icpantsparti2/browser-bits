@@ -29,7 +29,7 @@ Listed below: [links-elsewhere](#links-elsewhere) | [firefox-style](#firefox-sty
 | :--- | :--- |
 | [firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) | guide: list/toggle Firefox add-ons on/off using JavaScript in Web Console (based on below) |
 | [firefox-toggle-add-ons-from-console.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-toggle-add-ons-from-console.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-toggle-add-ons-from-console.js)\] | 'prompt' popup for enable/disable add-ons from console with filter option (single/bulk eg disable all active, enable several in one go) |
-| [firefox-v109-change-order-under-extensions-button.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-v109-change-order-under-extensions-button.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js)\] | run in 'about:config' web console, for changing add-on order under extensions button (two options, alphabetical or manual sort) |
+| [firefox-v109-change-order-under-extensions-button.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-v109-change-order-under-extensions-button.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js)\] | run in 'about:addons' web console, for changing add-on order under extensions button (two options, alphabetical or manual sort) |
 
 #### firefox-info
 
