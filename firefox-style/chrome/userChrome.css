@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.01.16
+/* Version      : 2023.01.18
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -502,7 +502,6 @@
 .unified-extensions-item-icon
 {
   border-radius: 15%;
-  opacity: 1.0 !important;
   filter:
     drop-shadow(1px 0 0 DarkGray)
     drop-shadow(-1px 0 0 DarkGray)
@@ -545,7 +544,6 @@
 /* the "jigsaw puzzle piece" Extensions button (FF109 onwards)
 /* the panel is for notifying/controlling manifest v3 extension permissions
 /* https://blog.mozilla.org/addons/2022/11/17/unified-extensions-button-and-how-to-handle-permissions-in-manifest-v3/
-/* default: 'about:config' user_pref("extensions.unifiedExtensions.enabled", true);
 /* (also see section below for coloring add-on names)
 /* NOTE:
 /*   when Mozilla further develops the unified extensions panel, this code
@@ -560,17 +558,10 @@
   min-height: unset !important;
 }
 
-#unified-extensions-panel vbox#overflowed-extensions-list,
-#unified-extensions-panel vbox#unified-extensions-area,
-#unified-extensions-panel vbox.unified-extensions-list
+#unified-extensions-panel vbox#unified-extensions-area
 {
+  border-top: 2px dashed Gray !important;
   border-bottom: 2px dashed Gray !important;
-}
-
-#unified-extensions-panel toolbaritem,
-#unified-extensions-panel unified-extensions-item
-{
-  border-bottom: 1px dashed Gray !important;
 }
 
 .unified-extensions-item-name { font-size: 90% !important; }
@@ -591,20 +582,27 @@ unified-extensions-item toolbarbutton,
 unified-extensions-item vbox
 {
   padding: 0 !important;
+  border: 0 !important;
+}
+
+#overflowed-extensions-list toolbarbutton,
+#unified-extensions-area toolbarbutton,
+unified-extensions-item toolbarbutton {
+  padding-left: 1px !important;
 }
 
 #overflowed-extensions-list .unified-extensions-item-contents,
 #unified-extensions-area .unified-extensions-item-contents,
 unified-extensions-item .unified-extensions-item-contents
 {
-  margin-top: 2px !important;
+  margin-top: 3px !important;
 }
 
 #overflowed-extensions-list .toolbarbutton-icon,
 #unified-extensions-panel .toolbarbutton-icon,
 .unified-extensions-item-icon {
-  height: 20px !important;
-	width: 20px !important;
+  height: 18px !important;
+	width: 18px !important;
 }
 
 #overflowed-extensions-list,
@@ -613,9 +611,8 @@ unified-extensions-item .unified-extensions-item-contents
   min-width: unset !important;
   width: 55vw !important;
   max-width: 55vw !important;
-  padding-bottom: 4px !important;
   display: block !important;
-  column-gap: 0 !important;
+  column-gap: 1px !important;
   column-count: 3 !important;
   overflow-y: auto !important;
   overflow-x: auto !important;
@@ -868,3 +865,4 @@ unified-extensions-item .unified-extensions-item-contents
 
 
 /******************************************************************************/
+
