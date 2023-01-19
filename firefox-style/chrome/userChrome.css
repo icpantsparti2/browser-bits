@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.01.18
+/* Version      : 2023.01.19
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -544,78 +544,61 @@
 /* the "jigsaw puzzle piece" Extensions button (FF109 onwards)
 /* the panel is for notifying/controlling manifest v3 extension permissions
 /* https://blog.mozilla.org/addons/2022/11/17/unified-extensions-button-and-how-to-handle-permissions-in-manifest-v3/
+/* https://www.reddit.com/r/FirefoxCSS/comments/10exwv7/anyone_know_how_to_change_the_scale_of_the/
+/* https://www.reddit.com/r/FirefoxCSS/comments/10exwv7/anyone_know_how_to_change_the_scale_of_the/j4v67wj/
+/* https://www.reddit.com/r/FirefoxCSS/comments/10fl39n/made_these_two_different_styles_for_people_who/
 /* (also see section below for coloring add-on names)
 /* NOTE:
 /*   when Mozilla further develops the unified extensions panel, this code
 /*   will need reviewing to ensure it does not inhibit the ui/function
 /******************************************************************************/
 /**/
-#unified-extensions-panel .panel-header,
-#unified-extensions-panel .unified-extensions-panel-header,
-#unified-extensions-manage-extensions
+#unified-extensions-view .panel-header,
+#unified-extensions-view .panel-header + toolbarseparator
 {
-  padding: 0 !important;
-  min-height: unset !important;
+  display: none !important;
 }
 
-#unified-extensions-panel vbox#unified-extensions-area
-{
-  border-top: 2px dashed Gray !important;
+#unified-extensions-panel vbox#overflowed-extensions-list:not(:empty) {
   border-bottom: 2px dashed Gray !important;
 }
 
-.unified-extensions-item-name { font-size: 90% !important; }
+#unified-extensions-panel vbox.unified-extensions-list:not(:empty) {
+  border-top: 2px dashed Gray !important;
+}
 
+.unified-extensions-item-name { font-size: 90% !important; }
 .unified-extensions-item-message { font-size: 80% !important; }
 
-#overflowed-extensions-list toolbaritem,
-#overflowed-extensions-list .unified-extensions-item-contents,
-#overflowed-extensions-list toolbarbutton,
-#overflowed-extensions-list vbox,
-#unified-extensions-area toolbaritem,
-#unified-extensions-area .unified-extensions-item-contents,
-#unified-extensions-area toolbarbutton,
-#unified-extensions-area vbox,
-unified-extensions-item,
-unified-extensions-item .unified-extensions-item-contents,
-unified-extensions-item toolbarbutton,
-unified-extensions-item vbox
-{
-  padding: 0 !important;
-  border: 0 !important;
-}
-
-#overflowed-extensions-list toolbarbutton,
-#unified-extensions-area toolbarbutton,
-unified-extensions-item toolbarbutton {
+#unified-extensions-panel .subviewbutton {
+  padding-block: 2px !important;
   padding-left: 1px !important;
+  padding-right: 1px !important;
 }
 
-#overflowed-extensions-list .unified-extensions-item-contents,
-#unified-extensions-area .unified-extensions-item-contents,
-unified-extensions-item .unified-extensions-item-contents
-{
-  margin-top: 3px !important;
+.unified-extensions-item-contents {
+  line-height: 1.1 !important;
 }
 
 #overflowed-extensions-list .toolbarbutton-icon,
 #unified-extensions-panel .toolbarbutton-icon,
-.unified-extensions-item-icon {
+.unified-extensions-item-icon
+{
   height: 18px !important;
 	width: 18px !important;
+}
+
+#unified-extensions-view .unified-extensions-item-menu-button.subviewbutton {
+  opacity: 0.4 !important;
 }
 
 #overflowed-extensions-list,
 #unified-extensions-area,
 .unified-extensions-list {
-  min-width: unset !important;
-  width: 55vw !important;
   max-width: 55vw !important;
   display: block !important;
   column-gap: 1px !important;
   column-count: 3 !important;
-  overflow-y: auto !important;
-  overflow-x: auto !important;
 }
 /**/
 
@@ -865,4 +848,3 @@ unified-extensions-item .unified-extensions-item-contents
 
 
 /******************************************************************************/
-
