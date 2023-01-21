@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.01.19
+/* Version      : 2023.01.20
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -551,8 +551,20 @@
 /* NOTE:
 /*   when Mozilla further develops the unified extensions panel, this code
 /*   will need reviewing to ensure it does not inhibit the ui/function
+/*------------------------------------------------------------------------------
+/* notes:
+/*   to hide the gear icon:
+/*     #unified-extensions-view .unified-extensions-item-menu-button.subviewbutton
+/*       { display: none !important; }
+/*   to hide the text:
+/*     #unified-extensions-view .unified-extensions-item-action-button .unified-extensions-item-contents
+/*       { width: 0 !important; visibility: hidden !important; }
 /******************************************************************************/
 /**/
+#unified-extensions-panel #unified-extensions-view {
+  margin: 5px 5px 0 5px !important;
+}
+
 #unified-extensions-view .panel-header,
 #unified-extensions-view .panel-header + toolbarseparator
 {
