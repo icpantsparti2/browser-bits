@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.01.21
+/* Version      : 2023.03.04
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -79,7 +79,7 @@
 /*     tabs : remove tab padding, curved border, and shadow
 /*     tabs : indicate: pending (unloaded), multi-selected, selected (current)
 /*     tabs : show audio icon above favicon
-/*     url box : bookmark panel : hide preview and show URL edit box
+/*     url box : bookmark panel : hide preview and show URL and keyword boxes
 /*     sidebar : unrestricted sidebar width
 /*     toolbar : compact buttons
 /*     toolbar : force display of the full toolbar even in popup windows
@@ -415,12 +415,12 @@
 
 
 /*******************************************************************************
-/* ### url box : bookmark panel : hide preview and show URL edit box
+/* ### url box : bookmark panel : hide preview and show URL and keyword boxes
 /*------------------------------------------------------------------------------
 /* https://www.reddit.com/r/FirefoxCSS/comments/104xehv/no_longer_displaying_url_field_in_the_edit_this/
 /******************************************************************************/
 /**/
-#editBMPanel_locationRow, .editBMPanel_locationRow {
+#editBMPanel_locationRow, .editBMPanel_locationRow, .editBMPanel_keywordRow {
   visibility: visible !important;
   display: block !important;
 }
