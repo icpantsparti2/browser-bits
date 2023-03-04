@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2023.01.16
+/* Version      : 2023.03.04
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -99,25 +99,51 @@
 /******************************************************************************/
 /**/
 @-moz-document url-prefix(about:profiles) {
-  h1, hr, table tr:nth-child(1) { display: none !important; }
-  div { margin: 0 !important; padding: 0 !important; }
-  h2 { margin: 0 !important; border-top: 2px dotted !important;
-    font-size: 1em !important;}
-  h3 { margin: 0 !important; font-size: 0.7em !important; }
+  hr, table tr:nth-child(1), th {
+    display: none !important;
+  }
+  div {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    page-break-inside: avoid !important;
+  }
+  #profiles
+  {
+    column-count: 2;
+    column-gap: 0;
+  }
+  #profiles div
+  {
+    width: 98% !important;
+    margin: 8px 0 !important;
+  }
+  h1, h2 {
+    margin: 0 !important;
+    font-size: 1.1em !important;
+    font-weight: bold !important;
+  }
+  h3 {
+    margin: 0 !important;
+    font-size: 0.7em !important;
+  }
   table, tr, th, td {
-    height: unset !important;      width: unset !important;
-    padding-top: 0 !important;     padding-bottom: 0 !important;
-    border-collapse: collapse !important;  border: 0 !important;
-    background-color: unset !important;    color: unset !important;
+    height: unset !important;
+    width: unset !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-collapse: collapse !important;
+    border: 0 !important;
+    background-color: unset !important;
+    color: unset !important;
   }
   button {
-    min-height: unset !important;  height: unset !important;
-    margin-top: 0 !important;      margin-bottom: 0 !important;
-    padding-top: 0 !important;     padding-bottom: 0 !important;
-    border: 1px solid AccentColor !important;
-  }
-  #profiles div:hover {
-    box-shadow: 0px 0px 50px 3px color-mix(in srgb, White 40%, AccentColor) inset !important;
+    min-height: unset !important;
+    height: unset !important;
+    padding: 2px 4px !important;
+    margin: 1px 2px !important;
+    border: 1px dotted !important;
+    font-weight: normal !important;
   }
 }
 /**/
@@ -139,7 +165,10 @@
     height: unset !important;
   }
   table { border: 0 !important; }
-  th, td { vertical-align: top !important; border: 0 !important; }
+  th, td {
+    vertical-align: top !important;
+    border: 0 !important;
+  }
   .has-user-value {
     box-shadow: 5px 0px AccentColor inset, -2px 0px AccentColor inset;
   }
@@ -461,7 +490,9 @@
     min-height: 1.5em !important;
     height: unset !important;
   }
-  groupbox, .subcategory { border-top: 2px dotted !important; }
+  groupbox, .subcategory {
+    border-top: 2px dotted !important;
+  }
 }
 /**/
 
@@ -484,8 +515,9 @@
 /******************************************************************************/
 /**/
 @-moz-document url-prefix("chrome://devtools/content/styleeditor/index.xhtml") {
-  .splitview-nav label[value*="userChrome"]
-    ,.splitview-nav label[value*="userContent"] {
+  .splitview-nav label[value*="userChrome"],
+    .splitview-nav label[value*="userContent"]
+  {
     background-color: color-mix(in srgb, White 40%, AccentColor) !important;
     color: color-mix(in srgb, Black 40%, AccentColor) !important;
     font-weight: bold !important;
