@@ -2,7 +2,7 @@
 //
 // Name         : firefox-v109-change-order-under-extensions-button.js
 // Project      : https://github.com/icpantsparti2/browser-bits
-// Version      : 2023.03.16
+// Version      : 2023.03.16.2
 // File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js
 // License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 // Disclaimer   : Use with care at your own risk
@@ -98,10 +98,13 @@ console.log(\`/${''}* step 3 - run to apply new pref value, then please restart 
 // What happens:
 //     - paste the code into the web console and run
 //     - a list of extensions is shown with alphabetical order
-//     - [Load] button: if you want to Load the existing order
+//     - [Get] button: if you want to Get the existing order from
+//                     about:config "browser.uiCustomization.state"
 //     - drag and drop to arrange the order
-//     - [Cancel] button: Cancel without saving changes
-//     - [Save] button: Save the new order
+//     - [Cancel] button: Cancel (without setting the new order)
+//     - [Set] button: Set the new order for "unified-extensions-area"
+//                     in about:config "browser.uiCustomization.state"
+//                     (after this you must restart Firefox)
 //         - the old and new values are output to the console (if you need to
 //           keep them: right click, and copy object, paste/save in a text editor)
 //         = this changes the about:config pref "browser.uiCustomization.state"
@@ -134,17 +137,18 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
   var ceoButtons=document.createElement("div");
   ceoButtons.id="ceo-buttons";
   ceoMain.appendChild(ceoButtons);
-  var ceoSave=document.createElement("button");
-  ceoSave.textContent="Save";
-  ceoSave.title='Save the new order for "unified-extensions-area" (after saving you must restart Firefox)';
-  ceoButtons.appendChild(ceoSave);
-  var ceoLoad=document.createElement("button");
-  ceoLoad.textContent="Load";
-  ceoLoad.title='Load the existing order from "browser.uiCustomization.state"';
-  ceoButtons.appendChild(ceoLoad);
+  var ceoSet=document.createElement("button");
+  ceoSet.textContent="\u2714 Set";
+  ceoSet.title='Set the new order for "unified-extensions-area" in about:config'
+    +' "browser.uiCustomization.state" (after this you must restart Firefox)';
+  ceoButtons.appendChild(ceoSet);
+  var ceoGet=document.createElement("button");
+  ceoGet.textContent="\u2248 Get";
+  ceoGet.title='Get the existing order from about:config "browser.uiCustomization.state"';
+  ceoButtons.appendChild(ceoGet);
   var ceoCancel=document.createElement("button");
-  ceoCancel.textContent="Cancel";
-  ceoCancel.title='Cancel without saving changes';
+  ceoCancel.textContent="\u2718 Cancel";
+  ceoCancel.title='Cancel (without setting the new order)';
   ceoButtons.appendChild(ceoCancel);
   var ceoOL=document.createElement("ol");
   ceoOL.id="ceo-ol";
@@ -189,7 +193,7 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
     document.body.removeChild(ceoMain);
     document.head.removeChild(ceoStyle);
   });
-  ceoLoad.addEventListener("click", function() {
+  ceoGet.addEventListener("click", function() {
     var ceoOldOrder=(''
       +ceoOldPref.replace(/(^.*,"TabsToolbar":\[)([^\]]*)(\],.*$)/, "$2")
       +ceoOldPref.replace(/(^.*,"nav-bar":\[)([^\]]*)(\],.*$)/, "$2")
@@ -208,7 +212,7 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
       }
     });
   });
-  ceoSave.addEventListener("click", function() {
+  ceoSet.addEventListener("click", function() {
     var ceoNewOrder=[];
     ceoList=document.getElementsByClassName("ceo-li");
     [...ceoList].forEach(e=>ceoNewOrder.push(`"${e.id}"`));
