@@ -2,22 +2,32 @@
 //
 // Name         : firefox-v109-change-order-under-extensions-button.js
 // Project      : https://github.com/icpantsparti2/browser-bits
-// Version      : 2023.01.17
+// Version      : 2023.03.16
 // File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js
 // License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 // Disclaimer   : Use with care at your own risk
 //
 // This is only useful when you have a large amount of add-ons and need to
 // change the order shown under the "Extensions" (jigsaw piece) button.
-// For Firefox v109 onwards (until the UI has a better way to sort them).
+// For Firefox v109 onwards (until the UI has a better way to sort them,
+//   beyond the right click pin/unpin which places them at the top).
 //
 // To run:
 //   (1) open the 'about:addons' page (Ctrl+Shift+A)
 //   (2) open the Web Console (Ctrl+Shift+K or F12)
 //   (3) copy/paste the code into the Firefox web console and run
+//
+// There are three options:
+//   option 1 (SIMPLE)   add-on alphabetical order (1 step)
+//   option 2 (OLD)      with optional manual add-on sort (3 step)
+//   option 3 (NEW)      with drag and drop interface
+// option 3 will run if you copy and paste this whole file into the console
+// (the code for options 1 and 2 is within comments)
 
 
-// **** option 1 **** add-on alphabetical order (1 step)
+
+
+// **** option 1 (SIMPLE) **** add-on alphabetical order (1 step)
 // What happens:
 //     - paste the code into the web console and run
 //     = this changes the about:config pref "browser.uiCustomization.state"
@@ -26,11 +36,15 @@
 //     note: pinned add-ons might not move (unless you right click unpin them)
 //     - close and re-open Firefox to see the changes
 // (if required, code can be saved in a bookmark URL, and dragged to console)
-
+//
+/*
 javascript:AddonManager.getAddonsByTypes(["extension"]).then(addons=>{var order=[];addons.sort((a,b)=>{return a.name.localeCompare(b.name);}).forEach(addon=>{if(!(addon.isBuiltin||addon.isSystem)){order.push(`"${addon.id.toLowerCase().replace(/[{}@.]/g,"_")}-browser-action"`);}});var oVal=Services.prefs.getStringPref("browser.uiCustomization.state");var nVal=oVal.replace(/(^.*,"unified-extensions-area":\[)[^\]]*(\],.*$)/,"$1"+order.join(",")+"$2");Services.prefs.setStringPref("browser.uiCustomization.state",nVal);console.log(`// old\n// Services.prefs.setStringPref("browser.uiCustomization.state", "${oVal.replace(/(["\\])/g,'\\$1')}");\n\n// new\nServices.prefs.setStringPref("browser.uiCustomization.state", "${nVal.replace(/(["\\])/g,'\\$1')}");\n`);console.log(`// about:config pref "browser.uiCustomization.state" changed, old/new values are shown above, ** please restart Firefox to apply **`);});
+*/
 
 
-// **** option 2 **** with optional manual add-on sort (3 step)
+
+
+// **** option 2 (OLD) **** with optional manual add-on sort (3 step)
 // This generates a list with more code, which then generates further code for
 // setting: Services.prefs.setStringPref("browser.uiCustomization.state"...
 // What happens:
@@ -57,20 +71,155 @@ javascript:AddonManager.getAddonsByTypes(["extension"]).then(addons=>{var order=
 //                "user_pref" and add that to a "user.js" file in your Firefox
 //                profile folder, restart Firefox for the change to apply
 //                then remove the line which you added to the "user.js"
-
+//
 /* step 1 - run to output code listing add-ons and ids */
+/*
 AddonManager.getAddonsByTypes(["extension"]).then(addons => {
   var addonStr="",addonList=[];
   addons.sort((a,b)=>{return a.name.localeCompare(b.name);}).forEach(addon => {
     if(!(addon.isBuiltin||addon.isSystem)) {
       addonStr=`${addon.id.toLowerCase().replace(/[{}@.]/g,"_")}-browser-action`;
-      addonList.push(` /* ${addon.name.padEnd(45)} */ '\\\\"${addonStr}\\\\"'`);
+      addonList.push(` /${''}* ${addon.name.padEnd(45)} *${''}/ '\\\\"${addonStr}\\\\"'`);
     }
   });
-  console.log(`/* step 2 - edit addonOrder and run to output pref change code (old+new) */
+  console.log(`/${''}* step 2 - edit addonOrder and run to output pref change code (old+new) *${''}/
 var addonOrder=[\n   ${addonList.join("\n  ,")}\n];
 var prefValue=Services.prefs.getStringPref("browser.uiCustomization.state").replace(/(["\\\\])/g,'\\\\$1');
 var oldPref=\`Services.prefs.setStringPref("browser.uiCustomization.state", "\${prefValue}");\`;
 var newPref=oldPref.replace(/(^.*,\\\\"unified-extensions-area\\\\":\\\[)[^\\\]]*(\\\],.*$)/, "$1"+addonOrder.join(",")+"$2");
-console.log(\`/* step 3 - run to apply new pref value, then please restart Firefox */\\n\\n// old\\n// \${oldPref}\\n\\n// new\\n\${newPref}\\n\`);\n`);
+console.log(\`/${''}* step 3 - run to apply new pref value, then please restart Firefox *${''}/\\n\\n// old\\n// \${oldPref}\\n\\n// new\\n\${newPref}\\n\`);\n`);
+});
+*/
+
+
+
+
+// **** option 3 (NEW) **** with drag and drop interface
+// What happens:
+//     - paste the code into the web console and run
+//     - a list of extensions is shown with alphabetical order
+//     - [Load] button: if you want to Load the existing order
+//     - drag and drop to arrange the order
+//     - [Cancel] button: Cancel without saving changes
+//     - [Save] button: Save the new order
+//         - the old and new values are output to the console (if you need to
+//           keep them: right click, and copy object, paste/save in a text editor)
+//         = this changes the about:config pref "browser.uiCustomization.state"
+//     note: pinned add-ons might not move (unless you right click unpin them)
+//     - close and re-open Firefox to see the changes
+//
+AddonManager.getAddonsByTypes(["extension"]).then(addons => {
+  var ceoOldPref=Services.prefs.getStringPref("browser.uiCustomization.state");
+
+  // create stylesheet and parent div (plus children: 1 div 3 buttons 1 ol)
+  var ceoStyle=document.createElement("style")
+  ceoStyle.innerText=`
+#ceo-div { position:fixed; top:0; left:0; z-index:99999;
+  min-width:20em; max-width:70vw; min-height:3em; max-height:calc(90vh - 5em);
+  background-color:DimGray; color:White; overflow:scroll;
+  border-top:4em Solid DimGray; border-right:20px Solid DimGray;
+  border-bottom:20px Solid DimGray; }
+#ceo-buttons { position:fixed; top:0; left:0;
+  background-color:DimGray; color:White; padding:5px;}
+#ceo-buttons button { background-color:Salmon; color:Black; }
+#ceo-buttons button:hover { background-color:White; }
+#ceo-ol { margin:0px; }
+.ceo-li { background-color:Black; color:White; }
+.ceo-li:hover { cursor:grab; background-color:White; color:Black; }
+`;
+  document.head.appendChild(ceoStyle)
+  var ceoMain=document.createElement("div");
+  ceoMain.id="ceo-div";
+  document.body.appendChild(ceoMain);
+  var ceoButtons=document.createElement("div");
+  ceoButtons.id="ceo-buttons";
+  ceoMain.appendChild(ceoButtons);
+  var ceoSave=document.createElement("button");
+  ceoSave.textContent="Save";
+  ceoSave.title='Save the new order for "unified-extensions-area" (after saving you must restart Firefox)';
+  ceoButtons.appendChild(ceoSave);
+  var ceoLoad=document.createElement("button");
+  ceoLoad.textContent="Load";
+  ceoLoad.title='Load the existing order from "browser.uiCustomization.state"';
+  ceoButtons.appendChild(ceoLoad);
+  var ceoCancel=document.createElement("button");
+  ceoCancel.textContent="Cancel";
+  ceoCancel.title='Cancel without saving changes';
+  ceoButtons.appendChild(ceoCancel);
+  var ceoOL=document.createElement("ol");
+  ceoOL.id="ceo-ol";
+  ceoMain.appendChild(ceoOL);
+
+  // create add-ons list
+  var ceoAddonIdStr="",ceoLI;
+  addons.sort((a,b)=>{return a.name.localeCompare(b.name);}).forEach(addon => {
+    if(!(addon.isBuiltin||addon.isSystem)) {
+      ceoAddonIdStr=`${addon.id.toLowerCase().replace(/[{}@.]/g,"_")}-browser-action`;
+      ceoLI=document.createElement("li");
+      ceoLI.className="ceo-li";
+      ceoLI.id=ceoAddonIdStr;
+      ceoLI.title=ceoAddonIdStr;
+      ceoLI.draggable="true";
+      ceoLI.textContent=`${addon.name}`;
+      ceoOL.appendChild(ceoLI);
+    }
+  });
+
+  // drag and drop actions
+  // ref: https://stackoverflow.com/questions/12332403/html5-ul-li-draggable
+  var ceoList;
+  var ceoDrag,ceoDragId,ceoDragIx,ceoDropIx;
+  document.addEventListener("dragstart", ({target}) => {
+    ceoDrag=target; ceoDragId=target.id; ceoList=target.parentNode.children;
+    [...ceoList].forEach((e,i)=>{if(e===ceoDrag) ceoDragIx=i;});
+  });
+  document.addEventListener("dragover", (event) => {
+    event.preventDefault();
+  });
+  document.addEventListener("drop", ({target}) => {
+    if(target.className == "ceo-li" && target.id !== ceoDragId) {
+      ceoDrag.remove(ceoDrag);
+      [...ceoList].forEach((e,i)=>{if(e===target) ceoDropIx=i;});
+      if(ceoDragIx > ceoDropIx) { target.before(ceoDrag); } else { target.after(ceoDrag); }
+    }
+  });
+
+  // button actions
+  ceoCancel.addEventListener("click", function() {
+    document.body.removeChild(ceoMain);
+    document.head.removeChild(ceoStyle);
+  });
+  ceoLoad.addEventListener("click", function() {
+    var ceoOldOrder=(''
+      +ceoOldPref.replace(/(^.*,"TabsToolbar":\[)([^\]]*)(\],.*$)/, "$2")
+      +ceoOldPref.replace(/(^.*,"nav-bar":\[)([^\]]*)(\],.*$)/, "$2")
+      +ceoOldPref.replace(/(^.*,"unified-extensions-area":\[)([^\]]*)(\],.*$)/, "$2")).split('"');
+    [...ceoOldOrder].reverse().forEach(existingId=>{
+      ceoList=document.getElementsByClassName("ceo-li");
+      ceoDropIx=0;
+      ceoDragIx=-1;
+      [...ceoList].forEach((e,i)=>{if(e.id===existingId) ceoDragIx=i;});
+      if(ceoDragIx>-1){
+        ceoDrag=ceoList[ceoDragIx];
+        if(ceoList[ceoDropIx].id !== ceoDrag.id){
+          ceoDrag.remove(ceoDrag);
+          ceoList[ceoDropIx].before(ceoDrag);
+        }
+      }
+    });
+  });
+  ceoSave.addEventListener("click", function() {
+    var ceoNewOrder=[];
+    ceoList=document.getElementsByClassName("ceo-li");
+    [...ceoList].forEach(e=>ceoNewOrder.push(`"${e.id}"`));
+    document.body.removeChild(ceoMain);
+    document.head.removeChild(ceoStyle);
+    var ceoNewPref=ceoOldPref.replace(/(^.*,"unified-extensions-area":\[)([^\]]*)(\],.*$)/, "$1"+ceoNewOrder.join(",")+"$3");
+    var ceoOldPrefStr=`Services.prefs.setStringPref("browser.uiCustomization.state", "${ceoOldPref.replace(/(["\\])/g,'\\$1')}");`;
+    var ceoNewPrefStr=`Services.prefs.setStringPref("browser.uiCustomization.state", "${ceoNewPref.replace(/(["\\])/g,'\\$1')}");`;
+    console.log(`\n\n// old\n// ${ceoOldPrefStr}\n\n// new\n${ceoNewPrefStr}\n`);
+    console.log(`// close and re-open Firefox to see the changes to Extension button order`);
+    Services.prefs.setStringPref("browser.uiCustomization.state", ceoNewPref);
+  });
+
 });
