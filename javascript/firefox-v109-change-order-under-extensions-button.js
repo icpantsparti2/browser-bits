@@ -2,7 +2,7 @@
 //
 // Name         : firefox-v109-change-order-under-extensions-button.js
 // Project      : https://github.com/icpantsparti2/browser-bits
-// Version      : 2023.03.16.2
+// Version      : 2023.03.17
 // File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js
 // License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 // Disclaimer   : Use with care at your own risk
@@ -111,28 +111,33 @@ console.log(\`/${''}* step 3 - run to apply new pref value, then please restart 
 //     note: pinned add-ons might not move (unless you right click unpin them)
 //     - close and re-open Firefox to see the changes
 //
-AddonManager.getAddonsByTypes(["extension"]).then(addons => {
-  var ceoOldPref=Services.prefs.getStringPref("browser.uiCustomization.state");
+if ( (typeof(Services) == "undefined") || (typeof(AddonManager) == "undefined")
+ || (typeof(AddonManager.getAddonsByTypes) == "undefined") ) {
+  console.log("// please run this JavaScript on about:addons page");
+}
+else {
+  AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
   // create stylesheet and parent div (plus children: 1 div 3 buttons 1 ol)
   var ceoStyle=document.createElement("style")
   ceoStyle.innerText=`
-#ceo-div { position:fixed; top:0; left:0; z-index:99999;
-  min-width:20em; max-width:70vw; min-height:3em; max-height:calc(90vh - 5em);
-  background-color:DimGray; color:White; overflow:scroll;
-  border-top:4em Solid DimGray; border-right:20px Solid DimGray;
-  border-bottom:20px Solid DimGray; }
-#ceo-buttons { position:fixed; top:0; left:0;
-  background-color:DimGray; color:White; padding:5px;}
-#ceo-buttons button { background-color:Salmon; color:Black; }
-#ceo-buttons button:hover { background-color:White; }
-#ceo-ol { margin:0px; }
-.ceo-li { background-color:Black; color:White; }
-.ceo-li:hover { cursor:grab; background-color:White; color:Black; }
-`;
+    #ceo-main { position:fixed; top:0; left:0; z-index:99999;
+      min-width:20em; max-width:70vw;
+      min-height:3em; max-height:calc(90vh - 5em);
+      background-color:DimGray; color:White; overflow:scroll;
+      border-top:4em Solid DimGray; border-right:20px Solid DimGray;
+      border-bottom:20px Solid DimGray; }
+    #ceo-buttons { position:fixed; top:0; left:0;
+      background-color:DimGray; color:White; padding:5px;}
+    #ceo-buttons button { background-color:Salmon; color:Black; }
+    #ceo-buttons button:hover { background-color:White; }
+    #ceo-ol { margin:0px; }
+    .ceo-li { background-color:Black; color:White; }
+    .ceo-li:hover { cursor:grab; background-color:White; color:Black; }
+  `;
   document.head.appendChild(ceoStyle)
   var ceoMain=document.createElement("div");
-  ceoMain.id="ceo-div";
+  ceoMain.id="ceo-main";
   document.body.appendChild(ceoMain);
   var ceoButtons=document.createElement("div");
   ceoButtons.id="ceo-buttons";
@@ -171,10 +176,10 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
 
   // drag and drop actions
   // ref: https://stackoverflow.com/questions/12332403/html5-ul-li-draggable
-  var ceoList;
-  var ceoDrag,ceoDragId,ceoDragIx,ceoDropIx;
+  var ceoList,ceoDrag,ceoDragId,ceoDragIx,ceoDropIx;
   document.addEventListener("dragstart", ({target}) => {
-    ceoDrag=target; ceoDragId=target.id; ceoList=target.parentNode.children;
+    ceoDrag=target; ceoDragId=target.id;
+    ceoList=target.parentNode.children;
     [...ceoList].forEach((e,i)=>{if(e===ceoDrag) ceoDragIx=i;});
   });
   document.addEventListener("dragover", (event) => {
@@ -194,10 +199,12 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
     document.head.removeChild(ceoStyle);
   });
   ceoGet.addEventListener("click", function() {
+    var ceoOldPref=Services.prefs.getStringPref("browser.uiCustomization.state");
     var ceoOldOrder=(''
       +ceoOldPref.replace(/(^.*,"TabsToolbar":\[)([^\]]*)(\],.*$)/, "$2")
       +ceoOldPref.replace(/(^.*,"nav-bar":\[)([^\]]*)(\],.*$)/, "$2")
-      +ceoOldPref.replace(/(^.*,"unified-extensions-area":\[)([^\]]*)(\],.*$)/, "$2")).split('"');
+      +ceoOldPref.replace(/(^.*,"unified-extensions-area":\[)([^\]]*)(\],.*$)/, "$2")
+    ).split('"');
     [...ceoOldOrder].reverse().forEach(existingId=>{
       ceoList=document.getElementsByClassName("ceo-li");
       ceoDropIx=0;
@@ -213,17 +220,22 @@ AddonManager.getAddonsByTypes(["extension"]).then(addons => {
     });
   });
   ceoSet.addEventListener("click", function() {
-    var ceoNewOrder=[];
+    var ceoNewOrder=[],ceoOldPref,ceoNewPref,ceoOldStr,ceoNewStr;
     ceoList=document.getElementsByClassName("ceo-li");
     [...ceoList].forEach(e=>ceoNewOrder.push(`"${e.id}"`));
     document.body.removeChild(ceoMain);
     document.head.removeChild(ceoStyle);
-    var ceoNewPref=ceoOldPref.replace(/(^.*,"unified-extensions-area":\[)([^\]]*)(\],.*$)/, "$1"+ceoNewOrder.join(",")+"$3");
-    var ceoOldPrefStr=`Services.prefs.setStringPref("browser.uiCustomization.state", "${ceoOldPref.replace(/(["\\])/g,'\\$1')}");`;
-    var ceoNewPrefStr=`Services.prefs.setStringPref("browser.uiCustomization.state", "${ceoNewPref.replace(/(["\\])/g,'\\$1')}");`;
-    console.log(`\n\n// old\n// ${ceoOldPrefStr}\n\n// new\n${ceoNewPrefStr}\n`);
-    console.log(`// close and re-open Firefox to see the changes to Extension button order`);
+    ceoOldPref=Services.prefs.getStringPref("browser.uiCustomization.state");
+    ceoNewPref=ceoOldPref.replace(
+      /(^.*,"unified-extensions-area":\[)([^\]]*)(\],.*$)/,
+      "$1"+ceoNewOrder.join(",")+"$3");
+    ceoNewStr=ceoOldStr=`Services.prefs.setStringPref("browser.uiCustomization.state", "`;
+    ceoOldStr+=`${ceoOldPref.replace(/(["\\])/g,'\\$1')}");`;
+    ceoNewStr+=`${ceoNewPref.replace(/(["\\])/g,'\\$1')}");`;
+    console.log(`/*old*/ // ${ceoOldStr}\n\n/*new*/ // ${ceoNewStr}\n\n`);
+    console.log(`// to copy old/new values: right click "Copy Object" on above`);
+    console.log(`// close and re-open Firefox to see the Extension button changes`);
     Services.prefs.setStringPref("browser.uiCustomization.state", ceoNewPref);
   });
 
-});
+});}
