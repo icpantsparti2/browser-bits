@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2023.03.04
+/* Version      : 2023.03.22
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -217,7 +217,7 @@
   addon-list[type="extension"] .extension-disabled-section
   {
     margin-bottom: 4px !important;
-    column-count: 4;
+    column-count: 3;
     column-gap: 0;
   }
 
@@ -452,7 +452,7 @@
   ) .addon-name-link
   {
     background: Crimson !important;
-    color: Black !important;
+    color: LightGray !important;
   }
 
   addon-list[type="extension"] addon-card:not([expanded="true"]):where(
@@ -529,3 +529,4 @@
 
 
 /******************************************************************************/
+
