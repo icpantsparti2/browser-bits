@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.03.04
+/* Version      : 2023.03.22
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -83,9 +83,11 @@
 /*     sidebar : unrestricted sidebar width
 /*     toolbar : compact buttons
 /*     toolbar : force display of the full toolbar even in popup windows
+/*     toolbar : replace overflow/extensions/menu button icons
 /*     toolbar : add background color to tab favicons and add-on icons
 /*     toolbar : overflow button panel - compact/columns
-/*     toolbar : unified extensions button panel - compact/columns - SEE NOTE
+/*     toolbar : unified extensions button panel - compact/columns
+/*     findbar : remove the animation
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : unified extensions button panel - color add-on names
 /*     tabs : no text fade out (on the right edge)
@@ -166,8 +168,8 @@
 /* https://www.reddit.com/r/FirefoxCSS/comments/9la2ps/how_i_can_change_order_of_the_items_in_right/
 /******************************************************************************/
 /**/
-#tabContextMenu #context_closeTab { -moz-box-ordinal-group:0; }
-#tabContextMenu #context_closeTabsToTheEnd { -moz-box-ordinal-group:0; }
+#tabContextMenu #context_closeTab { -moz-box-ordinal-group:0; order:0; }
+#tabContextMenu #context_closeTabsToTheEnd { -moz-box-ordinal-group:0; order:0; }
 /**/
 
 
@@ -477,13 +479,37 @@
 /* https://www.reddit.com/r/firefox/comments/z9f804/is_there_a_way_to_show_addons_in_popup_windows/
 /* https://www.userchrome.org/how-create-userchrome-css.html
 /* https://www.jeffersonscher.com/res/popit.html
-/* default is display: none
+/* notes:
+/*   default is display: none
 /******************************************************************************/
 /**/
 *|*:root[chromehidden~="toolbar"] .chromeclass-toolbar-additional {
-  display: -moz-box !important;
+  display: flex !important;
 }
 /**/
+
+
+
+
+/*******************************************************************************
+/* ### toolbar : replace overflow/extensions/menu button icons
+/*------------------------------------------------------------------------------
+/* swap the icons to look like: [>] [v] [...]
+/* https://www.reddit.com/r/FirefoxCSS/comments/7er388/change_icon_of_the_hamburger_menu/
+/* https://www.reddit.com/r/FirefoxCSS/comments/11raf60/text_in_unified_extensions_menu_is_not_aligned/
+/* notes:
+/*   chrome://branding/content/icon32.png
+/*   chrome://global/skin/icons/chevron.svg
+/******************************************************************************/
+#nav-bar-overflow-button .toolbarbutton-icon {
+  list-style-image: url("chrome://global/skin/icons/arrow-right-12.svg") !important;
+}
+#unified-extensions-button .toolbarbutton-icon {
+  list-style-image: url("chrome://global/skin/icons/sort-arrow.svg") !important;
+}
+#PanelUI-menu-button .toolbarbutton-icon {
+  list-style-image: url("chrome://global/skin/icons/more.svg") !important;
+}
 
 
 
@@ -539,78 +565,138 @@
 
 
 /*******************************************************************************
-/* ### toolbar : unified extensions button panel - compact/columns - SEE NOTE
+/* ### toolbar : unified extensions button panel - compact/columns
 /*------------------------------------------------------------------------------
 /* the "jigsaw puzzle piece" Extensions button (FF109 onwards)
 /* the panel is for notifying/controlling manifest v3 extension permissions
 /* https://blog.mozilla.org/addons/2022/11/17/unified-extensions-button-and-how-to-handle-permissions-in-manifest-v3/
+/* https://addons.mozilla.org/firefox/addon/a-test-extension/
 /* https://www.reddit.com/r/FirefoxCSS/comments/10exwv7/anyone_know_how_to_change_the_scale_of_the/
 /* https://www.reddit.com/r/FirefoxCSS/comments/10exwv7/anyone_know_how_to_change_the_scale_of_the/j4v67wj/
 /* https://www.reddit.com/r/FirefoxCSS/comments/10fl39n/made_these_two_different_styles_for_people_who/
-/* (also see section below for coloring add-on names)
-/* NOTE:
-/*   when Mozilla further develops the unified extensions panel, this code
-/*   will need reviewing to ensure it does not inhibit the ui/function
+/* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/compact_extensions_panel.css
 /*------------------------------------------------------------------------------
 /* notes:
-/*   to hide the gear icon:
-/*     #unified-extensions-view .unified-extensions-item-menu-button.subviewbutton
-/*       { display: none !important; }
-/*   to hide the text:
-/*     #unified-extensions-view .unified-extensions-item-action-button .unified-extensions-item-contents
-/*       { width: 0 !important; visibility: hidden !important; }
+/*   - when Mozilla further develops the unified extensions panel, this code
+/*     will need reviewing to ensure it does not inhibit the ui/function
+/*   - also see section below for coloring add-on names
+/*   - to change icon order (until Firefox UI develops), see/use:
+/*     https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-v109-change-order-under-extensions-button.js
 /******************************************************************************/
 /**/
-#unified-extensions-panel #unified-extensions-view {
-  margin: 5px 5px 0 5px !important;
+#overflowed-extensions-list,
+#unified-extensions-area,
+.unified-extensions-list {
+  margin-inline: var(--panel-separator-margin) !important;
+  display: block !important;
+  column-gap: 0 !important;
+  column-count: 2 !important;
 }
 
+
 #unified-extensions-view .panel-header,
-#unified-extensions-view .panel-header + toolbarseparator
+#unified-extensions-view toolbarseparator
 {
   display: none !important;
 }
 
-#unified-extensions-panel vbox#overflowed-extensions-list:not(:empty) {
-  border-bottom: 2px dashed Gray !important;
+#unified-extensions-panel #unified-extensions-view,
+#unified-extensions-manage-extensions
+{
+  margin-top: 4px !important;
 }
 
-#unified-extensions-panel vbox.unified-extensions-list:not(:empty) {
-  border-top: 2px dashed Gray !important;
+#unified-extensions-panel vbox#overflowed-extensions-list:not(:empty),
+#unified-extensions-panel vbox#unified-extensions-area:not(:empty),
+#unified-extensions-panel vbox.unified-extensions-list:not(:empty)
+{
+  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }
 
-.unified-extensions-item-name { font-size: 90% !important; }
-.unified-extensions-item-message { font-size: 80% !important; }
-
-#unified-extensions-panel .subviewbutton {
-  padding-block: 2px !important;
-  padding-left: 1px !important;
-  padding-right: 1px !important;
-}
-
-.unified-extensions-item-contents {
-  line-height: 1.1 !important;
-}
 
 #overflowed-extensions-list .toolbarbutton-icon,
 #unified-extensions-panel .toolbarbutton-icon,
 .unified-extensions-item-icon
 {
-  height: 18px !important;
-	width: 18px !important;
+  --uei-icon-size: 16px;
 }
 
-#unified-extensions-view .unified-extensions-item-menu-button.subviewbutton {
-  opacity: 0.4 !important;
+#unified-extensions-panel .subviewbutton {
+  padding: 2px !important;
 }
 
-#overflowed-extensions-list,
-#unified-extensions-area,
-.unified-extensions-list {
-  max-width: 55vw !important;
-  display: block !important;
-  column-gap: 1px !important;
-  column-count: 3 !important;
+#unified-extensions-view > vbox > vbox > .unified-extensions-item {
+	padding-block: 0px !important;
+}
+
+.unified-extensions-item-menu-button {
+	margin-inline-end: 0 !important;
+}
+
+.unified-extensions-list .unified-extensions-item-menu-button {
+	margin-inline-end: 8px !important;
+}
+
+.unified-extensions-item-contents {
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+
+.unified-extensions-item-name {
+  font-size: 80% !important; }
+
+.unified-extensions-item-message {
+  font-size: 75% !important; }
+
+#unified-extensions-view .unified-extensions-item-menu-button.subviewbutton:not(:hover)
+{
+  opacity: 0.2 !important;
+}
+
+#unified-extensions-panel
+  :where(toolbaritem,unified-extensions-item)[attention]
+  .unified-extensions-item-action-button
+{
+  box-shadow:
+    1px 1px var(--uei-button-attention-dot-color) inset,
+    -1px -1px var(--uei-button-attention-dot-color) inset !important;
+}
+/**/
+
+/* to style disabled extension buttons */
+/*
+#unified-extensions-panel
+  :where(toolbaritem,unified-extensions-item)
+  .unified-extensions-item-action-button[disabled]
+{ }
+/**/
+
+/* to hide the gear icons */
+/*
+#unified-extensions-view .unified-extensions-item-menu-button.subviewbutton
+  { display: none !important; }
+/**/
+
+/* to hide the button text (not advised) */
+/*
+#unified-extensions-view .unified-extensions-item-action-button .unified-extensions-item-contents
+  { width: 0 !important; visibility: hidden !important; }
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### findbar : remove the animation
+/*------------------------------------------------------------------------------
+/* https://www.reddit.com/r/firefox/comments/11m8eyt/ctrlf_search_bar_appearing_animation_can_i_turn/
+/******************************************************************************/
+/**/
+findbar {
+  transition-property: unset !important;
+  transition-duration: unset !important;
+  transition-timing-function: unset !important;
 }
 /**/
 
@@ -629,7 +715,7 @@
 /*******************************************************************************
 /* ### toolbar : unified extensions button panel - color add-on names
 /*------------------------------------------------------------------------------
-/* the "jigsaw puzzle piece" Extensions button (in development: FF109+/beta/nightly)
+/* the "jigsaw puzzle piece" Extensions button (FF109+)
 /* (also see section above for compact/columns)
 /* if you want to highlight any add-on names in the list...
 /*   - you might be able to select using start of name with '[label^="..."]'
@@ -692,7 +778,7 @@
 ) .unified-extensions-item-name
 {
   background: Crimson !important;
-  color: Black !important;
+  color: LightGray !important;
 }
 
 #unified-extensions-panel vbox > :where(
