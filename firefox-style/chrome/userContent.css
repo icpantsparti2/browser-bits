@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2023.03.22
+/* Version      : 2023.03.31
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -283,7 +283,7 @@
     line-height: unset !important;
     text-overflow: unset !important;
     width: 100% !important;
-    margin: 0 2px 0 0 !important;
+    margin-inline: 2px !important;
     opacity: 0.9 !important;
   }
 
@@ -333,6 +333,8 @@
   {
     width: 150px !important;
     height: auto !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
     margin: 0 auto 0 auto !important;
     padding: 0 !important;
     border: 1px dotted !important;
@@ -341,7 +343,6 @@
   addon-list[type="theme"] addon-card:not([expanded="true"]) .addon.card,
   addon-list[type="all"] addon-card:not([expanded="true"]) .addon.card
   {
-    border: 1px dotted !important;
     padding-top: 2px !important;
     padding-bottom: 2px !important;
     page-break-inside: avoid !important;
