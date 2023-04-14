@@ -1,6 +1,6 @@
 ### Browser Bits (https://github.com/icpantsparti2/browser-bits)
 
-* ###### | 2023.03.16 (first 2021.08.09) | https://github.com/icpantsparti2/browser-bits/blob/main/README.md | License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE | Disclaimer: Use with care at your own risk, and verify any results |
+* ###### | 2023.04.13 (first 2021.08.09) | https://github.com/icpantsparti2/browser-bits/blob/main/README.md | License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE | Disclaimer: Use with care at your own risk, and verify any results |
 
 #### Bits of code/config/info/links for web browsers (mainly Firefox)
 
@@ -27,6 +27,8 @@ Listed below: [links-elsewhere](#links-elsewhere) | [firefox-style](#firefox-sty
 
 | Link | Note |
 | :--- | :--- |
+| [firefox-extensions-list-with-amo-links.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-extensions-list-with-amo-links.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-extensions-list-with-amo-links.js)\] | list your extensions in the 'about:addons' web console (with addons.mozilla.org links) |
+| [firefox-extensions-list-with-last-updated-order.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-extensions-list-with-last-updated-order.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-extensions-list-with-last-updated-order.js)\] | list your extensions in the 'about:addons' web console (showing "Last Updated" date and order) |
 | [firefox-list-enable-disable-add-ons-from-console.md](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-list-enable-disable-add-ons-from-console.md) | guide: list/toggle Firefox add-ons on/off using JavaScript in Web Console (based on below) |
 | [firefox-toggle-add-ons-from-console.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-toggle-add-ons-from-console.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-toggle-add-ons-from-console.js)\] | 'prompt' popup for enable/disable add-ons from console with filter option (single/bulk eg disable all active, enable several in one go) |
 | [firefox-v109-change-order-under-extensions-button.js](https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-v109-change-order-under-extensions-button.js)&nbsp;&nbsp;\[[raw](https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/javascript/firefox-v109-change-order-under-extensions-button.js)\] | run in 'about:addons' web console, for changing add-on order under extensions button (3 options, alphabetical/manual/drag'n'drop sort) |
