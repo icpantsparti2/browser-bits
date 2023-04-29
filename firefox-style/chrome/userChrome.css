@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.03.31
+/* Version      : 2023.04.28
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -85,7 +85,7 @@
 /*     toolbar : compact buttons
 /*     toolbar : force display of the full toolbar even in popup windows
 /*     toolbar : replace overflow/extensions/menu button icons
-/*     toolbar : add background color to tab favicons and add-on icons
+/*     toolbar+contextmenus : add outline to tab favicons and add-on icons
 /*     toolbar : overflow button panel - compact/columns
 /*     toolbar : unified extensions button panel - compact/columns
 /*     findbar : remove the animation
@@ -536,7 +536,7 @@
 
 
 /*******************************************************************************
-/* ### toolbar : add background color to tab favicons and add-on icons
+/* ### toolbar+contextmenus : add outline to tab favicons and add-on icons
 /*------------------------------------------------------------------------------
 /* if you are using a dark theme helps some favicons to show (eg github.com)
 /* https://www.reddit.com/r/FirefoxCSS/comments/sda1sx/favicon_background_for_dark_themes/
@@ -546,7 +546,9 @@
 /**/
 .tab-icon-image,
 .webextension-browser-action .toolbarbutton-icon,
-.unified-extensions-item-icon
+.unified-extensions-item-icon,
+#contentAreaContextMenu :where([image^="moz-extension:"]) .menu-iconic-icon,
+#tabContextMenu :where([image^="moz-extension:"]) .menu-iconic-icon
 {
   border-radius: 15%;
   filter:
@@ -575,7 +577,7 @@
 {
   display: block;
   column-gap: 0;
-  column-count: 3;
+  column-count: 2;
 }
 #widget-overflow #edit-controls .toolbarbutton-text {
   display: none !important;
@@ -936,31 +938,42 @@ findbar {
 /*         also uncomment '@import "./userChrome-profile-id.css";' near the top
 /* note: in id text use "\00A0" (non-breaking space) for padding
 /*       eg "\00A0\00A0mytext\00A0\00A0" for '  mytext  '
+/* notes:
+/*   default-release default-esr default-beta default-nightly dev-edition-default
+/*   #TabsToolbar-customization-target::before
+/*   #main-window:not([inFullscreen]) #navigator-toolbox-background::after
+/*   align-items:center;
 /******************************************************************************/
 
-/* examples */
-/*   #TabsToolbar { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; }    /* default-release */
-/*   #TabsToolbar { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } /* 1-release */
-/*   #TabsToolbar { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; }     /* 2-release */
-/*   #TabsToolbar { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; }        /* 3-release */
-/*   #TabsToolbar { --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; }       /* 4-release */
-/*   #TabsToolbar { --id-txt:"5"; --id-fg:White; --id-bg:Red; }           /* 5-release */
-/*   #TabsToolbar { --id-txt:"6"; --id-fg:White; --id-bg:Black; }         /* 6-release */
-/*   #TabsToolbar { --id-txt:"E"; --id-fg:Black; --id-bg:DarkOrange; }    /* default-esr */
-/*   #TabsToolbar { --id-txt:"B"; --id-fg:Black; --id-bg:SkyBlue; }       /* default-beta */
-/*   #TabsToolbar { --id-txt:"N"; --id-fg:White; --id-bg:MediumPurple; }  /* default-nightly */
-/*   #TabsToolbar { --id-txt:"D"; --id-fg:White; --id-bg:DodgerBlue; }    /* dev-edition-default */
+/* examples - use one in userChrome-profile-id.css */
+/*   #navigator-toolbox-background { --id-txt:"REL0"; --id-fg:Black; --id-bg:DarkOrange; }     /**/
+/*   #navigator-toolbox-background { --id-txt:"REL1"; --id-fg:Black; --id-bg:LightSeaGreen; }  /**/
+/*   #navigator-toolbox-background { --id-txt:"REL2"; --id-fg:Black; --id-bg:BurlyWood; }      /**/
+/*   #navigator-toolbox-background { --id-txt:"REL3"; --id-fg:Black; --id-bg:Yellow; }         /**/
+/*   #navigator-toolbox-background { --id-txt:"REL4"; --id-fg:Black; --id-bg:HotPink; }        /**/
+/*   #navigator-toolbox-background { --id-txt:"REL5"; --id-fg:White; --id-bg:Red; }            /**/
+/*   #navigator-toolbox-background { --id-txt:"REL6"; --id-fg:White; --id-bg:Black; }          /**/
+/*   #navigator-toolbox-background { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; }      /**/
+/*   #navigator-toolbox-background { --id-txt:"BETA"; --id-fg:Black; --id-bg:SkyBlue; }        /**/
+/*   #navigator-toolbox-background { --id-txt:"NIGHT"; --id-fg:White; --id-bg:MediumPurple; }  /**/
+/*   #navigator-toolbox-background { --id-txt:"DEV"; --id-fg:White; --id-bg:DodgerBlue; }      /**/
 
 /*
 #TabsToolbar::after {
-  content:var(--id-txt,"\00A0") !important;
-  color:var(--id-fg,Black) !important;
-  background-color:var(--id-bg,LightGray) !important;
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
-  font-size:1em !important;
-  font-weight:bold !important;
+  display:flex;
+  flex-grow:0 !important;
+  height:var(--tab-min-height,3.5em);
+  width:1.2em !important;
+  padding:2px !important;
+  justify-content:center;
+  word-break:break-all;
+  overflow:hidden;
+  font-size:0.7em;
+  font-weight:bold;
+  writing-mode:sideways-lr;
+  color:var(--id-fg,Black);
+  background-color:var(--id-bg,LightGray);
+  content:var(--id-txt,"\00A0");
 }
 /**/
 
