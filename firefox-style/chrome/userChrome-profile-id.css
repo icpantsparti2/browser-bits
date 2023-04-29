@@ -1,0 +1,25 @@
+/*******************************************************************************
+/* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome-profile-id.css
+/*------------------------------------------------------------------------------
+/* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome-profile-id.css
+/* Version      : 2023.04.28
+/* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
+/* Project      : https://github.com/icpantsparti2/browser-bits
+/*------------------------------------------------------------------------------
+/* Summary      : imported by userChrome.css, and you must enable the section:
+/*                "tab bar : show a profile indicator (color/text label)"
+/*                set different values in this file under each firefox profile
+/******************************************************************************/
+
+/* examples - use one in userChrome-profile-id.css */
+/*   #navigator-toolbox-background { --id-txt:"REL0"; --id-fg:Black; --id-bg:DarkOrange; }     /**/
+/*   #navigator-toolbox-background { --id-txt:"REL1"; --id-fg:Black; --id-bg:LightSeaGreen; }  /**/
+/*   #navigator-toolbox-background { --id-txt:"REL2"; --id-fg:Black; --id-bg:BurlyWood; }      /**/
+/*   #navigator-toolbox-background { --id-txt:"REL3"; --id-fg:Black; --id-bg:Yellow; }         /**/
+/*   #navigator-toolbox-background { --id-txt:"REL4"; --id-fg:Black; --id-bg:HotPink; }        /**/
+/*   #navigator-toolbox-background { --id-txt:"REL5"; --id-fg:White; --id-bg:Red; }            /**/
+/*   #navigator-toolbox-background { --id-txt:"REL6"; --id-fg:White; --id-bg:Black; }          /**/
+/*   #navigator-toolbox-background { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; }      /**/
+/*   #navigator-toolbox-background { --id-txt:"BETA"; --id-fg:Black; --id-bg:SkyBlue; }        /**/
+/*   #navigator-toolbox-background { --id-txt:"NIGHT"; --id-fg:White; --id-bg:MediumPurple; }  /**/
+/*   #navigator-toolbox-background { --id-txt:"DEV"; --id-fg:White; --id-bg:DodgerBlue; }      /**/
