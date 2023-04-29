@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2023.03.31
+/* Version      : 2023.04.28
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -227,6 +227,10 @@
   }
 
 
+
+  addon-card:not([expanded="true"]) .addon.card .addon-card-collapsed {
+    overflow:hidden !important;
+  }
 
   addon-card:not([expanded="true"]) .addon.card .addon-description,
   addon-list[type="extension"] addon-card:not([expanded="true"]) .update-postponed-bar,
