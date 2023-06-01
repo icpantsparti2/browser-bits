@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.04.28
+/* Version      : 2023.05.30
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -84,7 +84,7 @@
 /*     sidebar : unrestricted sidebar width
 /*     toolbar : compact buttons
 /*     toolbar : force display of the full toolbar even in popup windows
-/*     toolbar : replace overflow/extensions/menu button icons
+/*     toolbar : replace 'extensions/overflow/menu' button icons
 /*     toolbar+contextmenus : add outline to tab favicons and add-on icons
 /*     toolbar : overflow button panel - compact/columns
 /*     toolbar : unified extensions button panel - compact/columns
@@ -513,20 +513,20 @@
 
 
 /*******************************************************************************
-/* ### toolbar : replace overflow/extensions/menu button icons
+/* ### toolbar : replace 'extensions/overflow/menu' button icons
 /*------------------------------------------------------------------------------
-/* swap the icons to look like: [>] [v] [...]
+/* swap the icons to look like: [v] [>] [...]
 /* https://www.reddit.com/r/FirefoxCSS/comments/7er388/change_icon_of_the_hamburger_menu/
 /* https://www.reddit.com/r/FirefoxCSS/comments/11raf60/text_in_unified_extensions_menu_is_not_aligned/
 /* notes:
 /*   chrome://branding/content/icon32.png
 /*   chrome://global/skin/icons/chevron.svg
 /******************************************************************************/
-#nav-bar-overflow-button .toolbarbutton-icon {
-  list-style-image: url("chrome://global/skin/icons/arrow-right-12.svg") !important;
-}
 #unified-extensions-button .toolbarbutton-icon {
   list-style-image: url("chrome://global/skin/icons/sort-arrow.svg") !important;
+}
+#nav-bar-overflow-button .toolbarbutton-icon {
+  list-style-image: url("chrome://global/skin/icons/arrow-right-12.svg") !important;
 }
 #PanelUI-menu-button .toolbarbutton-icon {
   list-style-image: url("chrome://global/skin/icons/more.svg") !important;
@@ -634,7 +634,7 @@
 #unified-extensions-panel vbox#unified-extensions-area:not(:empty),
 #unified-extensions-panel vbox.unified-extensions-list:not(:empty)
 {
-  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 40%, transparent);
 }
 
 
@@ -650,15 +650,15 @@
 }
 
 #unified-extensions-view > vbox > vbox > .unified-extensions-item {
-	padding-block: 0px !important;
+  padding-block: 0px !important;
 }
 
 .unified-extensions-item-menu-button {
-	margin-inline-end: 0 !important;
+  margin-inline-end: 0 !important;
 }
 
 .unified-extensions-list .unified-extensions-item-menu-button {
-	margin-inline-end: 8px !important;
+  margin-inline-end: 8px !important;
 }
 
 .unified-extensions-item-contents {
