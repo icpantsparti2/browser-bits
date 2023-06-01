@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.05.30
+/* Version      : 2023.05.31
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -651,10 +651,15 @@
 
 #unified-extensions-view > vbox > vbox > .unified-extensions-item {
   padding-block: 0px !important;
+  margin-block: 0px !important;
 }
 
-.unified-extensions-item-menu-button {
+#unified-extensions-view .unified-extensions-item-menu-button {
   margin-inline-end: 0 !important;
+}
+
+#unified-extensions-view .toolbarbutton-icon {
+  padding: 0 !important;
 }
 
 .unified-extensions-list .unified-extensions-item-menu-button {
