@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.05.31
+/* Version      : 2023.07.03
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -44,6 +44,8 @@
 /*   https://github.com/Aris-t2/CustomCSSforFx  (Classic Theme Restorer)
 /*   https://github.com/Timvde/UserChrome-Tweaks  (dormant/archived)
 /*   https://github.com/GrosBourrin/UserChrome-Tweaks
+/*   https://old.reddit.com/r/FirefoxCSS/comments/14cmitl/is_it_possible_to_edit_the_ui_of_the_browser/
+/*     (how to change the UI of the browser toolbox)
 /*------------------------------------------------------------------------------
 /* Some Example Firefox CSS "Themes" links (in no particular order):
 /*   https://firefoxcss-store.github.io/  (<- lots more CSS "Themes" here)
@@ -605,8 +607,15 @@
 /*   - also see section below for coloring add-on names
 /*   - to change icon order (until Firefox UI develops), see/use:
 /*     https://github.com/icpantsparti2/browser-bits/blob/main/javascript/firefox-v109-change-order-under-extensions-button.js
+/*------------------------------------------------------------------------------
+/* --menu-panel-width: 22.35em;
+/* --menu-panel-width-wide: 29em;
 /******************************************************************************/
 /**/
+#unified-extensions-view {
+  width: unset !important;
+}
+
 #overflowed-extensions-list,
 #unified-extensions-area,
 .unified-extensions-list
