@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.07.03
+/* Version      : 2023.07.21
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -110,9 +110,7 @@
 /* ### optionally import other "userChrome-____.css" files
 /*------------------------------------------------------------------------------
 /* (any imports must be here at the top)
-/* re "userChrome-profile-id.css" see "show a profile indicator" option further down
 /******************************************************************************/
-/**/ @import "./userChrome-profile-id.css"; /**/
 /**/ @import "./userChrome-my-extras.css"; /**/
 
 
@@ -600,6 +598,7 @@
 /* https://www.reddit.com/r/FirefoxCSS/comments/10exwv7/anyone_know_how_to_change_the_scale_of_the/j4v67wj/
 /* https://www.reddit.com/r/FirefoxCSS/comments/10fl39n/made_these_two_different_styles_for_people_who/
 /* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/compact_extensions_panel.css
+/* https://old.reddit.com/r/FirefoxCSS/comments/150kcjg/move_extensions_button_right_of_pinned_extensions/
 /*------------------------------------------------------------------------------
 /* notes:
 /*   - when Mozilla further develops the unified extensions panel, this code
@@ -700,6 +699,11 @@
     1px 1px var(--uei-button-attention-dot-color) inset,
     -1px -1px var(--uei-button-attention-dot-color) inset !important;
 }
+/**/
+
+/* keep button to the right of pinned extension buttons */
+/*
+#unified-extensions-button { order: 1 !important; }
 /**/
 
 /* to style disabled extension buttons */
@@ -946,10 +950,13 @@ findbar {
 /*------------------------------------------------------------------------------
 /* shown on the right edge of the tab bar (useful for multiple profiles)
 /* set a different text and color indicator in each profile, choose:
-/*      a) set the three variables in each userChrome.css file (see examples)
-/*   or b) create a css file: "userChrome-profile-id.css" in each chrome folder
-/*         and in that file set the three variables (see examples)
-/*         also uncomment '@import "./userChrome-profile-id.css";' near the top
+/*      a) set the three variables in each userChrome.css file
+/*         the first   #navigator-toolbox-background { ...   line below
+/*   or b) trigger which id is used by setting an about:config preference
+/*         user_pref("_profile_0", true);
+/*   or c) you could trigger by another preference eg:
+/*         @supports -moz-bool-pref("privacy.resistFingerprinting")
+/*         @supports not -moz-bool-pref("privacy.resistFingerprinting")
 /* note: in id text use "\00A0" (non-breaking space) for padding
 /*       eg "\00A0\00A0mytext\00A0\00A0" for '  mytext  '
 /* notes:
@@ -958,21 +965,19 @@ findbar {
 /*   #main-window:not([inFullscreen]) #navigator-toolbox-background::after
 /*   align-items:center;
 /******************************************************************************/
-
-/* examples - use one in userChrome-profile-id.css */
-/*   #navigator-toolbox-background { --id-txt:"REL0"; --id-fg:Black; --id-bg:DarkOrange; }     /**/
-/*   #navigator-toolbox-background { --id-txt:"REL1"; --id-fg:Black; --id-bg:LightSeaGreen; }  /**/
-/*   #navigator-toolbox-background { --id-txt:"REL2"; --id-fg:Black; --id-bg:BurlyWood; }      /**/
-/*   #navigator-toolbox-background { --id-txt:"REL3"; --id-fg:Black; --id-bg:Yellow; }         /**/
-/*   #navigator-toolbox-background { --id-txt:"REL4"; --id-fg:Black; --id-bg:HotPink; }        /**/
-/*   #navigator-toolbox-background { --id-txt:"REL5"; --id-fg:White; --id-bg:Red; }            /**/
-/*   #navigator-toolbox-background { --id-txt:"REL6"; --id-fg:White; --id-bg:Black; }          /**/
-/*   #navigator-toolbox-background { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; }      /**/
-/*   #navigator-toolbox-background { --id-txt:"BETA"; --id-fg:Black; --id-bg:SkyBlue; }        /**/
-/*   #navigator-toolbox-background { --id-txt:"NIGHT"; --id-fg:White; --id-bg:MediumPurple; }  /**/
-/*   #navigator-toolbox-background { --id-txt:"DEV"; --id-fg:White; --id-bg:DodgerBlue; }      /**/
-
 /*
+#navigator-toolbox-background { --id-txt:"\00A0"; --id-fg:Black; --id-bg:LightGray; }
+@supports -moz-bool-pref("_profile_0") { #navigator-toolbox-background { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; } }
+@supports -moz-bool-pref("_profile_1") { #navigator-toolbox-background { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } }
+@supports -moz-bool-pref("_profile_2") { #navigator-toolbox-background { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; } }
+@supports -moz-bool-pref("_profile_3") { #navigator-toolbox-background { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; } }
+@supports -moz-bool-pref("_profile_4") { #navigator-toolbox-background { --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; } }
+@supports -moz-bool-pref("_profile_5") { #navigator-toolbox-background { --id-txt:"5"; --id-fg:White; --id-bg:Red; } }
+@supports -moz-bool-pref("_profile_6") { #navigator-toolbox-background { --id-txt:"6"; --id-fg:White; --id-bg:Black; } }
+@supports -moz-bool-pref("_profile_e") { #navigator-toolbox-background { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; } }
+@supports -moz-bool-pref("_profile_b") { #navigator-toolbox-background { --id-txt:"BETA"; --id-fg:Black; --id-bg:SkyBlue; } }
+@supports -moz-bool-pref("_profile_d") { #navigator-toolbox-background { --id-txt:"DEV"; --id-fg:White; --id-bg:DodgerBlue; } }
+@supports -moz-bool-pref("_profile_a") { #navigator-toolbox-background { --id-txt:"NIGHT"; --id-fg:White; --id-bg:MediumPurple; } }
 #TabsToolbar::after {
   display:flex;
   flex-grow:0 !important;
