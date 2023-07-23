@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.07.21
+/* Version      : 2023.07.23
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -91,6 +91,7 @@
 /*     toolbar : overflow button panel - compact/columns
 /*     toolbar : unified extensions button panel - compact/columns
 /*     findbar : remove the animation
+/*     tab bar : show a profile indicator (color/text label) (see notes)
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : unified extensions button panel - color add-on names
 /*     tabs : no text fade out (on the right edge)
@@ -100,7 +101,6 @@
 /*     url box : hide bookmark button
 /*     tab bar : hide until nav area hovered
 /*     tab bar : hide "List all tabs" button
-/*     tab bar : show a profile indicator (color/text label)
 /******************************************************************************/
 
 
@@ -746,6 +746,69 @@ findbar {
 
 
 /*******************************************************************************
+/* ### tab bar : show a profile indicator (color/text label) (see notes)
+/*------------------------------------------------------------------------------
+/* shows on the right edge of the tab bar (useful for multiple profiles)
+/* notes: this does not show unless configured, set your own names/colors
+/*        set a preference in 'about:config' to trigger which id is shown eg
+/*          user_pref("_profile_0", true);  in first profile
+/*          user_pref("_profile_1", true);  in next profile  etc
+/*        also see: "optional: for compact profile indicator (sideways text)"
+/* for multiple spaces in --id-txt use multiple \00A0 (non breaking spaces)
+/******************************************************************************/
+/**/
+@supports -moz-bool-pref("_profile_0") { #navigator-toolbox-background {
+  --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; } }
+@supports -moz-bool-pref("_profile_1") { #navigator-toolbox-background {
+  --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } }
+@supports -moz-bool-pref("_profile_2") { #navigator-toolbox-background {
+  --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; } }
+@supports -moz-bool-pref("_profile_3") { #navigator-toolbox-background {
+  --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; } }
+@supports -moz-bool-pref("_profile_4") { #navigator-toolbox-background {
+  --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; } }
+@supports -moz-bool-pref("_profile_5") { #navigator-toolbox-background {
+  --id-txt:"5"; --id-fg:White; --id-bg:Red; } }
+@supports -moz-bool-pref("_profile_6") { #navigator-toolbox-background {
+  --id-txt:"6"; --id-fg:White; --id-bg:Black; } }
+@supports -moz-bool-pref("_profile_e") { #navigator-toolbox-background {
+  --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; } }
+@supports -moz-bool-pref("_profile_b") { #navigator-toolbox-background {
+  --id-txt:"Beta"; --id-fg:Black; --id-bg:SkyBlue; } }
+@supports -moz-bool-pref("_profile_d") { #navigator-toolbox-background {
+  --id-txt:"Dev"; --id-fg:White; --id-bg:DodgerBlue; } }
+@supports -moz-bool-pref("_profile_a") { #navigator-toolbox-background {
+  --id-txt:"Alpha"; --id-fg:White; --id-bg:MediumPurple; } }
+#TabsToolbar::after {
+  display:flex;
+  flex-grow:0 !important;
+  height:var(--tab-min-height,3.5em);
+  padding:2px !important;
+  justify-content:center;
+  align-items:center;
+  word-break:break-all;
+  overflow:hidden;
+  font-weight:bold;
+  color:var(--id-fg,Black);
+  background-color:var(--id-bg,LightGray);
+  content:var(--id-txt);
+}
+/**/
+
+/* optional: for compact profile indicator (sideways text) */
+/*
+#TabsToolbar::after {
+  width:1.2em !important;
+  writing-mode:sideways-lr !important;
+  align-items:unset !important;
+  font-size:0.85em !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
 /* ### other (the following are disabled - uncomment any required)
 /*------------------------------------------------------------------------------
 /* enable/disable by editing preceeding line(s) as either:   /**/   /*
@@ -940,60 +1003,6 @@ findbar {
 /******************************************************************************/
 /*
 #alltabs-button { display: none !important; }
-/**/
-
-
-
-
-/*******************************************************************************
-/* ### tab bar : show a profile indicator (color/text label)
-/*------------------------------------------------------------------------------
-/* shown on the right edge of the tab bar (useful for multiple profiles)
-/* set a different text and color indicator in each profile, choose:
-/*      a) set the three variables in each userChrome.css file
-/*         the first   #navigator-toolbox-background { ...   line below
-/*   or b) trigger which id is used by setting an about:config preference
-/*         user_pref("_profile_0", true);
-/*   or c) you could trigger by another preference eg:
-/*         @supports -moz-bool-pref("privacy.resistFingerprinting")
-/*         @supports not -moz-bool-pref("privacy.resistFingerprinting")
-/* note: in id text use "\00A0" (non-breaking space) for padding
-/*       eg "\00A0\00A0mytext\00A0\00A0" for '  mytext  '
-/* notes:
-/*   default-release default-esr default-beta default-nightly dev-edition-default
-/*   #TabsToolbar-customization-target::before
-/*   #main-window:not([inFullscreen]) #navigator-toolbox-background::after
-/*   align-items:center;
-/******************************************************************************/
-/*
-#navigator-toolbox-background { --id-txt:"\00A0"; --id-fg:Black; --id-bg:LightGray; }
-@supports -moz-bool-pref("_profile_0") { #navigator-toolbox-background { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; } }
-@supports -moz-bool-pref("_profile_1") { #navigator-toolbox-background { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } }
-@supports -moz-bool-pref("_profile_2") { #navigator-toolbox-background { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; } }
-@supports -moz-bool-pref("_profile_3") { #navigator-toolbox-background { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; } }
-@supports -moz-bool-pref("_profile_4") { #navigator-toolbox-background { --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; } }
-@supports -moz-bool-pref("_profile_5") { #navigator-toolbox-background { --id-txt:"5"; --id-fg:White; --id-bg:Red; } }
-@supports -moz-bool-pref("_profile_6") { #navigator-toolbox-background { --id-txt:"6"; --id-fg:White; --id-bg:Black; } }
-@supports -moz-bool-pref("_profile_e") { #navigator-toolbox-background { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; } }
-@supports -moz-bool-pref("_profile_b") { #navigator-toolbox-background { --id-txt:"BETA"; --id-fg:Black; --id-bg:SkyBlue; } }
-@supports -moz-bool-pref("_profile_d") { #navigator-toolbox-background { --id-txt:"DEV"; --id-fg:White; --id-bg:DodgerBlue; } }
-@supports -moz-bool-pref("_profile_a") { #navigator-toolbox-background { --id-txt:"NIGHT"; --id-fg:White; --id-bg:MediumPurple; } }
-#TabsToolbar::after {
-  display:flex;
-  flex-grow:0 !important;
-  height:var(--tab-min-height,3.5em);
-  width:1.2em !important;
-  padding:2px !important;
-  justify-content:center;
-  word-break:break-all;
-  overflow:hidden;
-  font-size:0.7em;
-  font-weight:bold;
-  writing-mode:sideways-lr;
-  color:var(--id-fg,Black);
-  background-color:var(--id-bg,LightGray);
-  content:var(--id-txt,"\00A0");
-}
 /**/
 
 
