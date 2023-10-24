@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.08.04
+/* Version      : 2023.10.23
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -251,6 +251,7 @@
 #allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::after
 {
   margin-right: 4px !important;
+  text-decoration: line-through wavy !important;
 }
 
 .tabbrowser-tab[pending] .tab-content::before,
@@ -290,11 +291,19 @@
   content:"\00A0" counter(n_tabs) "\00A0";
 }
 
-@supports not -moz-bool-pref("browser.tabs.tabmanager.enabled") {
+@supports -moz-bool-pref("browser.tabs.tabmanager.enabled") {
   #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before,
   #allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::after
   {
-    text-decoration: line-through wavy !important;
+    text-decoration: unset !important;
+  }
+}
+
+@media (-moz-bool-pref:"browser.tabs.tabmanager.enabled") {
+  #allTabsMenu-allTabsViewTabs .all-tabs-button.subviewbutton::before,
+  #allTabsMenu-allTabsView-tabs .all-tabs-button.subviewbutton::after
+  {
+    text-decoration: unset !important;
   }
 }
 /**/
@@ -343,27 +352,31 @@
 /*   box-shadow: 0px 0px 5px var(--identity-icon-color) inset !important;
 /*   background-image: radial-gradient(transparent,transparent,var(--identity-icon-color,#fff)) !important;
 /*   font-weight: bold !important;
+/*   FF119 broken on dark/light theme: --focus-outline-color
 /******************************************************************************/
 /**/
 #TabsToolbar .tabbrowser-tab[pending] .tab-text {
   text-decoration: line-through !important;
 }
 #TabsToolbar .tabbrowser-tab[multiselected="true"] .tab-background {
-  border-bottom: 3px dotted var(--focus-outline-color) !important;
+  border-bottom: 3px dotted var(--color-accent-primary) !important;
 }
 #TabsToolbar .tab-background[multiselected="true"] {
   outline: unset !important;
 }
 #TabsToolbar .tabbrowser-tab[selected=true] .tab-background {
   box-shadow: none !important;
-  border-bottom: 3px solid var(--focus-outline-color) !important;
+  border-bottom: 3px solid var(--color-accent-primary) !important;
 }
 /**/
 
-/* underline name (title) on active tab */
+/* underline name (title) on selected/active tabs */
 /*
+#TabsToolbar .tabbrowser-tab[multiselected="true"] .tab-text {
+  text-decoration: underline 2px !important;
+}
 #TabsToolbar .tabbrowser-tab[selected=true] .tab-text {
-  text-decoration: underline !important;
+  text-decoration: underline wavy !important;
 }
 /**/
 
@@ -543,6 +556,7 @@
 /* https://www.reddit.com/r/FirefoxCSS/comments/sda1sx/favicon_background_for_dark_themes/
 /* https://www.reddit.com/r/FirefoxCSS/comments/f7jr79/background_tabs_greyscale_icon_foreground_hovered/
 /* https://www.reddit.com/r/FirefoxCSS/comments/yx9fly/any_way_to_change_the_extension_icon_colour_would/
+/* /*border-radius: 15%;*/
 /******************************************************************************/
 /**/
 .tab-icon-image,
@@ -551,7 +565,6 @@
 #contentAreaContextMenu :where([image^="moz-extension:"]) .menu-iconic-icon,
 #tabContextMenu :where([image^="moz-extension:"]) .menu-iconic-icon
 {
-  border-radius: 15%;
   filter:
     drop-shadow(1px 0 0 DarkGray)
     drop-shadow(-1px 0 0 DarkGray)
@@ -756,30 +769,64 @@ findbar {
 /*          user_pref("_profile_1", true);  in next profile  etc
 /*        also see: "optional: for compact profile indicator (sideways text)"
 /* for multiple spaces in --id-txt use multiple \00A0 (non breaking spaces)
+/* FF120? @supports -moz-bool-pref("...") becomes @media (-moz-bool-pref:"...")
 /******************************************************************************/
 /**/
-@supports -moz-bool-pref("_profile_0") { #navigator-toolbox-background {
-  --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; } }
-@supports -moz-bool-pref("_profile_1") { #navigator-toolbox-background {
-  --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } }
-@supports -moz-bool-pref("_profile_2") { #navigator-toolbox-background {
-  --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; } }
-@supports -moz-bool-pref("_profile_3") { #navigator-toolbox-background {
-  --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; } }
-@supports -moz-bool-pref("_profile_4") { #navigator-toolbox-background {
-  --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; } }
-@supports -moz-bool-pref("_profile_5") { #navigator-toolbox-background {
-  --id-txt:"5"; --id-fg:White; --id-bg:Red; } }
-@supports -moz-bool-pref("_profile_6") { #navigator-toolbox-background {
-  --id-txt:"6"; --id-fg:White; --id-bg:Black; } }
-@supports -moz-bool-pref("_profile_e") { #navigator-toolbox-background {
-  --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; } }
-@supports -moz-bool-pref("_profile_b") { #navigator-toolbox-background {
-  --id-txt:"Beta"; --id-fg:Black; --id-bg:SkyBlue; } }
-@supports -moz-bool-pref("_profile_d") { #navigator-toolbox-background {
-  --id-txt:"Dev"; --id-fg:White; --id-bg:DodgerBlue; } }
-@supports -moz-bool-pref("_profile_a") { #navigator-toolbox-background {
-  --id-txt:"Alpha"; --id-fg:White; --id-bg:MediumPurple; } }
+@supports -moz-bool-pref("_profile_0") {
+  #navigator-toolbox { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; } }
+@media (-moz-bool-pref:"_profile_0") {
+  #navigator-toolbox { --id-txt:"0"; --id-fg:Black; --id-bg:DarkOrange; } }
+
+@supports -moz-bool-pref("_profile_1") {
+  #navigator-toolbox { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } }
+@media (-moz-bool-pref:"_profile_1") {
+  #navigator-toolbox { --id-txt:"1"; --id-fg:Black; --id-bg:LightSeaGreen; } }
+
+@supports -moz-bool-pref("_profile_2") {
+  #navigator-toolbox { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; } }
+@media (-moz-bool-pref:"_profile_2") {
+  #navigator-toolbox { --id-txt:"2"; --id-fg:Black; --id-bg:BurlyWood; } }
+
+@supports -moz-bool-pref("_profile_3") {
+  #navigator-toolbox { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; } }
+@media (-moz-bool-pref:"_profile_3") {
+  #navigator-toolbox { --id-txt:"3"; --id-fg:Black; --id-bg:Yellow; } }
+
+@supports -moz-bool-pref("_profile_4") {
+  #navigator-toolbox { --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; } }
+@media (-moz-bool-pref:"_profile_4") {
+  #navigator-toolbox { --id-txt:"4"; --id-fg:Black; --id-bg:HotPink; } }
+
+@supports -moz-bool-pref("_profile_5") {
+  #navigator-toolbox { --id-txt:"5"; --id-fg:White; --id-bg:Red; } }
+@media (-moz-bool-pref:"_profile_5") {
+  #navigator-toolbox { --id-txt:"5"; --id-fg:White; --id-bg:Red; } }
+
+@supports -moz-bool-pref("_profile_6") {
+  #navigator-toolbox { --id-txt:"6"; --id-fg:White; --id-bg:Black; } }
+@media (-moz-bool-pref:"_profile_6") {
+  #navigator-toolbox { --id-txt:"6"; --id-fg:White; --id-bg:Black; } }
+
+@supports -moz-bool-pref("_profile_e") {
+  #navigator-toolbox { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; } }
+@media (-moz-bool-pref:"_profile_e") {
+  #navigator-toolbox { --id-txt:"ESR"; --id-fg:Black; --id-bg:DarkOrange; } }
+
+@supports -moz-bool-pref("_profile_b") {
+  #navigator-toolbox { --id-txt:"Beta"; --id-fg:Black; --id-bg:SkyBlue; } }
+@media (-moz-bool-pref:"_profile_b") {
+  #navigator-toolbox { --id-txt:"Beta"; --id-fg:Black; --id-bg:SkyBlue; } }
+
+@supports -moz-bool-pref("_profile_d") {
+  #navigator-toolbox { --id-txt:"Dev"; --id-fg:White; --id-bg:DodgerBlue; } }
+@media (-moz-bool-pref:"_profile_d") {
+  #navigator-toolbox { --id-txt:"Dev"; --id-fg:White; --id-bg:DodgerBlue; } }
+
+@supports -moz-bool-pref("_profile_a") {
+  #navigator-toolbox { --id-txt:"Alpha"; --id-fg:White; --id-bg:MediumPurple; } }
+@media (-moz-bool-pref:"_profile_a") {
+  #navigator-toolbox { --id-txt:"Alpha"; --id-fg:White; --id-bg:MediumPurple; } }
+
 #TabsToolbar::after {
   display:flex;
   flex-grow:0 !important;
