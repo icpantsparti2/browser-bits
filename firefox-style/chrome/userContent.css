@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userContent.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userContent.css
-/* Version      : 2023.04.28
+/* Version      : 2023.12.12
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -120,6 +120,8 @@
   }
   h1, h2 {
     margin: 0 !important;
+    background-color: color-mix(in srgb, White 40%, AccentColor) !important;
+    color: color-mix(in srgb, Black 40%, AccentColor) !important;
     font-size: 1.1em !important;
     font-weight: bold !important;
   }
@@ -160,14 +162,17 @@
 /**/
 @-moz-document url-prefix(about:config) {
   *:not(.config-background) {
-    font-size: 0.98em !important;
-    min-height: 1.2em !important;
-    height: unset !important;
+    font-size: 0.95em !important;
+    min-height: 1em !important;
   }
-  table { border: 0 !important; }
+  table {
+    margin-bottom: 5em !important;
+    border: 0 !important;
+  }
   th, td {
     vertical-align: top !important;
     border: 0 !important;
+    padding-block: 0 !important;
   }
   .has-user-value {
     box-shadow: 5px 0px AccentColor inset, -2px 0px AccentColor inset;
@@ -175,6 +180,47 @@
   .has-user-value .cell-value { 
     box-shadow: 2px 0px AccentColor inset;
   }
+
+  table button {
+    margin-block: 0 !important;
+    height: 1.5em !important;
+    vertical-align: middle !important;
+  }
+
+  span[data-l10n-args^='{"value":"0'],
+  span[data-l10n-args^='{"value":"1'],
+  span[data-l10n-args^='{"value":"2'],
+  span[data-l10n-args^='{"value":"3'],
+  span[data-l10n-args^='{"value":"4'],
+  span[data-l10n-args^='{"value":"5'],
+  span[data-l10n-args^='{"value":"6'],
+  span[data-l10n-args^='{"value":"7'],
+  span[data-l10n-args^='{"value":"8'],
+  span[data-l10n-args^='{"value":"9'],
+  span[data-l10n-args^='{"value":"-']
+  {
+    color: black;
+    background-color: gold;
+  }
+  span[data-l10n-args^='{"value":"true"'] {
+    color: black;
+    background-color: limegreen;
+  }
+  span[data-l10n-args^='{"value":"false"'] {
+    color: white;
+    background-color: tomato;
+  }
+
+  tr.add {
+    opacity: 0.5 !important;
+  }
+  tr.add > th, tr.add > td {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    padding-top: 1em !important;
+  }
+
 }
 /**/
 
@@ -480,23 +526,29 @@
 /**/
 @-moz-document url-prefix(about:preferences) {
   groupbox, checkbox, hbox, radio, label, h1, h2, button, menulist, input {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding-block: 0 !important;
   }
-  h1 { font-weight: bold !important; }
   groupbox, checkbox, hbox, radio, label, h1, h2,
     #updateBox, #doNotTrackLearnMoreBox
   {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    margin-block: 0 !important;
   }
   button, menulist {
     margin-top: 0 !important;
     min-height: 1.5em !important;
     height: unset !important;
   }
-  groupbox, .subcategory {
-    border-top: 2px dotted !important;
+  h1 {
+    flex: 1;
+    background-color: color-mix(in srgb, White 70%, AccentColor) !important;
+    color: color-mix(in srgb, Black 70%, AccentColor) !important;
+    font-weight: bold !important;
+  }
+  h2 {
+    flex: 1;
+    background-color: color-mix(in srgb, White 40%, AccentColor) !important;
+    color: color-mix(in srgb, Black 40%, AccentColor) !important;
+    font-weight: bold !important;
   }
 }
 /**/
@@ -534,4 +586,3 @@
 
 
 /******************************************************************************/
-
