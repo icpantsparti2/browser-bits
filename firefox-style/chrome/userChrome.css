@@ -2,7 +2,7 @@
 /* [FIREFOX-PROFILE-FOLDER]/chrome/userChrome.css
 /*------------------------------------------------------------------------------
 /* File/Update  : https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/firefox-style/chrome/userChrome.css
-/* Version      : 2023.10.23
+/* Version      : 2023.12.12
 /* License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
 /* Project      : https://github.com/icpantsparti2/browser-bits
 /* Disclaimer   : Use with care at your own risk
@@ -44,7 +44,7 @@
 /*   https://github.com/Aris-t2/CustomCSSforFx  (Classic Theme Restorer)
 /*   https://github.com/Timvde/UserChrome-Tweaks  (dormant/archived)
 /*   https://github.com/GrosBourrin/UserChrome-Tweaks
-/*   https://old.reddit.com/r/FirefoxCSS/comments/14cmitl/is_it_possible_to_edit_the_ui_of_the_browser/
+/*   https://www.reddit.com/r/FirefoxCSS/comments/14cmitl/is_it_possible_to_edit_the_ui_of_the_browser/
 /*     (how to change the UI of the browser toolbox)
 /*------------------------------------------------------------------------------
 /* Some Example Firefox CSS "Themes" links (in no particular order):
@@ -91,6 +91,7 @@
 /*     toolbar : overflow button panel - compact/columns
 /*     toolbar : unified extensions button panel - compact/columns
 /*     findbar : remove the animation
+/*     tab bar : hide "Private browsing" text label
 /*     tab bar : show a profile indicator (color/text label) (see notes)
 /*   other (the following are disabled - uncomment any required)
 /*     toolbar : unified extensions button panel - color add-on names
@@ -432,7 +433,7 @@
 /*******************************************************************************
 /* ### url box : rounded corners
 /*------------------------------------------------------------------------------
-/* https://old.reddit.com/r/FirefoxCSS/comments/hzm32k/does_anyone_know_how_to_get_rounded_corners_on/
+/* https://www.reddit.com/r/FirefoxCSS/comments/hzm32k/does_anyone_know_how_to_get_rounded_corners_on/
 /******************************************************************************/
 /**/
 #urlbar-background {
@@ -612,7 +613,7 @@
 /* https://www.reddit.com/r/FirefoxCSS/comments/10exwv7/anyone_know_how_to_change_the_scale_of_the/j4v67wj/
 /* https://www.reddit.com/r/FirefoxCSS/comments/10fl39n/made_these_two_different_styles_for_people_who/
 /* https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/compact_extensions_panel.css
-/* https://old.reddit.com/r/FirefoxCSS/comments/150kcjg/move_extensions_button_right_of_pinned_extensions/
+/* https://www.reddit.com/r/FirefoxCSS/comments/150kcjg/move_extensions_button_right_of_pinned_extensions/
 /*------------------------------------------------------------------------------
 /* notes:
 /*   - when Mozilla further develops the unified extensions panel, this code
@@ -716,7 +717,7 @@
 /**/
 
 /* keep button to the right of pinned extension buttons */
-/*
+/**/
 #unified-extensions-button { order: 1 !important; }
 /**/
 
@@ -753,6 +754,21 @@ findbar {
   transition-property: unset !important;
   transition-duration: unset !important;
   transition-timing-function: unset !important;
+}
+/**/
+
+
+
+
+/*******************************************************************************
+/* ### tab bar : hide "Private browsing" text label
+/*------------------------------------------------------------------------------
+/* https://www.reddit.com/r/firefox/comments/16sri14/1190b1_how_to_remove_this_private_browsing/k2b7nrf/
+/* FF119 instead of: "browser.privatebrowsing.enable-new-indicator", false
+/******************************************************************************/
+/**/
+#private-browsing-indicator-with-label > label {
+  display: none;
 }
 /**/
 
@@ -837,6 +853,7 @@ findbar {
   word-break:break-all;
   overflow:hidden;
   font-weight:bold;
+  text-shadow:none;
   color:var(--id-fg,Black);
   background-color:var(--id-bg,LightGray);
   content:var(--id-txt);
