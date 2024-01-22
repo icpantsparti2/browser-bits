@@ -2,7 +2,7 @@
 // @name         all - Copy Link On Click
 // @namespace    Violentmonkey Scripts
 // @match        http*://*/*
-// @version      2024.01.21
+// @version      2024.01.21.2
 // @description  click links to copy them (see NOTES below)
 // @license      MIT
 // @grant        GM_setClipboard
@@ -260,6 +260,10 @@
     setLinkHoverCSS(true);
   }
 
+  function menuSpacer() {
+    return;
+  }
+
   /***************************************
     Text String Functions
   ***************************************/
@@ -355,29 +359,28 @@
    **************************************/
 
   function showMoreOptions() {
-    GM_registerMenuCommand("Enable:Copy+|Click|Markdown", enableCumulativeCopyLinkOnClickAsMarkdown);
-    GM_registerMenuCommand("Enable:Copy+|Click|URL", enableCumulativeCopyLinkOnClickAsUrl);
-    GM_registerMenuCommand("Enable:Copy+|Double Click|Markdown", enableCumulativeCopyLinkOnDoubleClickAsMarkdown);
-    GM_registerMenuCommand("Enable:Copy+|Double Click|URL", enableCumulativeCopyLinkOnDoubleClickAsUrl);
-
-    GM_registerMenuCommand("Enable:Copy|Middle Click|Markdown", enableCopyLinkOnMiddleClickAsMarkdown);
-    GM_registerMenuCommand("Enable:Copy|Middle Click|URL", enableCopyLinkOnMiddleClickAsUrl);
-    GM_registerMenuCommand("Enable:Copy|Click|Markdown", enableCopyLinkOnClickAsMarkdown);
-    GM_registerMenuCommand("Enable:Copy|Click|URL", enableCopyLinkOnClickAsUrl);
-    GM_registerMenuCommand("Enable:Copy|Double Click|Markdown", enableCopyLinkOnDoubleClickAsMarkdown);
-    GM_registerMenuCommand("Enable:Copy|Double Click|URL", enableCopyLinkOnDoubleClickAsUrl);
-
-    GM_registerMenuCommand("Enable:Add|Middle Click", enableAddLinkToArrayOnMiddleClick);
-    GM_registerMenuCommand("Enable:Add|Click", enableAddLinkToArrayOnClick);
-    GM_registerMenuCommand("Enable:Add|Double Click", enableAddLinkToArrayOnDoubleClick);
+    //GM_registerMenuCommand("----------", menuSpacer);
+    GM_registerMenuCommand("+ Enable:Add|Middle Click", enableAddLinkToArrayOnMiddleClick);
+    GM_registerMenuCommand("+ Enable:Add|Click", enableAddLinkToArrayOnClick);
+    //GM_registerMenuCommand("+ Enable:Add|Double Click", enableAddLinkToArrayOnDoubleClick);
+    GM_registerMenuCommand("= Copy:Array|Markdown", copyLinksArrayAsMarkdown);
+    GM_registerMenuCommand("= Copy:Array|URL", copyLinksArrayAsUrl);
+    GM_registerMenuCommand("* Enable:Copy+|Click|Markdown", enableCumulativeCopyLinkOnClickAsMarkdown);
+    GM_registerMenuCommand("* Enable:Copy+|Click|URL", enableCumulativeCopyLinkOnClickAsUrl);
+    //GM_registerMenuCommand("* Enable:Copy+|Double Click|Markdown", enableCumulativeCopyLinkOnDoubleClickAsMarkdown);
+    //GM_registerMenuCommand("* Enable:Copy+|Double Click|URL", enableCumulativeCopyLinkOnDoubleClickAsUrl);
+    GM_registerMenuCommand("# Enable:Copy|Middle Click|Markdown", enableCopyLinkOnMiddleClickAsMarkdown);
+    GM_registerMenuCommand("# Enable:Copy|Middle Click|URL", enableCopyLinkOnMiddleClickAsUrl);
+    GM_registerMenuCommand("# Enable:Copy|Click|Markdown", enableCopyLinkOnClickAsMarkdown);
+    GM_registerMenuCommand("# Enable:Copy|Click|URL", enableCopyLinkOnClickAsUrl);
+    //GM_registerMenuCommand("# Enable:Copy|Double Click|Markdown", enableCopyLinkOnDoubleClickAsMarkdown);
+    //GM_registerMenuCommand("# Enable:Copy|Double Click|URL", enableCopyLinkOnDoubleClickAsUrl);
   }
 
-  GM_registerMenuCommand("Enable:Copy+|Middle Click|Markdown", enableCumulativeCopyLinkOnMiddleClickAsMarkdown);
-  GM_registerMenuCommand("Enable:Copy+|Middle Click|URL", enableCumulativeCopyLinkOnMiddleClickAsUrl);
-  GM_registerMenuCommand("Copy:Array|Markdown", copyLinksArrayAsMarkdown);
-  GM_registerMenuCommand("Copy:Array|URL", copyLinksArrayAsUrl);
-  GM_registerMenuCommand("Disable:Events Enabled", disableLinkClickEvents);
-  GM_registerMenuCommand("Clear:Array (page change clears)", clearLinksArray);
-  GM_registerMenuCommand("Show More Options", showMoreOptions);
+  GM_registerMenuCommand("* Enable:Copy+|Middle Click|Markdown", enableCumulativeCopyLinkOnMiddleClickAsMarkdown);
+  GM_registerMenuCommand("* Enable:Copy+|Middle Click|URL", enableCumulativeCopyLinkOnMiddleClickAsUrl);
+  GM_registerMenuCommand("/ Disable (Events We Enabled)", disableLinkClickEvents);
+  GM_registerMenuCommand("- Clear Array (page change clears)", clearLinksArray);
+  GM_registerMenuCommand(": Show More Options...", showMoreOptions);
 
 })();
