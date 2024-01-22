@@ -2,7 +2,7 @@
 // @name         all - Copy Link On Click
 // @namespace    Violentmonkey Scripts
 // @match        http*://*/*
-// @version      2024.01.21.2
+// @version      2024.01.22
 // @description  click links to copy them (see NOTES below)
 // @license      MIT
 // @grant        GM_setClipboard
@@ -12,18 +12,33 @@
 
 (function() {
 
-  /***************************************
-    File/Update  : https://github.com/icpantsparti2/browser-bits/blob/main/userscript/all_-_copy_link_on_click.user.js
-    License (MIT): https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
-  ***************************************
-    NOTES: - this is alpha/experimental and may keep changing
-           - the links array is only for current web page and
-             lost on page change, refesh, close, etc
-           - **** if using the non-cumulative copy options remember to ****
-             **** use a "Copy:Array|..." option before any page change ****
-           - options are under the UserScript Extension toolbar button
-  ***************************************
-    thanks for the snippet/idea from:
+  /**************** NOTES ****************
+
+  - File/Update: https://github.com/icpantsparti2/browser-bits/blob/main/userscript/all_-_copy_link_on_click.user.js
+
+  - MIT License: https://raw.githubusercontent.com/icpantsparti2/browser-bits/main/LICENSE
+
+  - this is alpha/experimental and may keep changing
+
+  - ******************************************************************
+    *** remember to copy/paste your results before any page change ***
+    ******************************************************************
+
+  - the cumulative links array is only for the current web page
+    (it does not survive after page change, refesh, close, etc)
+
+  - the "©©© Copy Array..." options are available during any "Enable:" modes
+
+  - with "+++ Enable:Copy+..." options, clipboard copy with previous links
+
+  - with "=== Enable:Copy1..." options, clipboard copy is that single link
+
+  - with "@@@ Enable:Array+..." options, nothing is copied to the clipboard
+    until you use a "©©© Copy Array..." option
+
+  - the options are under the UserScript Extension toolbar button
+
+  - thanks for the snippet/idea from:
     2022.03.17 https://www.reddit.com/r/userscripts/comments/tf75y6/comment/i0z28um/
     2023.02.14 https://www.reddit.com/r/FirefoxAddons/comments/111h3g4/comment/j8iutou/
     2024.01.17 https://www.reddit.com/r/firefox/comments/198kv0o/
@@ -35,6 +50,7 @@
         GM_setClipboard(closestAElement.href);
       }
     });
+
   ***************************************/
 
   'use strict';
@@ -260,10 +276,6 @@
     setLinkHoverCSS(true);
   }
 
-  function menuSpacer() {
-    return;
-  }
-
   /***************************************
     Text String Functions
   ***************************************/
@@ -359,28 +371,30 @@
    **************************************/
 
   function showMoreOptions() {
-    //GM_registerMenuCommand("----------", menuSpacer);
-    GM_registerMenuCommand("+ Enable:Add|Middle Click", enableAddLinkToArrayOnMiddleClick);
-    GM_registerMenuCommand("+ Enable:Add|Click", enableAddLinkToArrayOnClick);
-    //GM_registerMenuCommand("+ Enable:Add|Double Click", enableAddLinkToArrayOnDoubleClick);
-    GM_registerMenuCommand("= Copy:Array|Markdown", copyLinksArrayAsMarkdown);
-    GM_registerMenuCommand("= Copy:Array|URL", copyLinksArrayAsUrl);
-    GM_registerMenuCommand("* Enable:Copy+|Click|Markdown", enableCumulativeCopyLinkOnClickAsMarkdown);
-    GM_registerMenuCommand("* Enable:Copy+|Click|URL", enableCumulativeCopyLinkOnClickAsUrl);
-    //GM_registerMenuCommand("* Enable:Copy+|Double Click|Markdown", enableCumulativeCopyLinkOnDoubleClickAsMarkdown);
-    //GM_registerMenuCommand("* Enable:Copy+|Double Click|URL", enableCumulativeCopyLinkOnDoubleClickAsUrl);
-    GM_registerMenuCommand("# Enable:Copy|Middle Click|Markdown", enableCopyLinkOnMiddleClickAsMarkdown);
-    GM_registerMenuCommand("# Enable:Copy|Middle Click|URL", enableCopyLinkOnMiddleClickAsUrl);
-    GM_registerMenuCommand("# Enable:Copy|Click|Markdown", enableCopyLinkOnClickAsMarkdown);
-    GM_registerMenuCommand("# Enable:Copy|Click|URL", enableCopyLinkOnClickAsUrl);
-    //GM_registerMenuCommand("# Enable:Copy|Double Click|Markdown", enableCopyLinkOnDoubleClickAsMarkdown);
-    //GM_registerMenuCommand("# Enable:Copy|Double Click|URL", enableCopyLinkOnDoubleClickAsUrl);
+    GM_registerMenuCommand("+++ Enable:Copy+|Click|Markdown", enableCumulativeCopyLinkOnClickAsMarkdown);
+    GM_registerMenuCommand("+++ Enable:Copy+|Click|URL", enableCumulativeCopyLinkOnClickAsUrl);
+    //GM_registerMenuCommand("+++ Enable:Copy+|Double Click|Markdown", enableCumulativeCopyLinkOnDoubleClickAsMarkdown);
+    //GM_registerMenuCommand("+++ Enable:Copy+|Double Click|URL", enableCumulativeCopyLinkOnDoubleClickAsUrl);
+
+    GM_registerMenuCommand("@@@ Enable:Array+|Middle Click", enableAddLinkToArrayOnMiddleClick);
+    GM_registerMenuCommand("@@@ Enable:Array+|Click", enableAddLinkToArrayOnClick);
+    //GM_registerMenuCommand("@@@ Enable:Array+|Double Click", enableAddLinkToArrayOnDoubleClick);
+
+    GM_registerMenuCommand("©©© Copy Array|Markdown", copyLinksArrayAsMarkdown);
+    GM_registerMenuCommand("©©© Copy Array|URL", copyLinksArrayAsUrl);
+
+    GM_registerMenuCommand("=== Enable:Copy1|Middle Click|Markdown", enableCopyLinkOnMiddleClickAsMarkdown);
+    GM_registerMenuCommand("=== Enable:Copy1|Middle Click|URL", enableCopyLinkOnMiddleClickAsUrl);
+    GM_registerMenuCommand("=== Enable:Copy1|Click|Markdown", enableCopyLinkOnClickAsMarkdown);
+    GM_registerMenuCommand("=== Enable:Copy1|Click|URL", enableCopyLinkOnClickAsUrl);
+    //GM_registerMenuCommand("=== Enable:Copy1|Double Click|Markdown", enableCopyLinkOnDoubleClickAsMarkdown);
+    //GM_registerMenuCommand("=== Enable:Copy1|Double Click|URL", enableCopyLinkOnDoubleClickAsUrl);
   }
 
-  GM_registerMenuCommand("* Enable:Copy+|Middle Click|Markdown", enableCumulativeCopyLinkOnMiddleClickAsMarkdown);
-  GM_registerMenuCommand("* Enable:Copy+|Middle Click|URL", enableCumulativeCopyLinkOnMiddleClickAsUrl);
-  GM_registerMenuCommand("/ Disable (Events We Enabled)", disableLinkClickEvents);
-  GM_registerMenuCommand("- Clear Array (page change clears)", clearLinksArray);
-  GM_registerMenuCommand(": Show More Options...", showMoreOptions);
+  GM_registerMenuCommand("+++ Enable:Copy+|Middle Click|Markdown", enableCumulativeCopyLinkOnMiddleClickAsMarkdown);
+  GM_registerMenuCommand("+++ Enable:Copy+|Middle Click|URL", enableCumulativeCopyLinkOnMiddleClickAsUrl);
+  GM_registerMenuCommand("### Disable (Events We Enabled)", disableLinkClickEvents);
+  GM_registerMenuCommand("--- Clear Array (page change clears)", clearLinksArray);
+  GM_registerMenuCommand("::: Show More Options...", showMoreOptions);
 
 })();
